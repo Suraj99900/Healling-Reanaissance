@@ -1,188 +1,159 @@
-import 'package:image_picker/image_picker.dart';
+import 'dart:html';
+
+import 'package:dio/dio.dart' as dio;
 import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/http/JwtToken.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 import 'dart:io';
 
 class HttpService {
   late String sBaseUrl;
   late String sToken;
-  // config controller...
+  // Config controller...
   ConfigController configController = ConfigController();
-
+  late Map<String, String> Headers ;
   // JWT Service Token Class
   JwtToken jwtToken = JwtToken();
 
-  HttpService() {
+  dio.Dio _dio;
+
+  HttpService()
+      : _dio = dio.Dio() {
     sBaseUrl = configController.getBaseURL().value;
     sToken = jwtToken.generateJWT();
+    _dio.options.baseUrl = sBaseUrl;
+    Headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $sToken',
+    };
+    _dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $sToken',
+    };
   }
 
-  Future getRequest(String endpoint) async {
-    final url = Uri.parse('$sBaseUrl$endpoint');
-
+  Future<Map<String, dynamic>> getRequest(String endpoint) async {
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $sToken',
-        },
-      );
-
-      final data = json.decode(response.body);
+      final response = await _dio.get(endpoint);
       var aData = {
-        "data": data,
+        "data": response.data,
       };
       if (response.statusCode == 200) {
         aData['iTrue'] = true;
-        return aData;
       } else {
         aData['iTrue'] = false;
-        return aData;
       }
-    } catch (e) {
-      print(e);
-      return e;
+      return aData;
+    } on dio.DioError catch (e) {
+      return _handleError(e);
     }
   }
 
-  Future postRequest(String endpoint, Map<String, dynamic> body) async {
-    final url = Uri.parse('$sBaseUrl$endpoint');
-
+  Future<Map<String, dynamic>> postRequest(String endpoint, Map<String, dynamic> body) async {
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $sToken',
-        },
-        body: json.encode(body),
-      );
-      final data = json.decode(response.body);
-
+      final response = await _dio.post(endpoint, data: json.encode(body));
       var aData = {
-        "data": data,
+        "data": response.data,
       };
       if (response.statusCode == 200 || response.statusCode == 201) {
         aData['iTrue'] = true;
-        return aData;
       } else {
         aData['iTrue'] = false;
-        return aData;
       }
-    } catch (e) {
-      return e;
+      return aData;
+    } on dio.DioError catch (e) {
+      return _handleError(e);
     }
   }
 
-  Future putRequest(String endpoint, Map<String, dynamic> body) async {
-    final url = Uri.parse('$sBaseUrl$endpoint');
-
+  Future<Map<String, dynamic>> putRequest(String endpoint, Map<String, dynamic> body) async {
     try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $sToken',
-        },
-        body: json.encode(body),
-      );
-      final data = json.decode(response.body);
-
+      final response = await _dio.put(endpoint, data: json.encode(body));
       var aData = {
-        "data": data,
+        "data": response.data,
       };
       if (response.statusCode == 200 || response.statusCode == 201) {
         aData['iTrue'] = true;
-        return aData;
       } else {
         aData['iTrue'] = false;
-        return aData;
       }
-    } catch (e) {
-      print(e);
-      return "e";
+      return aData;
+    } on dio.DioError catch (e) {
+      return _handleError(e);
     }
   }
 
-  Future deleteRequest(String endpoint) async {
-    final url = Uri.parse('$sBaseUrl$endpoint');
-
+  Future<Map<String, dynamic>> deleteRequest(String endpoint) async {
     try {
-      final response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $sToken',
-        },
-      );
-
-      final data = json.decode(response.body);
-
+      final response = await _dio.delete(endpoint);
       var aData = {
-        "data": data,
+        "data": response.data,
       };
       if (response.statusCode == 200 || response.statusCode == 201) {
         aData['iTrue'] = true;
-        return aData;
       } else {
         aData['iTrue'] = false;
-        return aData;
       }
-    } catch (e) {
-      return e;
+      return aData;
+    } on dio.DioError catch (e) {
+      return _handleError(e);
     }
   }
 
-  Future postMultipartRequest(String endpoint, Map<String, dynamic> fields,
+  Future<Map<String, dynamic>> postMultipartRequest(String endpoint, Map<String, dynamic> fields,
       Map<String, XFile> files) async {
-    final url = Uri.parse('$sBaseUrl$endpoint');
-    var request = http.MultipartRequest('POST', url);
+    var formData = dio.FormData();
 
     try {
       // Add the files to the request
-      files.forEach((key, file) async {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            key,
-            file.path,
-            contentType: MediaType('application', 'octet-stream'),
-          ),
-        );
+      await Future.forEach(files.entries, (MapEntry<String, XFile> entry) async {
+        var key = entry.key;
+        var file = entry.value;
+        formData.files.add(MapEntry(
+          key,
+          await dio.MultipartFile.fromFile(file.path,
+              contentType: MediaType('application', 'octet-stream')),
+        ));
       });
 
       // Add the fields to the request
       fields.forEach((key, value) {
-        request.fields[key] = value.toString();
+        formData.fields.add(MapEntry(key, value.toString()));
       });
 
-      // Add headers
-      request.headers.addAll({
-        'Authorization': 'Bearer $sToken',
-      });
-
-      var response = await request.send();
-      var responseData = await http.Response.fromStream(response);
-
-      final data = json.decode(responseData.body);
-
+      final response = await _dio.post(endpoint, data: formData);
       var aData = {
-        "data": data,
+        "data": response.data,
       };
       if (response.statusCode == 200 || response.statusCode == 201) {
         aData['iTrue'] = true;
-        return aData;
       } else {
         aData['iTrue'] = false;
-        return aData;
       }
-    } catch (e) {
-      return e;
+      return aData;
+    } on dio.DioError catch (e) {
+      return _handleError(e);
     }
   }
-  
+
+  Map<String, dynamic> _handleError(dio.DioError error) {
+    if (error.response != null) {
+      // The server responded with an error status code.
+      return {
+        "data": error.response?.data,
+        "statusCode": error.response?.statusCode,
+        "iTrue": false,
+      };
+    } else {
+      // The request was made but no response was received.
+      return {
+        "data": "Request failed with no response",
+        "statusCode": 500,
+        "iTrue": false,
+      };
+    }
+  }
 }

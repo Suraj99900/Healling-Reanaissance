@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -55,66 +56,96 @@ class VideoController extends GetxController {
   }
 
   Future<bool> addVideo(XFile? videoFile, XFile? thumbnailFile) async {
-    if (videoFormKey.currentState!.validate() &&
-        videoFile != null &&
-        thumbnailFile != null) {
-      videoFormKey.currentState!.save();
+  if (videoFormKey.currentState!.validate() &&
+      videoFile != null &&
+      thumbnailFile != null) {
+    videoFormKey.currentState!.save();
 
-      try {
-        dio.FormData formData = dio.FormData.fromMap({
-          'title': title.value,
-          'description': description.value,
-          'category_id': categoryId.value,
-          'video': await dio.MultipartFile.fromFile(
-            videoFile.path,
-            filename: 'video.mp4',
-          ),
-          'thumbnail': await dio.MultipartFile.fromFile(
-            thumbnailFile.path,
-            filename: 'thumbnail.jpg',
-          ),
-        });
-        HttpService httpService = HttpService();
-        dio.Response response = await dioInstance.post(
-          '${httpService.sBaseUrl}/video',
-          data: formData,
-          options: dio.Options(
-            headers: {
-              'Authorization': 'Bearer ${httpService.sToken}',
-            },
-          ),
-          onSendProgress: (int sent, int total) {
-            double progress = sent / total;
-            uploadProgress.value = progress;
-            print('Sent: $sent, Total: $total');
+    try {
+      dio.FormData formData = dio.FormData.fromMap({
+        'title': title.value,
+        'description': description.value,
+        'category_id': categoryId.value,
+        'video': await _getVideoMultipartFile(videoFile),
+        'thumbnail': await _getThumbnailMultipartFile(thumbnailFile),
+      });
+
+      HttpService httpService = HttpService();
+      dio.Response response = await dioInstance.post(
+        '${httpService.sBaseUrl}/video',
+        data: formData,
+        options: dio.Options(
+          headers: {
+            'Authorization': 'Bearer ${httpService.sToken}',
           },
-        );
+        ),
+        onSendProgress: (int sent, int total) {
+          double progress = sent / total;
+          uploadProgress.value = progress;
+          print('Sent: $sent, Total: $total');
+        },
+      );
 
-        if (response.data['status'] == 200 || response.data['status'] == 201) {
-          oResultData.value = 'Video uploaded successfully!';
-          iAddedId = response.data['body']['id'];
-          var bAttachment = await addAttachment(iAddedId);
-          if (bAttachment) {
-            return true;
-          } else {
-            oResultData.value = 'Error uploading attachments';
-            return false;
-          }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        oResultData.value = 'Video uploaded successfully!';
+        iAddedId = response.data['body']['id'];
+        var bAttachment = await addAttachment(iAddedId);
+        if (bAttachment) {
+          return true;
         } else {
-          oResultData.value = 'Error uploading video';
+          oResultData.value = 'Error uploading attachments';
           return false;
         }
-      } catch (e) {
-        print('Error uploading video: $e');
+      } else {
         oResultData.value = 'Error uploading video';
         return false;
       }
-    } else {
-      oResultData.value =
-          'Please fill all fields and select a video and thumbnail';
+    } catch (e) {
+      print('Error uploading video: $e');
+      oResultData.value = 'Error uploading video';
       return false;
     }
+  } else {
+    oResultData.value =
+        'Please fill all fields and select a video and thumbnail';
+    return false;
   }
+}
+
+Future<dio.MultipartFile> _getVideoMultipartFile(XFile videoFile) async {
+  if (kIsWeb) {
+    // For Flutter web, read file as bytes
+    List<int> videoBytes = await videoFile.readAsBytes();
+    return dio.MultipartFile.fromBytes(
+      videoBytes,
+      filename: 'video.mp4',
+    );
+  } else {
+    // For mobile platforms, use fromFile
+    return await dio.MultipartFile.fromFile(
+      videoFile.path,
+      filename: 'video.mp4',
+    );
+  }
+}
+
+Future<dio.MultipartFile> _getThumbnailMultipartFile(XFile thumbnailFile) async {
+  if (kIsWeb) {
+    // For Flutter web, read file as bytes
+    List<int> thumbnailBytes = await thumbnailFile.readAsBytes();
+    return dio.MultipartFile.fromBytes(
+      thumbnailBytes,
+      filename: 'thumbnail.jpg',
+    );
+  } else {
+    // For mobile platforms, use fromFile
+    return await dio.MultipartFile.fromFile(
+      thumbnailFile.path,
+      filename: 'thumbnail.jpg',
+    );
+  }
+}
+
 
   Future<bool> addAttachment(int iVideoId) async {
     HttpService httpService = HttpService();

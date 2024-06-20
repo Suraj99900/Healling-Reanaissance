@@ -40,7 +40,7 @@ class VideoTable extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
-                      Get.back();
+                      Get.offNamed(AppRoutes.dashBoard);
                     },
                   ),
                   Image.asset(

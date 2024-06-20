@@ -53,7 +53,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
            IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
-                Get.back();
+                 Get.offNamed(AppRoutes.zoom);
               },
             ),
             Image.asset(
