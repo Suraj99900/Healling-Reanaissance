@@ -87,7 +87,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             ),
           ],
         ),
-        backgroundColor: Color(0xFF0D1B2A),
+        backgroundColor: const Color(0xFF0D1B2A),
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
       ),

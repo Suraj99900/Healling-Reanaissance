@@ -107,7 +107,8 @@ class _ZoomMenuState extends State<ZoomMenu> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              buildMenuItem("Home", Icons.home, AppRoutes.zoom),
+              buildMenuItem("Home", Icons.home, AppRoutes.userHomeScreen),
+              buildMenuItem("Category", Icons.home, AppRoutes.zoom),
               Obx(() => controller.sUserType.value == 1
                   ? buildMenuItem("Dashboard",
                       Icons.dashboard_customize_rounded, AppRoutes.dashBoard)

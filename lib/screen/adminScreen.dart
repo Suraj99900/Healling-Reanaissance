@@ -42,7 +42,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 children: [
                   Image.asset(
                     'assets/images/new_logo.png',
-                    width: dWidth >= 850? dWidth * 1: dWidth * 2,
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 2,
                     height: dHeight * 0.20,
                     color: Colors.white,
                     fit: BoxFit.cover,
@@ -78,10 +78,10 @@ class _AdminScreenState extends State<AdminScreen> {
                           children: [
                             Text(
                               "Registration User",
-                              style: GoogleFonts.arsenal(
+                              style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
-                                  fontSize: dWidth * 0.05,
-                                  color: Colors.black,
+                                  fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
+                                  color: Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -279,10 +279,9 @@ class _AdminScreenState extends State<AdminScreen> {
                                             }
                                       },
                                       icon: const Icon(Icons.person),
-                                      label: const Text(
+                                      label: Text(
                                         "submit",
-                                        style: TextStyle(
-                                          fontFamily: 'Manrope',
+                                        style:  GoogleFonts.cairo(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
@@ -304,9 +303,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   icon: const Icon(Icons.person),
                                   label: Text(
                                     "User Login",
-                                    style: TextStyle(
+                                    style: GoogleFonts.cairo(
                                       color: Colors.blue,
-                                      fontFamily: "Manrope",
                                       fontSize: dWidth >= 550 ? 16 : 8,
                                     ),
                                   ),
@@ -318,9 +316,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   icon: const Icon(Icons.password_rounded),
                                   label: Text(
                                     "Forget password",
-                                    style: TextStyle(
+                                    style:  GoogleFonts.cairo(
                                       color: Colors.blue,
-                                      fontFamily: "Manrope",
                                       fontSize: dWidth >= 550 ? 16 : 8,
                                     ),
                                   ),

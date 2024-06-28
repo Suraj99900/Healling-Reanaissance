@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
       await SharedPreferencesHelper.clearSharedPreferences();
       Get.offAllNamed(AppRoutes.login);
     }
-    // Additional initialization code can go here
   }
 
   HomeScreenController homeController = Get.put(HomeScreenController());

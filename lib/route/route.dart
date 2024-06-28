@@ -1,6 +1,7 @@
 import 'package:wellness_app/controller/forgetController.dart';
 import 'package:wellness_app/screen/AddVideoScreen.dart';
 import 'package:wellness_app/screen/AdminDashboardScreen.dart';
+import 'package:wellness_app/screen/UserScreen.dart';
 import 'package:wellness_app/screen/VideoTableScreen.dart';
 import 'package:wellness_app/screen/addCategoryScreen.dart';
 import 'package:wellness_app/screen/adminScreen.dart';
@@ -29,6 +30,7 @@ class AppRoutes {
   static const updateVideo = '/update-video';
   static const addVideo = '/add-video';
   static const categoryManage = '/categoryManage';
+  static const userHomeScreen = '/userHomeScreen';
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const SplashScreen()),
@@ -51,5 +53,6 @@ class AppRoutes {
     GetPage(name: updateVideo, page: () => UpdateVideoScreen(videoId: Get.arguments)),
     GetPage(name: categoryManage, page: () => CategoryTable()),
     GetPage(name: dashBoard, page: () => const AdminDashboardScreen()),
+    GetPage(name: userHomeScreen, page: () => const UserScreen()),
   ];
 }

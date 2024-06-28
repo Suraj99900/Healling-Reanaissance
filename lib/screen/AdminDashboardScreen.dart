@@ -123,17 +123,16 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           children: [
             Icon(
               icon,
-              size: dWidth > 900 ? dWidth * 0.08 : dWidth * 0.1,
+              size: dWidth > 900 ? dWidth * 0.05 : dWidth * 0.1,
               color: Colors.white, // White icon color
             ),
             SizedBox(height: 10.0),
             Text(
               label,
-              style: GoogleFonts.arsenal(
-                textStyle: TextStyle(
-                  color: Colors.white, // White text color
-                  fontFamily: 'Playwrite NL',
-                  fontSize: dWidth > 900 ? dWidth * 0.02 : dWidth * 0.025,
+              style: GoogleFonts.cairo(
+                textStyle: GoogleFonts.cairo(
+                  color: Colors.white,
+                  fontSize: dWidth > 900 ? dWidth * 0.007 : dWidth * 0.025,
                   fontWeight: FontWeight.bold,
                 ),
               ),
