@@ -1,8 +1,7 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wellness_app/http/http_service.dart';
 import 'package:wellness_app/modal/CategoryModal.dart';
-import 'package:wellness_app/screen/categoryTable.dart';
-import 'dart:js' as js;
+
 
 String limitWords(String text, int wordLimit) {
   List<String> words = text.split(' ');
@@ -38,6 +37,13 @@ Future<List<VideoCategory>> fetchCategoryData() async {
   }
 }
 
-void launchUrlInNewTab(String url) {
-  js.context.callMethod('open', [url, '_blank']);
+Future<void> LaunchURL(sURL) async {
+  final Uri url = Uri.parse(sURL);
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw Exception('Could not launch $sURL');
+  }
 }
+

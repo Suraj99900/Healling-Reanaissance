@@ -28,14 +28,14 @@ class _UserScreenState extends State<UserScreen> {
     UserHomeController userHomeController = UserHomeController();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(40, 0, 0, 0),
       body: SingleChildScrollView(
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color(0xFFF8FBFF),
-                Color.fromARGB(35, 223, 201, 230),
+                Color.fromARGB(255, 234, 201, 244),
               ],
             ),
           ),
@@ -45,6 +45,7 @@ class _UserScreenState extends State<UserScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: dHeight * 0.02),
                 NavBar(),
                 SizedBox(height: dHeight * 0.1),
                 dWidth > 950
@@ -344,7 +345,7 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                             child: GestureDetector(
                               onTap: () async {
-                                launchUrlInNewTab(
+                                LaunchURL(
                                     "https://rzp.io/i/KNhuciEeUM");
                               },
                               child: Container(
@@ -484,7 +485,7 @@ class _UserScreenState extends State<UserScreen> {
                           // ),
                           InkWell(
                             onTap: () => {
-                              launchUrlInNewTab('https://rzp.io/i/KNhuciEeUM'),
+                              LaunchURL('https://rzp.io/i/KNhuciEeUM'),
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 20),
@@ -890,13 +891,12 @@ class _UserScreenState extends State<UserScreen> {
                               ),
                             ),
                             SizedBox(
-                             width: dWidth > 850 ? dWidth * 0.5 : dWidth * 0.3,
+                             width: dWidth > 850 ? dWidth * 0.5 : dWidth * 0.1,
                             ),
                             Row(
                               children: <Widget>[
                                 Container(
                                   height: 60,
-
                                 ),
                                 Text(
                                   "Healling Reanaissance",

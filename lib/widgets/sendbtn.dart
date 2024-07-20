@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../utils/responsiveLayout.dart';
 
 class SendBtn extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -44,16 +46,12 @@ class SendBtn extends StatelessWidget {
                         ? 4
                         : ResponsiveLayout.isMediumScreen(context) ? 6 : 8,
                   ),
-                  Image.network(
-                    "assets/images/sent.png",
-                    color: Colors.white,
-                    width: ResponsiveLayout.isSmallScreen(context)
-                        ? 10
-                        : ResponsiveLayout.isMediumScreen(context) ? 12 : 20,
-                    height: ResponsiveLayout.isSmallScreen(context)
-                        ? 12
-                        : ResponsiveLayout.isMediumScreen(context) ? 12 : 20,
-                  )
+                  // Image.network(
+                  //   "assets/images/sent.png",
+                  //   color: Colors.white,
+                  //   width:Get.width >=850 ? Get.width * 0.1 : Get.width * 0.05 ,
+                  //   height: Get.width >=850 ? Get.width * 0.1 : Get.width * 0.05,
+                  // )
                 ],
               ),
             ),

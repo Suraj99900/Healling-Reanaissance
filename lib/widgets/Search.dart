@@ -37,7 +37,7 @@ class Search extends StatelessWidget {
                         hintText: 'Your Email Address'),
                   )),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: SendBtn(),
               )
             ],

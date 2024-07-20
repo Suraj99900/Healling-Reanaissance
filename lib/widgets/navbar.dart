@@ -5,6 +5,8 @@ import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/route/route.dart';
 import 'package:wellness_app/utils/responsiveLayout.dart';
 
+import '../screen/commonfunction.dart';
+
 class NavBar extends StatefulWidget {
   @override
   _NavBarState createState() => _NavBarState();
@@ -68,7 +70,7 @@ class _NavBarState extends State<NavBar> {
                 "Healing Renaissance",
                 style: GoogleFonts.cairo(
                   textStyle: TextStyle(
-                    fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.025,
+                    fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.02,
                     color: Color.fromARGB(173, 34, 13, 2),
                     fontWeight: FontWeight.bold,
                   ),
@@ -87,7 +89,7 @@ class _NavBarState extends State<NavBar> {
                   "Home",
                   style: GoogleFonts.cairo(
                     textStyle: TextStyle(
-                      fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.025,
+                      fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.02,
                       color: Color.fromARGB(173, 34, 13, 2),
                       fontWeight: FontWeight.bold,
                     ),
@@ -105,7 +107,7 @@ class _NavBarState extends State<NavBar> {
                   "Category",
                   style: GoogleFonts.cairo(
                     textStyle: TextStyle(
-                      fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.025,
+                      fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.02,
                       color: Color.fromARGB(173, 34, 13, 2),
                       fontWeight: FontWeight.bold,
                     ),
@@ -117,13 +119,14 @@ class _NavBarState extends State<NavBar> {
               ),
               InkWell(
                 onTap: () => {
-                  Get.toNamed(AppRoutes.zoom),
+                  // Get.toNamed(AppRoutes.zoom),
+                  LaunchURL("http://lifehealerkavita.com/"),
                 },
                 child: Text(
                   "About",
                   style: GoogleFonts.cairo(
                     textStyle: TextStyle(
-                      fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.025,
+                      fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.02,
                       color: Color.fromARGB(173, 34, 13, 2),
                       fontWeight: FontWeight.bold,
                     ),
@@ -170,7 +173,7 @@ class _NavBarState extends State<NavBar> {
                                     color: Colors.white,
                                     fontSize: dWidth >= 850
                                         ? dWidth * 0.01
-                                        : dWidth * 0.02,
+                                        : dWidth * 0.017,
                                     letterSpacing: 1,
                                   ),
                                 ),
@@ -216,7 +219,7 @@ class _NavBarState extends State<NavBar> {
                                     color: Colors.white,
                                     fontSize: dWidth >= 850
                                         ? dWidth * 0.01
-                                        : dWidth * 0.02,
+                                        : dWidth * 0.017,
                                     letterSpacing: 1,
                                   ),
                                 ),
@@ -228,7 +231,7 @@ class _NavBarState extends State<NavBar> {
                     )
                   : InkWell(
                       onTap: () => {
-                        Get.toNamed(AppRoutes.dashBoard),
+                        Get.toNamed(AppRoutes.zoom),
                       },
                       child: Container(
                         margin: EdgeInsets.only(

@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:wellness_app/controller/configController.dart';
@@ -14,29 +13,35 @@ class HttpService {
   late String sToken;
   // Config controller...
   ConfigController configController = ConfigController();
-  late Map<String, String> Headers ;
+  late Map<String, String> Headers;
   // JWT Service Token Class
   JwtToken jwtToken = JwtToken();
 
   dio.Dio _dio;
 
-  HttpService()
-      : _dio = dio.Dio() {
+  HttpService() : _dio = dio.Dio() {
     sBaseUrl = configController.getBaseURL().value;
     sToken = jwtToken.generateJWT();
     _dio.options.baseUrl = sBaseUrl;
     Headers = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $sToken',
     };
     _dio.options.headers = {
-      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT, DELETE',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Max-Age' : '86400',
+      'Access-Control-Allow-Headers' : 'Content-Type, Authorization, X-Requested-With',
       'Authorization': 'Bearer $sToken',
     };
   }
 
   Future<Map<String, dynamic>> getRequest(String endpoint) async {
     try {
+      print(_dio);
       final response = await _dio.get(endpoint);
       var aData = {
         "data": response.data,
@@ -52,7 +57,8 @@ class HttpService {
     }
   }
 
-  Future<Map<String, dynamic>> postRequest(String endpoint, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> postRequest(
+      String endpoint, Map<String, dynamic> body) async {
     try {
       final response = await _dio.post(endpoint, data: json.encode(body));
       var aData = {
@@ -69,7 +75,8 @@ class HttpService {
     }
   }
 
-  Future<Map<String, dynamic>> putRequest(String endpoint, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> putRequest(
+      String endpoint, Map<String, dynamic> body) async {
     try {
       final response = await _dio.put(endpoint, data: json.encode(body));
       var aData = {
@@ -103,13 +110,14 @@ class HttpService {
     }
   }
 
-  Future<Map<String, dynamic>> postMultipartRequest(String endpoint, Map<String, dynamic> fields,
-      Map<String, XFile> files) async {
+  Future<Map<String, dynamic>> postMultipartRequest(String endpoint,
+      Map<String, dynamic> fields, Map<String, XFile> files) async {
     var formData = dio.FormData();
 
     try {
       // Add the files to the request
-      await Future.forEach(files.entries, (MapEntry<String, XFile> entry) async {
+      await Future.forEach(files.entries,
+          (MapEntry<String, XFile> entry) async {
         var key = entry.key;
         var file = entry.value;
         formData.files.add(MapEntry(
