@@ -59,6 +59,7 @@ dependencies:
   url_launcher: ^6.3.0
   carousel_slider: ^4.2.1
   new_flutter_icons: ^0.0.4
+  flutter_cors: ^1.5.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/http/http_service.dart';
 import 'package:wellness_app/modal/CategoryModal.dart';
-
+import 'package:wellness_app/route/route.dart';
 
 String limitWords(String text, int wordLimit) {
   List<String> words = text.split(' ');
@@ -37,6 +41,21 @@ Future<List<VideoCategory>> fetchCategoryData() async {
   }
 }
 
+buildButton(String label, String route, [Color? color]) async {
+  if (route == AppRoutes.initial) {
+    await SharedPreferencesHelper.clearSharedPreferences();
+    Get.snackbar(
+      "Success",
+      "Log out Successfully",
+      colorText: Colors.black,
+      backgroundColor: Colors.blue,
+      barBlur: 0.5,
+    );
+    Get.toNamed(route);
+  }
+  Get.toNamed(route);
+}
+
 Future<void> LaunchURL(sURL) async {
   final Uri url = Uri.parse(sURL);
   if (!await launchUrl(
@@ -46,4 +65,3 @@ Future<void> LaunchURL(sURL) async {
     throw Exception('Could not launch $sURL');
   }
 }
-
