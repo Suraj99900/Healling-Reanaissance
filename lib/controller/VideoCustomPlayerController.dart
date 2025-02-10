@@ -1,12 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/http/http_service.dart';
 import 'package:wellness_app/modal/videoModal.dart';

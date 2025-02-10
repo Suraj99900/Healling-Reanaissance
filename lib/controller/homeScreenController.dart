@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/route/route.dart';
 
 class HomeScreenController extends GetxController {
   RxBool isBlogLoad = false.obs;

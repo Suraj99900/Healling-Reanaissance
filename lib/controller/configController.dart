@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ConfigController extends GetxController {
   RxBool isDashBoard = false.obs;

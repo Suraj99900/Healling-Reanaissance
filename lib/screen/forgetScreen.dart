@@ -73,7 +73,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
                                   fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
-                                  color: Color.fromARGB(173, 34, 13, 2),
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -171,7 +171,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 _forgetPasswordController.sNewPassword.value = value!;
                               },
                             ),
-                            SizedBox(height: 20.0,),
+                            const SizedBox(height: 20.0,),
                             Obx(() {
                               return _forgetPasswordController.bSetForget.value
                                   ? const CircularProgressIndicator()

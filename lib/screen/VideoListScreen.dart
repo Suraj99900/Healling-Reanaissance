@@ -11,7 +11,7 @@ class VideoListScreen extends StatelessWidget {
   final VideoController _videoController = Get.put(VideoController());
   final TextEditingController _searchController = TextEditingController();
 
-  VideoListScreen({required this.categoryId}) {
+  VideoListScreen({super.key, required this.categoryId}) {
     _videoController.fetchVideosByCategoryId(categoryId);
   }
 
@@ -21,28 +21,28 @@ class VideoListScreen extends StatelessWidget {
     var dHeight = Get.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 239, 240, 241),
       appBar: AppBar(
         elevation: 0.6,
         shadowColor: Colors.black,
-        backgroundColor: Color(0xFF0D1B2A),
+        backgroundColor: const Color.fromARGB(255, 254, 254, 255),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              cursorColor: Colors.white,
+              cursorColor: const Color.fromARGB(255, 255, 250, 250),
               controller: _searchController,
               onSubmitted: (text) {
                 _videoController.searchVideos(text, categoryId);
               },
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               decoration: InputDecoration(
                 hintText: 'Search Videos',
                 hintStyle: TextStyle(
                   fontFamily: 'Playwrite NL',
                   fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.04,
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 255, 250, 250),
                 ),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
@@ -52,7 +52,7 @@ class VideoListScreen extends StatelessWidget {
                   },
                 ),
                 filled: true,
-                fillColor: const Color(0xFF2E2E3A),
+                fillColor: const Color.fromARGB(240, 50, 50, 51),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
@@ -68,7 +68,7 @@ class VideoListScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (_videoController.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else {
           if (_videoController.videos.isEmpty) {
             return Center(
@@ -80,7 +80,7 @@ class VideoListScreen extends StatelessWidget {
                   Text(
                     'No videos found for this category',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 0, 0, 0),
                       fontSize: dWidth > 900 ? dWidth * 0.02 : dWidth * 0.06,
                     ),
                   ),
@@ -105,13 +105,13 @@ class VideoListScreen extends StatelessWidget {
                       blur: 20,
                       alignment: Alignment.bottomCenter,
                       border: 2,
-                      linearGradient: LinearGradient(
+                      linearGradient: const LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Colors.black.withOpacity(0.9),
-                          Color.fromARGB(255, 4, 1, 47).withOpacity(0.9),
-                        ],
+                              Color.fromARGB(6, 243, 239, 244),
+                              Color.fromARGB(8, 0, 0, 0),
+                            ],
                         stops: [0.1, 1],
                       ),
                       borderGradient: LinearGradient(
@@ -150,7 +150,7 @@ class VideoListScreen extends StatelessWidget {
                                     video.title,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      color: const Color.fromARGB(255, 0, 0, 0),
                                       fontFamily: 'Playwrite NL',
                                       fontSize: dWidth > 900
                                           ? dWidth * 0.015
@@ -161,7 +161,7 @@ class VideoListScreen extends StatelessWidget {
                                   Text(
                                     limitWords(video.description, 10),
                                     style: TextStyle(
-                                      color: Colors.grey,
+                                      color: const Color.fromARGB(255, 0, 0, 0),
                                       fontFamily: 'Playwrite NL',
                                       fontSize: dWidth > 900
                                           ? dWidth * 0.015
@@ -174,7 +174,7 @@ class VideoListScreen extends StatelessWidget {
                                   Text(
                                     'Uploaded on: ${DateFormat.yMMMd().format(video.addedOn)}',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color: const Color.fromARGB(179, 0, 0, 0),
                                       fontFamily: 'Playwrite NL',
                                       fontSize: dWidth > 900
                                           ? dWidth * 0.015

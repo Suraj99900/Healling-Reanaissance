@@ -171,7 +171,7 @@ Future<dio.MultipartFile> _getThumbnailMultipartFile(XFile thumbnailFile) async 
   Future<List<dynamic>> fetchAttachmentData(iVideoId) async {
     HttpService httpService = HttpService();
     var oResult =
-        await httpService.getRequest("/video/app-attachment/${iVideoId}");
+        await httpService.getRequest("/video/app-attachment/$iVideoId");
     print(oResult);
     if (oResult['iTrue']) {
       return oResult['data']['body'];
@@ -222,13 +222,13 @@ Future<dio.MultipartFile> _getThumbnailMultipartFile(XFile thumbnailFile) async 
       isLoading(true);
       HttpService httpService = HttpService();
       var oResult =
-          await httpService.getRequest("/videos-category/${categoryId}");
+          await httpService.getRequest("/videos-category/$categoryId");
 
       if (oResult['iTrue']) {
         List<dynamic> body = oResult['data']['body'];
         List<Video> videoList =
             body.map((video) => Video.fromJson(video)).toList();
-        this.videos.assignAll(videoList);
+        videos.assignAll(videoList);
       }
     } finally {
       isLoading(false);
@@ -260,13 +260,13 @@ Future<dio.MultipartFile> _getThumbnailMultipartFile(XFile thumbnailFile) async 
       isLoading(true);
       HttpService httpService = HttpService();
       var oResult =
-          await httpService.getRequest("/videos/search?title=${query}");
+          await httpService.getRequest("/videos/search?title=$query");
 
       if (oResult['iTrue']) {
         List<dynamic> body = oResult['data']['body'];
         List<Video> videoList =
             body.map((video) => Video.fromJson(video)).toList();
-        this.videos.assignAll(videoList);
+        videos.assignAll(videoList);
       }
     } finally {
       isLoading(false);

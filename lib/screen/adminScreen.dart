@@ -81,7 +81,7 @@ class _AdminScreenState extends State<AdminScreen> {
                               style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
                                   fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
-                                  color: Color.fromARGB(173, 34, 13, 2),
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -105,7 +105,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                     },
                                   ),
                                 ),
-                                SizedBox(width: 10.0),
+                                const SizedBox(width: 10.0),
                                 Obx(() {
                                   return _adminController.isGenrateOTP == true
                                       ? const CircularProgressIndicator()

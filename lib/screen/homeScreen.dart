@@ -41,12 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var dWidth = Get.width;
     var dHeight = Get.height;
-
     homeController.fetchCategory();
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 239, 240, 241),
       appBar: AppBar(
-        backgroundColor: Color(0xFF0D1B2A),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         elevation: 0.6,
@@ -61,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
                   height: dHeight * 0.1,
                   fit: BoxFit.cover,
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 0, 0, 0),
                 ),
               ],
             ),
@@ -86,7 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: Container(
-        color: Color(0xFF1B1B2F), // Dark background color
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 250, 250, 251),
+                Color.fromARGB(255, 255, 255, 255),
+              ],
+            ),
+          ), // Dark background color
         child: Obx(() {
           return GridView.builder(
             padding: const EdgeInsets.all(10.0),
@@ -122,14 +128,19 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFF162447), // Darker card background color
+           gradient: const LinearGradient(
+              colors: [
+                Color(0xFFF8FBFF),
+                Color.fromARGB(255, 252, 254, 255),
+              ],
+            ), // Darker card background color
           borderRadius: BorderRadius.circular(12), // Add rounded corners
           boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(41, 255, 255, 255)
-                  .withOpacity(0.1), // Dark shadow
-              spreadRadius: 0.5,
-              blurRadius: 1,
+              color: const Color.fromARGB(137, 0, 0, 0)
+                  .withOpacity(0.2), // Dark shadow
+              spreadRadius: 0.7,
+              blurRadius: 2,
               offset: const Offset(1, 2),
             ),
           ],
@@ -141,24 +152,24 @@ class _HomeScreenState extends State<HomeScreen> {
             Icon(
               Icons.slow_motion_video_rounded,
               size: dWidth > 900 ? dWidth * 0.04 : dWidth * 0.085,
-              color: Colors.white, // White icon color
+              color: const Color.fromARGB(255, 3, 0, 7), // White icon color
             ),
             const SizedBox(height: 20), // Add space between icon and text
             Text(
               sName,
               style: TextStyle(
-                color: Colors.white, // White text color
+                color: const Color.fromARGB(255, 0, 0, 0), // White text color
                 fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.03,
                 fontWeight: FontWeight.bold, // Make text bold
                 fontFamily: 'Playwrite NL',
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 5), // Add space between title and subtitle
+            const SizedBox(height: 5), // Add space between title and subtitle
             Text(
               limitWords(sDescription, 20), // Example subtitle text
               style: TextStyle(
-                color: Colors.grey[300], // Light grey subtitle text color
+                color: const Color.fromARGB(255, 0, 0, 0), // Light grey subtitle text color
                 fontSize: dWidth > 900 ? dWidth * 0.01 : dWidth * 0.02,
                 fontFamily: 'Playwrite NL',
               ),

@@ -32,7 +32,7 @@ class LoginController extends GetxController {
 
     HttpService httpService = HttpService();
     final oResult = await httpService
-        .getRequest("/login?email=${sEmail}&password=${sPassword}");
+        .getRequest("/login?email=$sEmail&password=$sPassword");
 
     if (oResult['iTrue'] == true) {
       var aData = oResult['data']['body'];

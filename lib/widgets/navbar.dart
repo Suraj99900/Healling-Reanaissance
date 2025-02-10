@@ -8,6 +8,8 @@ import 'package:wellness_app/utils/responsiveLayout.dart';
 import '../screen/commonfunction.dart';
 
 class NavBar extends StatefulWidget {
+  const NavBar({super.key});
+
   @override
   _NavBarState createState() => _NavBarState();
 }
@@ -53,7 +55,7 @@ class _NavBarState extends State<NavBar> {
                     height: dWidth > 850 ? dWidth * 0.03 : dWidth * 0.09,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                             colors: [
                               Color(0xFFC86DD7),
                               Color(0xFF3023AE),
@@ -76,7 +78,7 @@ class _NavBarState extends State<NavBar> {
                     style: GoogleFonts.cairo(
                       textStyle: TextStyle(
                         fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.04,
-                        color: Color.fromARGB(173, 34, 13, 2),
+                        color: const Color.fromARGB(173, 34, 13, 2),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -102,7 +104,7 @@ class _NavBarState extends State<NavBar> {
                                 width: dWidth > 850 ? 120 : dWidth * 0.13,
                                 height: dWidth > 850 ? 40 : dWidth * 0.06,
                                 decoration: BoxDecoration(
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                         colors: [
                                           Color(0xFFC86DD7),
                                           Color(0xFF3023AE)
@@ -113,8 +115,8 @@ class _NavBarState extends State<NavBar> {
                                     boxShadow: [
                                       BoxShadow(
                                           color:
-                                              Color(0xFF6078ea).withOpacity(.3),
-                                          offset: Offset(0, 8),
+                                              const Color(0xFF6078ea).withOpacity(.3),
+                                          offset: const Offset(0, 8),
                                           blurRadius: 8)
                                     ]),
                                 child: Material(
@@ -149,7 +151,7 @@ class _NavBarState extends State<NavBar> {
                                 width: dWidth > 850 ? 160 : dWidth * 0.18,
                                 height: dWidth > 850 ? 40 : dWidth * 0.06,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                       colors: [
                                         Color(0xFFC86DD7),
                                         Color(0xFF3023AE)
@@ -160,8 +162,8 @@ class _NavBarState extends State<NavBar> {
                                   boxShadow: [
                                     BoxShadow(
                                         color:
-                                            Color(0xFF6078ea).withOpacity(.3),
-                                        offset: Offset(0, 8),
+                                            const Color(0xFF6078ea).withOpacity(.3),
+                                        offset: const Offset(0, 8),
                                         blurRadius: 8)
                                   ],
                                 ),
@@ -201,7 +203,7 @@ class _NavBarState extends State<NavBar> {
                                 width: dWidth > 850 ? 160 : dWidth * 0.18,
                                 height: dWidth > 850 ? 40 : dWidth * 0.06,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                       colors: [
                                         Color(0xFFC86DD7),
                                         Color(0xFF3023AE)
@@ -212,8 +214,8 @@ class _NavBarState extends State<NavBar> {
                                   boxShadow: [
                                     BoxShadow(
                                         color:
-                                            Color(0xFF6078ea).withOpacity(.3),
-                                        offset: Offset(0, 8),
+                                            const Color(0xFF6078ea).withOpacity(.3),
+                                        offset: const Offset(0, 8),
                                         blurRadius: 8)
                                   ],
                                 ),
@@ -245,7 +247,7 @@ class _NavBarState extends State<NavBar> {
                                 width: dWidth > 850 ? 160 : dWidth * 0.18,
                                 height: dWidth > 850 ? 40 : dWidth * 0.06,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                       colors: [
                                         Color(0xFFC86DD7),
                                         Color(0xFF3023AE)
@@ -256,8 +258,8 @@ class _NavBarState extends State<NavBar> {
                                   boxShadow: [
                                     BoxShadow(
                                         color:
-                                            Color(0xFF6078ea).withOpacity(.3),
-                                        offset: Offset(0, 8),
+                                            const Color(0xFF6078ea).withOpacity(.3),
+                                        offset: const Offset(0, 8),
                                         blurRadius: 8)
                                   ],
                                 ),
@@ -306,7 +308,7 @@ class _NavBarState extends State<NavBar> {
                       textStyle: TextStyle(
                         fontSize:
                             dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.035,
-                        color: Color.fromARGB(173, 34, 13, 2),
+                        color: const Color.fromARGB(173, 34, 13, 2),
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
                       ),
@@ -325,7 +327,7 @@ class _NavBarState extends State<NavBar> {
                     style: GoogleFonts.cairo(
                       textStyle: TextStyle(
                         fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.03,
-                        color: Color.fromARGB(173, 34, 13, 2),
+                        color: const Color.fromARGB(173, 34, 13, 2),
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
                       ),
@@ -345,7 +347,7 @@ class _NavBarState extends State<NavBar> {
                     style: GoogleFonts.cairo(
                       textStyle: TextStyle(
                         fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.03,
-                        color: Color.fromARGB(173, 34, 13, 2),
+                        color: const Color.fromARGB(173, 34, 13, 2),
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
                       ),

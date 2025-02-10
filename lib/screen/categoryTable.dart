@@ -22,14 +22,14 @@ class CategoryTable extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<VideoCategory>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
           return Scaffold(
-            backgroundColor: Color(0xFF0D1B2A),
+            backgroundColor: const Color(0xFF0D1B2A),
             appBar: AppBar(
-              backgroundColor: Color(0xFF0D1B2A),
+              backgroundColor: const Color(0xFF0D1B2A),
               scrolledUnderElevation: 0,
               automaticallyImplyLeading: false,
               elevation: 0.6,

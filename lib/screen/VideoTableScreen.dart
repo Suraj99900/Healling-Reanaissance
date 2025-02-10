@@ -28,9 +28,9 @@ class VideoTable extends StatelessWidget {
         } else {
           controller.uploadedVideos.value = snapshot.data!;
           return Scaffold(
-            backgroundColor: Color(0xFF0D1B2A),
+            backgroundColor: const Color(0xFF0D1B2A),
             appBar: AppBar(
-              backgroundColor: Color(0xFF0D1B2A),
+              backgroundColor: const Color(0xFF0D1B2A),
               scrolledUnderElevation: 0,
               automaticallyImplyLeading: false,
               elevation: 0.6,

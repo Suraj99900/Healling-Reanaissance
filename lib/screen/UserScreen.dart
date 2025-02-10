@@ -28,7 +28,7 @@ class _UserScreenState extends State<UserScreen> {
     UserHomeController userHomeController = UserHomeController();
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(40, 0, 0, 0),
+      backgroundColor: const Color.fromARGB(40, 0, 0, 0),
       body: SingleChildScrollView(
         child: Container(
           decoration: const BoxDecoration(
@@ -198,7 +198,7 @@ class _UserScreenState extends State<UserScreen> {
                           alignment: Alignment.center,
                           child: Card(
                             margin: const EdgeInsets.all(10.0),
-                            color: Color.fromARGB(48, 252, 251, 251),
+                            color: const Color.fromARGB(48, 252, 251, 251),
                             elevation: 0, // Add elevation for shadow effect
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0),
@@ -313,7 +313,7 @@ class _UserScreenState extends State<UserScreen> {
                                       fontSize: dWidth >= 850
                                           ? dWidth * 0.011
                                           : dWidth * 0.02,
-                                      color: Color.fromARGB(164, 34, 13, 2),
+                                      color: const Color.fromARGB(164, 34, 13, 2),
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -349,7 +349,7 @@ class _UserScreenState extends State<UserScreen> {
                                     "https://rzp.io/i/KNhuciEeUM");
                               },
                               child: Container(
-                                padding: EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: Text(
                                   'Reserve your Spot @just 99/-\nतुमचे स्थान राखा @केवळ ९९/-',
                                   style: GoogleFonts.cairo(
@@ -391,7 +391,7 @@ class _UserScreenState extends State<UserScreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   Text(
                                     'Time: 6 am To 8 am',
                                     style: GoogleFonts.cairo(
@@ -417,12 +417,12 @@ class _UserScreenState extends State<UserScreen> {
                 SizedBox(
                  height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.0,
                 ),
-                ImageSlider(),
+                const ImageSlider(),
                 SizedBox(
                  height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 0.0),
+                  padding: const EdgeInsets.only(right: 0.0),
                   child: Card(
                     elevation: 0, // Add elevation for shadow effect
                     color: Colors.transparent,
@@ -430,7 +430,7 @@ class _UserScreenState extends State<UserScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(top: 100.0, bottom: 100.0),
+                      padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -488,11 +488,11 @@ class _UserScreenState extends State<UserScreen> {
                               LaunchURL('https://rzp.io/i/KNhuciEeUM'),
                             },
                             child: Container(
-                              margin: EdgeInsets.only(left: 20),
+                              margin: const EdgeInsets.only(left: 20),
                               width:  dWidth >= 850 ?280 : dWidth * 0.3,
                               height: dWidth >= 850?70 : dHeight * 0.04,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                     colors: [
                                       Color(0xFFC86DD7),
                                       Color(0xFF3023AE)
@@ -502,8 +502,8 @@ class _UserScreenState extends State<UserScreen> {
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Color(0xFF6078ea).withOpacity(.3),
-                                      offset: Offset(0, 8),
+                                      color: const Color(0xFF6078ea).withOpacity(.3),
+                                      offset: const Offset(0, 8),
                                       blurRadius: 8)
                                 ],
                               ),
@@ -592,7 +592,7 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
+                                    borderSide: const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -628,7 +628,7 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
+                                    borderSide: const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -665,7 +665,7 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
+                                    borderSide: const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -702,7 +702,7 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
+                                    borderSide: const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -767,11 +767,11 @@ class _UserScreenState extends State<UserScreen> {
                                             }
                                           },
                                           child: Container(
-                                            margin: EdgeInsets.only(left: 20),
+                                            margin: const EdgeInsets.only(left: 20),
                                             width: dWidth >850 ? 100: dWidth * 0.15,
                                             height: dWidth >850 ? 50: 30,
                                             decoration: BoxDecoration(
-                                              gradient: LinearGradient(
+                                              gradient: const LinearGradient(
                                                   colors: [
                                                     Color(0xFFC86DD7),
                                                     Color(0xFF3023AE)
@@ -782,9 +782,9 @@ class _UserScreenState extends State<UserScreen> {
                                                   BorderRadius.circular(20),
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: Color(0xFF6078ea)
+                                                    color: const Color(0xFF6078ea)
                                                         .withOpacity(.3),
-                                                    offset: Offset(0, 8),
+                                                    offset: const Offset(0, 8),
                                                     blurRadius: 8)
                                               ],
                                             ),
@@ -859,7 +859,7 @@ class _UserScreenState extends State<UserScreen> {
                                     icon: Icon(
                                       FontAwesome.instagram,
                                       size: dWidth > 850 ? dWidth * 0.02: dWidth * 0.05,
-                                      color: Color.fromARGB(255, 255, 110, 207),
+                                      color: const Color.fromARGB(255, 255, 110, 207),
                                     ),
                                   ),
                                   SizedBox(
@@ -905,7 +905,7 @@ class _UserScreenState extends State<UserScreen> {
                                       fontSize: dWidth >= 850
                                           ? dWidth * 0.01
                                           : dWidth * 0.03,
-                                      color: Color.fromARGB(253, 255, 254, 253),
+                                      color: const Color.fromARGB(253, 255, 254, 253),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

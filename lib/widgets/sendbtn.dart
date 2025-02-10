@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../utils/responsiveLayout.dart';
 
 class SendBtn extends StatelessWidget {
+  const SendBtn({super.key});
+
   
   @override
   Widget build(BuildContext context) {
@@ -12,15 +14,15 @@ class SendBtn extends StatelessWidget {
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
+            gradient: const LinearGradient(colors: [
               Color(0xFFC86DD7),
               Color(0xFF3023AE),
             ], begin: Alignment.bottomRight, end: Alignment.topLeft),
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
-                  color: Color(0xFF6078ea).withOpacity(.3),
-                  offset: Offset(0.0, 8.0),
+                  color: const Color(0xFF6078ea).withOpacity(.3),
+                  offset: const Offset(0.0, 8.0),
                   blurRadius: 8.0)
             ]),
         child: Material(

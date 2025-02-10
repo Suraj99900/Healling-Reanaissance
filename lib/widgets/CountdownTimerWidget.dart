@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CountdownTimerCard extends StatelessWidget {
+  const CountdownTimerCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     DateTime endTime = DateTime(2025, 6, 22, 6, 8, 0);
@@ -32,7 +34,7 @@ class CountdownTimerCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             CountdownTimer(
               endTime: endTimeInMilliseconds,
               textStyle: GoogleFonts.cairo(

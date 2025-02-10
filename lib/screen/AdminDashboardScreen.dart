@@ -40,9 +40,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     var dHeight = Get.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 249, 249, 249),
       appBar: AppBar(
-        backgroundColor: Color(0xFF0D1B2A),
+        backgroundColor: const Color.fromARGB(255, 246, 246, 246),
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         elevation: 0.6,
@@ -51,7 +51,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
            IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 0, 0, 0)),
               onPressed: () {
                  Get.offNamed(AppRoutes.zoom);
               },
@@ -61,13 +61,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
               height: dHeight * 0.1,
               fit: BoxFit.cover,
-              color: Colors.white,
+              color: const Color.fromARGB(255, 0, 0, 0),
             ),
           ],
         ),
       ),
       body: Container(
-        color: Color(0xFF1B1B2F), // Dark background color
+        color: const Color.fromARGB(255, 255, 255, 255), // Dark background color
         padding: EdgeInsets.symmetric(horizontal: dWidth > 1200 ? 80.0 : 20.0),
         child: GridView.count(
           crossAxisCount: dWidth > 1200
@@ -108,13 +108,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF162447), // Darker card background color
+          color: const Color.fromARGB(255, 246, 246, 246), // Darker card background color
           borderRadius: BorderRadius.circular(12.0), // Rounded corners
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2), // Shadow color
               blurRadius: 6.0,
-              offset: Offset(0, 3), // Shadow offset
+              offset: const Offset(0, 3), // Shadow offset
             ),
           ],
         ),
@@ -124,14 +124,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             Icon(
               icon,
               size: dWidth > 900 ? dWidth * 0.05 : dWidth * 0.1,
-              color: Colors.white, // White icon color
+              color: const Color.fromARGB(255, 0, 0, 0), // White icon color
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               label,
               style: GoogleFonts.cairo(
                 textStyle: GoogleFonts.cairo(
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 0, 0, 0),
                   fontSize: dWidth > 900 ? dWidth * 0.007 : dWidth * 0.025,
                   fontWeight: FontWeight.bold,
                 ),

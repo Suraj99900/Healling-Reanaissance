@@ -8,7 +8,7 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget smallScreen;
 
 
-    ResponsiveLayout({super.key, required this.largeScreen, required this.mediumScreen, required this.smallScreen});
+    const ResponsiveLayout({super.key, required this.largeScreen, required this.mediumScreen, required this.smallScreen});
 
   static bool isSmallScreen(BuildContext context) {
     return MediaQuery.of(context).size.width < 800;

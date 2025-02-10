@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
                                   fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
-                                  color: Color.fromARGB(173, 34, 13, 2),
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: 'Email',
                                 hintText: 'Enter your email',
                                 hintStyle: GoogleFonts.cairo(
-                                  color: Color.fromARGB(173, 34, 13, 2),
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                 ),
                               ),
                               validator: (value) {
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: 'Password',
                                 hintText: 'Enter your password',
                                 hintStyle: GoogleFonts.cairo(
-                                  color: Color.fromARGB(173, 34, 13, 2),
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                 ),
                               ),
                               obscureText: true, // Hide the password
@@ -148,9 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               text: _loginController
                                                   .oResultData.value,
                                               autoCloseDuration:
-                                                  Duration(seconds: 2),
+                                                  const Duration(seconds: 2),
                                               showConfirmBtn: false);
-                                              Future.delayed(Duration(seconds: 2),(){
+                                              Future.delayed(const Duration(seconds: 2),(){
                                                 Get.offAllNamed(AppRoutes.zoom);
                                               });
                                         } else {

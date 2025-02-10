@@ -47,7 +47,7 @@ class _ImageSliderState extends State<ImageSlider> {
           ),
           itemBuilder: (context, index, realIndex) {
             return Container(
-              margin: EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(5.0),
               child: Card(
                 elevation: 0,
                 color: Colors.transparent,
@@ -65,7 +65,7 @@ class _ImageSliderState extends State<ImageSlider> {
                     Expanded(
                       flex: 2,
                       child: Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Text(
                           imageText[index],
                           style: GoogleFonts.cairo(

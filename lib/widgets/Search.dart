@@ -6,6 +6,8 @@ import '../utils/responsiveLayout.dart';
 
 
 class Search extends StatelessWidget {
+  const Search({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,16 +22,16 @@ class Search extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(30),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                   color: Colors.black12, offset: Offset(0, 8), blurRadius: 8)
             ]),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
+              const Expanded(
                   flex: 8,
                   child: TextField(
                     decoration: InputDecoration(

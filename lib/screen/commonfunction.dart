@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/http/http_service.dart';

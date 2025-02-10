@@ -64,7 +64,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromARGB(41, 255, 255, 255)
+                          color: const Color.fromARGB(41, 255, 255, 255)
                               .withOpacity(0.1), // Dark shadow
                           spreadRadius: 0.5,
                           blurRadius: 1,
@@ -115,11 +115,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.white70),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderSide: const BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
@@ -156,11 +156,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.white70),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderSide: const BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),

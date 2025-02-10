@@ -39,7 +39,7 @@ class CategoryController extends GetxController {
 
   Future<bool> deleteCategory(iRowId) async {
     HttpService httpService = HttpService();
-    var oResult = await httpService.deleteRequest("/video-category/${iRowId}");
+    var oResult = await httpService.deleteRequest("/video-category/$iRowId");
     setAddingCategoryProgress(false);
     if (oResult['iTrue']) {
       oResultData.value = oResult['data']['message'];
@@ -54,7 +54,7 @@ class CategoryController extends GetxController {
 
   Future<Map<String, dynamic>> fetchCategoryById(int? iRowId) async {
     HttpService httpService = HttpService();
-    var oResult = await httpService.getRequest("/video-category/${iRowId}");
+    var oResult = await httpService.getRequest("/video-category/$iRowId");
     setAddingCategoryProgress(false);
     if (oResult['iTrue']) {
       oResultData.value = oResult['data']['message'];
@@ -80,7 +80,7 @@ class CategoryController extends GetxController {
     };
 
     HttpService httpService = HttpService();
-    var oResult = await httpService.putRequest("/video-category/${iRowId}", aBody);
+    var oResult = await httpService.putRequest("/video-category/$iRowId", aBody);
     setAddingCategoryProgress(false);
     if (oResult['iTrue']) {
       oResultData.value = oResult['data']['message'];

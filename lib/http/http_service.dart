@@ -17,7 +17,7 @@ class HttpService {
   // JWT Service Token Class
   JwtToken jwtToken = JwtToken();
 
-  dio.Dio _dio;
+  final dio.Dio _dio;
 
   HttpService() : _dio = dio.Dio() {
     sBaseUrl = configController.getBaseURL().value;
@@ -52,7 +52,7 @@ class HttpService {
         aData['iTrue'] = false;
       }
       return aData;
-    } on dio.DioError catch (e) {
+    } on dio.DioException catch (e) {
       return _handleError(e);
     }
   }
@@ -70,7 +70,7 @@ class HttpService {
         aData['iTrue'] = false;
       }
       return aData;
-    } on dio.DioError catch (e) {
+    } on dio.DioException catch (e) {
       return _handleError(e);
     }
   }
@@ -88,7 +88,7 @@ class HttpService {
         aData['iTrue'] = false;
       }
       return aData;
-    } on dio.DioError catch (e) {
+    } on dio.DioException catch (e) {
       return _handleError(e);
     }
   }
@@ -105,7 +105,7 @@ class HttpService {
         aData['iTrue'] = false;
       }
       return aData;
-    } on dio.DioError catch (e) {
+    } on dio.DioException catch (e) {
       return _handleError(e);
     }
   }
@@ -142,12 +142,12 @@ class HttpService {
         aData['iTrue'] = false;
       }
       return aData;
-    } on dio.DioError catch (e) {
+    } on dio.DioException catch (e) {
       return _handleError(e);
     }
   }
 
-  Map<String, dynamic> _handleError(dio.DioError error) {
+  Map<String, dynamic> _handleError(dio.DioException error) {
     if (error.response != null) {
       // The server responded with an error status code.
       return {

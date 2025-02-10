@@ -1,11 +1,10 @@
-import 'package:wellness_app/controller/forgetController.dart';
 import 'package:wellness_app/screen/AddVideoScreen.dart';
 import 'package:wellness_app/screen/AdminDashboardScreen.dart';
 import 'package:wellness_app/screen/UserScreen.dart';
 import 'package:wellness_app/screen/VideoTableScreen.dart';
 import 'package:wellness_app/screen/addCategoryScreen.dart';
 import 'package:wellness_app/screen/adminScreen.dart';
-import 'package:wellness_app/screen/LoginScreen.dart';
+import 'package:wellness_app/screen/loginScreen.dart';
 import 'package:wellness_app/screen/categoryTable.dart';
 import 'package:wellness_app/screen/forgetScreen.dart';
 import 'package:wellness_app/screen/homeScreen.dart';

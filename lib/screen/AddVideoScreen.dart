@@ -142,11 +142,11 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.white70),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderSide: const BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
@@ -181,11 +181,11 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.white70),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderSide: const BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
@@ -222,12 +222,12 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Colors.white70),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Colors.blue),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),

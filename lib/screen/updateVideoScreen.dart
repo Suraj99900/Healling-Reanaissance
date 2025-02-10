@@ -10,7 +10,7 @@ import 'package:wellness_app/route/route.dart';
 class UpdateVideoScreen extends StatefulWidget {
   final int videoId;
 
-  const UpdateVideoScreen({Key? key, required this.videoId}) : super(key: key);
+  const UpdateVideoScreen({super.key, required this.videoId});
 
   @override
   _UpdateVideoScreenState createState() => _UpdateVideoScreenState();
@@ -129,7 +129,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
         automaticallyImplyLeading: false,
       ),
       body: videoData == null
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Stack(
                 children: [
@@ -198,12 +198,12 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Colors.white70),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Colors.blue),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -241,12 +241,12 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Colors.white70),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Colors.blue),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -267,7 +267,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
-                                        return CircularProgressIndicator();
+                                        return const CircularProgressIndicator();
                                       } else {
                                         return DropdownButtonFormField<int>(
                                           decoration: InputDecoration(
@@ -279,13 +279,13 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                   : dWidth * 0.03,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Colors.white70),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Colors.blue),
                                               borderRadius:
                                                   BorderRadius.circular(10),
