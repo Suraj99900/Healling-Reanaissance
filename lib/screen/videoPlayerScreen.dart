@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:wellness_app/controller/VideoCustomPlayerController.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:dio/dio.dart';  // Import dio for downloading files
 import 'package:wellness_app/http/JwtToken.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -68,9 +69,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
-        )
-       
-        
+        ),
       ),
       body: Obx(() {
         if (_videoController.isLoading.value) {
@@ -112,7 +111,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    
                     const SizedBox(height: 12),
                     Divider(color: Colors.grey[800]),
                     Text(
@@ -147,12 +145,41 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               const SizedBox(height: 10),
               Wrap(
                 children: videoData
-                    .map<Widget>(
-                        (attachment) => _buildAttachmentButton(attachment))
+                    .map<Widget>((attachment) =>
+                        _buildAttachmentButton(attachment))
                     .toList(),
               ),
             ],
           );
+  }
+
+  // Updated method to use dio for file download
+  Future<void> downloadFile(String url, String filename) async {
+    try {
+      Dio dio = Dio();
+      var dir = await Directory.systemTemp.createTemp();
+      var filePath = "${dir.path}/$filename";
+      await dio.download(url, filePath,
+          options: Options(headers: {'Authorization': JwtToken().generateJWT()}));
+
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: "File Downloaded Successfully!",
+        autoCloseDuration: const Duration(seconds: 2),
+        showConfirmBtn: false,
+      );
+    } catch (e) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: "Error while downloading.",
+        title: 'Oops...',
+        backgroundColor: Colors.black,
+        titleColor: Colors.white,
+        textColor: Colors.white,
+      );
+    }
   }
 
   Widget _buildAttachmentButton(Map<String, dynamic> attachment) {
@@ -161,11 +188,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
         onPressed: () async {
-          FileDownloader.downloadFile(
-            url: attachment['attachment_url'],
-            headers: {'Authorization': (JwtToken().generateJWT())},
-            name: attachment['attachment_name'],
-          );
+          downloadFile(attachment['attachment_url'], attachment['attachment_name']);
         },
         icon: const Icon(Icons.download, color: Colors.white),
         label: Text(attachment['attachment_name'],
@@ -187,8 +210,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           ),
         ),
         const SizedBox(height: 10),
-
-        // Comment Input Field with Post Button
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -211,15 +232,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             const SizedBox(width: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E86AB), // Button color
+                backgroundColor: const Color(0xFF2E86AB),
                 padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
               ),
               onPressed: () async {
-                final comment =
-                    _videoController.commentController.text;
+                final comment = _videoController.commentController.text;
                 if (comment.isNotEmpty) {
-                  var success = await _videoController.addComment(
-                      comment, widget.videoId);
+                  var success = await _videoController.addComment(comment, widget.videoId);
                   if (success) {
                     QuickAlert.show(
                       context: context,
@@ -229,8 +248,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       showConfirmBtn: false,
                     );
                     Future.delayed(const Duration(seconds: 2), () {
-                      _videoController
-                          .fetchCommentsByVideoId(widget.videoId);
+                      _videoController.fetchCommentsByVideoId(widget.videoId);
                     });
                   } else {
                     QuickAlert.show(
@@ -253,8 +271,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           ],
         ),
         const SizedBox(height: 20),
-
-        // Display Comments List
         Obx(() {
           return _videoController.comments.isEmpty
               ? Center(
@@ -297,7 +313,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            comment['user_type'] == 1 ? 'Super-Admin' : 'User',
+                            comment['user_type'] == 1
+                                ? 'Super-Admin'
+                                : 'User',
                             style: const TextStyle(
                               color: Colors.blueAccent,
                               fontSize: 12,
