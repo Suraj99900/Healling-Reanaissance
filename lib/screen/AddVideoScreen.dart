@@ -46,20 +46,28 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     });
   }
 
+    late Future<void> _categoriesFuture;
+    @override
+    void initState() {
+      super.initState();
+      _categoriesFuture = _videoController.fetchCategories();
+      print(_categoriesFuture);
+    }
+
   @override
   Widget build(BuildContext context) {
     var dWidth = Get.width;
     var dHeight = Get.height;
     return Scaffold(
-      backgroundColor: const Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFF1B263B),
+        elevation: 1,
+        backgroundColor: const Color.fromARGB(255, 254, 255, 255),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
                 Get.back();
               },
@@ -71,7 +79,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                   width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
                   height: dHeight * 0.1,
                   fit: BoxFit.cover,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -101,7 +109,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                         ),
                       ],
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xFF1B263B),
+                      color: const Color.fromARGB(255, 253, 254, 254),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
@@ -116,7 +124,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                   fontSize: dWidth > 900
                                       ? dWidth * 0.02
                                       : dWidth * 0.05,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -125,24 +133,24 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                               height: 20.0,
                             ),
                             TextFormField(
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                 labelText: 'Title',
                                 hintText: 'Enter Video Title',
                                 labelStyle: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: dWidth > 900
                                       ? dWidth * 0.015
                                       : dWidth * 0.03,
                                 ),
                                 hintStyle: TextStyle(
-                                  color: Colors.white70,
+                                  color: Colors.black,
                                   fontSize: dWidth > 900
                                       ? dWidth * 0.015
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -164,24 +172,24 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                               height: 20.0,
                             ),
                             TextFormField(
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                 labelText: 'Description',
                                 hintText: 'Enter Description',
                                 labelStyle: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: dWidth > 900
                                       ? dWidth * 0.015
                                       : dWidth * 0.03,
                                 ),
                                 hintStyle: TextStyle(
-                                  color: Colors.white70,
+                                  color: Colors.black,
                                   fontSize: dWidth > 900
                                       ? dWidth * 0.015
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -205,7 +213,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                               height: 20.0,
                             ),
                             FutureBuilder(
-                              future: _videoController.fetchCategories(),
+                              future: _categoriesFuture,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -215,14 +223,14 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                     decoration: InputDecoration(
                                       labelText: 'Category',
                                       labelStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03,
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            const BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Colors.black),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
@@ -231,7 +239,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                                    dropdownColor: const Color(0xFF1B263B),
+                                    dropdownColor: const Color.fromARGB(255, 255, 255, 255),
                                     items: _videoController.categories
                                         .map((category) {
                                       return DropdownMenuItem<int>(
@@ -239,7 +247,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                         child: Text(
                                           category['name'],
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.black,
                                             fontSize: dWidth > 900
                                                 ? dWidth * 0.015
                                                 : dWidth * 0.03,
@@ -265,13 +273,13 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                               height: 20.0,
                             ),
                             Card(
-                              color: const Color(0xFF1B263B),
+                              color: const Color.fromARGB(255, 243, 243, 243),
                               child: ListTile(
                                 title: _videoFile != null
                                     ? Text(
                                         'Video: ${_videoFile!.name}',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: const Color.fromARGB(255, 0, 0, 0),
                                           fontSize: dWidth > 900
                                               ? dWidth * 0.015
                                               : dWidth * 0.03,
@@ -280,7 +288,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                     : Text(
                                         'No video selected',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: const Color.fromARGB(255, 0, 0, 0),
                                           fontSize: dWidth > 900
                                               ? dWidth * 0.015
                                               : dWidth * 0.03,
@@ -289,7 +297,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                 trailing: IconButton(
                                   icon: Icon(
                                     Icons.video_file,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     size: dWidth > 900
                                         ? dWidth * 0.015
                                         : dWidth * 0.05,
@@ -302,13 +310,13 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                               height: 20.0,
                             ),
                             Card(
-                              color: const Color(0xFF1B263B),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               child: ListTile(
                                 title: _thumbnailFile != null
                                     ? Text(
                                         'Thumbnail: ${_thumbnailFile!.name}',
                                         style: TextStyle(
-                                            color: Colors.white,
+                                            color: const Color.fromARGB(255, 0, 0, 0),
                                             fontSize: dWidth > 900
                                                 ? dWidth * 0.015
                                                 : dWidth * 0.03),
@@ -316,7 +324,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                     : Text(
                                         'No thumbnail selected',
                                         style: TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.black,
                                             fontSize: dWidth > 900
                                                 ? dWidth * 0.015
                                                 : dWidth * 0.03),
@@ -324,7 +332,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                 trailing: IconButton(
                                   icon: Icon(
                                     Icons.image,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     size: dWidth > 900
                                         ? dWidth * 0.015
                                         : dWidth * 0.05,
@@ -346,23 +354,23 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                 return Column(
                                   children: [
                                     Card(
-                                      color: const Color(0xFF1B263B),
+                                      color: const Color.fromARGB(255, 255, 255, 255),
                                       child: Column(
                                         children: [
                                           TextFormField(
                                             style: const TextStyle(
-                                                color: Colors.white),
+                                                color: Colors.black),
                                             decoration: InputDecoration(
                                               labelText: 'Attachment Name',
                                               hintText: 'Enter Attachment Name',
                                               labelStyle: TextStyle(
-                                                color: Colors.white,
+                                                color: Colors.black,
                                                 fontSize: dWidth > 900
                                                     ? dWidth * 0.015
                                                     : dWidth * 0.03,
                                               ),
                                               hintStyle: TextStyle(
-                                                color: Colors.white70,
+                                                color: Colors.black,
                                                 fontSize: dWidth > 900
                                                     ? dWidth * 0.015
                                                     : dWidth * 0.03,
@@ -370,7 +378,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                               enabledBorder:
                                                   const OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                    color: Colors.white70),
+                                                    color: Colors.black),
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(10.0),
                                                 ),
@@ -378,7 +386,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                               focusedBorder:
                                                   const OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                    color: Colors.blue),
+                                                    color: Color.fromARGB(255, 227, 227, 228)),
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(10.0),
                                                 ),
@@ -403,7 +411,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                                 ? Text(
                                                     'Attachment: ${file.name}',
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                         fontSize: dWidth > 900
                                                             ? dWidth * 0.015
                                                             : dWidth * 0.03),
@@ -411,7 +419,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                                 : Text(
                                                     'No file selected',
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                         fontSize: dWidth > 900
                                                             ? dWidth * 0.015
                                                             : dWidth * 0.03),
@@ -419,7 +427,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                             trailing: IconButton(
                                               icon: Icon(
                                                 Icons.attach_file,
-                                                color: Colors.white,
+                                                color: Colors.black,
                                                 size: dWidth > 900
                                                     ? dWidth * 0.015
                                                     : dWidth * 0.05,
@@ -440,12 +448,12 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                               onPressed: _addAttachmentField,
                               icon: const Icon(
                                 Icons.add,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               label: Text(
                                 'Add Attachment',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: dWidth > 900
                                       ? dWidth * 0.015
                                       : dWidth * 0.03,
@@ -473,7 +481,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                   : ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:
-                                            const Color(0xFF506D8B),
+                                            const Color.fromARGB(255, 255, 255, 255),
                                         padding: EdgeInsets.symmetric(
                                             vertical: 5.0,
                                             horizontal: dWidth > 900
@@ -519,8 +527,8 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                               text: _videoController
                                                   .oResultData.value,
                                               backgroundColor: Colors.black,
-                                              titleColor: Colors.white,
-                                              textColor: Colors.white,
+                                              titleColor: Colors.black,
+                                              textColor: Colors.black,
                                             );
                                           }
                                         }
@@ -533,8 +541,8 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                           fontSize: dWidth > 900
                                               ? dWidth * 0.015
                                               : dWidth * 0.03,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color.fromARGB(255, 0, 0, 0),
                                         ),
                                       ),
                                     );

@@ -1,167 +1,103 @@
-
+import 'dart:convert';
+import 'dart:io' show File;
 import 'package:dio/dio.dart' as dio;
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/http/JwtToken.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:http_parser/http_parser.dart';
-import 'dart:convert';
-import 'dart:io';
+import 'package:wellness_app/controller/configController.dart';
+import 'package:wellness_app/http/JwtToken.dart';
 
 class HttpService {
-  late String sBaseUrl;
-  late String sToken;
-  // Config controller...
-  ConfigController configController = ConfigController();
-  late Map<String, String> Headers;
-  // JWT Service Token Class
-  JwtToken jwtToken = JwtToken();
-
+  late final String sBaseUrl;
+  late String sBaseUrlCross;
+  late final String sToken;
+  late final Map<String, String> headers;
+  final ConfigController configController = ConfigController();
+  final JwtToken jwtToken = JwtToken();
   final dio.Dio _dio;
 
   HttpService() : _dio = dio.Dio() {
     sBaseUrl = configController.getBaseURL().value;
     sToken = jwtToken.generateJWT();
-    _dio.options.baseUrl = sBaseUrl;
-    Headers = {
+    if (kIsWeb) {
+      sBaseUrlCross = 'https://cors-anywhere.herokuapp.com/$sBaseUrl';
+    }
+    _dio.options.baseUrl = sBaseUrlCross;
+    headers = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $sToken',
     };
-    _dio.options.headers = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT, DELETE',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Max-Age' : '86400',
-      'Access-Control-Allow-Headers' : 'Content-Type, Authorization, X-Requested-With',
-      'Authorization': 'Bearer $sToken',
-    };
+    _dio.options.headers = headers;
+  }
+
+  Future<Map<String, dynamic>> _handleRequest(Future<dio.Response> Function() request) async {
+    try {
+      final response = await request();
+      return {
+        "data": response.data,
+        "iTrue": response.statusCode == 200 || response.statusCode == 201,
+      };
+    } on dio.DioException catch (e) {
+      return _handleError(e);
+    }
   }
 
   Future<Map<String, dynamic>> getRequest(String endpoint) async {
-    try {
-      print(_dio);
-      final response = await _dio.get(endpoint);
-      var aData = {
-        "data": response.data,
-      };
-      if (response.statusCode == 200) {
-        aData['iTrue'] = true;
-      } else {
-        aData['iTrue'] = false;
-      }
-      return aData;
-    } on dio.DioException catch (e) {
-      return _handleError(e);
-    }
+    return _handleRequest(() => _dio.get(endpoint));
   }
 
-  Future<Map<String, dynamic>> postRequest(
-      String endpoint, Map<String, dynamic> body) async {
-    try {
-      final response = await _dio.post(endpoint, data: json.encode(body));
-      var aData = {
-        "data": response.data,
-      };
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        aData['iTrue'] = true;
-      } else {
-        aData['iTrue'] = false;
-      }
-      return aData;
-    } on dio.DioException catch (e) {
-      return _handleError(e);
-    }
+  Future<Map<String, dynamic>> postRequest(String endpoint, Map<String, dynamic> body) async {
+    return _handleRequest(() => _dio.post(endpoint, data: json.encode(body)));
   }
 
-  Future<Map<String, dynamic>> putRequest(
-      String endpoint, Map<String, dynamic> body) async {
-    try {
-      final response = await _dio.put(endpoint, data: json.encode(body));
-      var aData = {
-        "data": response.data,
-      };
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        aData['iTrue'] = true;
-      } else {
-        aData['iTrue'] = false;
-      }
-      return aData;
-    } on dio.DioException catch (e) {
-      return _handleError(e);
-    }
+  Future<Map<String, dynamic>> putRequest(String endpoint, Map<String, dynamic> body) async {
+    return _handleRequest(() => _dio.put(endpoint, data: json.encode(body)));
   }
 
   Future<Map<String, dynamic>> deleteRequest(String endpoint) async {
-    try {
-      final response = await _dio.delete(endpoint);
-      var aData = {
-        "data": response.data,
-      };
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        aData['iTrue'] = true;
-      } else {
-        aData['iTrue'] = false;
-      }
-      return aData;
-    } on dio.DioException catch (e) {
-      return _handleError(e);
-    }
+    return _handleRequest(() => _dio.delete(endpoint));
   }
 
-  Future<Map<String, dynamic>> postMultipartRequest(String endpoint,
-      Map<String, dynamic> fields, Map<String, XFile> files) async {
+  Future<Map<String, dynamic>> postMultipartRequest(String endpoint, Map<String, dynamic> fields, Map<String, XFile> files) async {
     var formData = dio.FormData();
 
     try {
-      // Add the files to the request
-      await Future.forEach(files.entries,
-          (MapEntry<String, XFile> entry) async {
+      await Future.forEach(files.entries, (MapEntry<String, XFile> entry) async {
         var key = entry.key;
         var file = entry.value;
-        formData.files.add(MapEntry(
-          key,
-          await dio.MultipartFile.fromFile(file.path,
-              contentType: MediaType('application', 'octet-stream')),
-        ));
+
+        if (kIsWeb) {
+          var bytes = await file.readAsBytes();
+          formData.files.add(MapEntry(
+            key,
+            dio.MultipartFile.fromBytes(bytes, filename: file.name, contentType: MediaType('application', 'octet-stream')),
+          ));
+        } else {
+          formData.files.add(MapEntry(
+            key,
+            await dio.MultipartFile.fromFile(file.path, filename: file.name, contentType: MediaType('application', 'octet-stream')),
+          ));
+        }
       });
 
-      // Add the fields to the request
       fields.forEach((key, value) {
         formData.fields.add(MapEntry(key, value.toString()));
       });
 
-      final response = await _dio.post(endpoint, data: formData);
-      var aData = {
-        "data": response.data,
-      };
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        aData['iTrue'] = true;
-      } else {
-        aData['iTrue'] = false;
-      }
-      return aData;
+      return _handleRequest(() => _dio.post(endpoint, data: formData));
     } on dio.DioException catch (e) {
       return _handleError(e);
     }
   }
 
   Map<String, dynamic> _handleError(dio.DioException error) {
-    if (error.response != null) {
-      // The server responded with an error status code.
-      return {
-        "data": error.response?.data,
-        "statusCode": error.response?.statusCode,
-        "iTrue": false,
-      };
-    } else {
-      // The request was made but no response was received.
-      return {
-        "data": "Request failed with no response",
-        "statusCode": 500,
-        "iTrue": false,
-      };
-    }
+    return {
+      "data": error.response?.data ?? "Request failed with no response",
+      "statusCode": error.response?.statusCode ?? 500,
+      "iTrue": false,
+    };
   }
 }

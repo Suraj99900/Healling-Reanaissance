@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:intl/intl.dart';
 import 'package:wellness_app/controller/VideoController.dart';
+import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/screen/commonfunction.dart';
 import 'package:wellness_app/screen/videoPlayerScreen.dart';
 
@@ -135,7 +137,7 @@ class VideoListScreen extends StatelessWidget {
                                 topRight: Radius.circular(15),
                               ),
                               child: Image.network(
-                                video.thumbnail,
+                                (kIsWeb) ? (new ConfigController()).getCorssURL() +video.thumbnail :video.thumbnail,
                                 width: dWidth * 0.9,
                                 height: dHeight * 0.3,
                                 fit: BoxFit.cover,

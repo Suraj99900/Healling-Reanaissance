@@ -6,6 +6,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:wellness_app/controller/VideoCustomPlayerController.dart';
 import 'package:video_player/video_player.dart';
 import 'package:dio/dio.dart';  // Import dio for downloading files
+import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/http/JwtToken.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -156,6 +157,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   // Updated method to use dio for file download
   Future<void> downloadFile(String url, String filename) async {
     try {
+      print(url);
       Dio dio = Dio();
       var dir = await Directory.systemTemp.createTemp();
       var filePath = "${dir.path}/$filename";
@@ -188,7 +190,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
         onPressed: () async {
-          downloadFile(attachment['attachment_url'], attachment['attachment_name']);
+          
+          downloadFile((new ConfigController()).getCorssURL()+attachment['attachment_url'], attachment['attachment_name']);
         },
         icon: const Icon(Icons.download, color: Colors.white),
         label: Text(attachment['attachment_name'],
@@ -295,7 +298,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          Row(
+                            children: [
+                              Text(
                             comment['user_name'],
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -303,15 +308,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               fontSize: 16,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            comment['comment'],
-                            style: TextStyle(
-                              color: Colors.grey[300],
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
+                          const SizedBox(width: 4),
                           Text(
                             comment['user_type'] == 1
                                 ? 'Super-Admin'
@@ -321,6 +318,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               fontSize: 12,
                             ),
                           ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            comment['comment'],
+                            style: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 14,
+                            ),
+                          ),
+                          
                         ],
                       ),
                     );

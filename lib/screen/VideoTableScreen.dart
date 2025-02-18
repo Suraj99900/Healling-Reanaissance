@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:wellness_app/controller/VideoTableController.dart';
+import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/modal/UploadedVideoModal.dart';
 import 'package:wellness_app/route/route.dart';
 import 'package:wellness_app/screen/updateVideoScreen.dart';
@@ -244,7 +246,8 @@ class VideoDataTableSource extends DataTableSource {
       DataCell(
         Center(
           child: Image.network(
-            video.thumbnail,
+            kIsWeb?
+            (new ConfigController()).getCorssURL()+video.thumbnail :video.thumbnail,
             width: 50,
             height: 50,
           ),

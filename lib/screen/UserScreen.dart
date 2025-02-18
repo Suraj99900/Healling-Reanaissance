@@ -180,11 +180,11 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: dWidth > 850 ?dWidth * 0.5: dWidth * 0.8,
-                  child: Search(),
-                ),
+                // const SizedBox(height: 10),
+                // SizedBox(
+                //   width: dWidth > 850 ?dWidth * 0.5: dWidth * 0.8,
+                //   child: Search(),
+                // ),
                 SizedBox(
                   height: dWidth > 850 ? dHeight * 0.1:dHeight * 0.05,
                 ),
