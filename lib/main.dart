@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Healling Reanaissance',
       initialRoute:
-          AppRoutes.userHomeScreen,
+          AppRoutes.initial,
       getPages: AppRoutes
           .routes,
     );

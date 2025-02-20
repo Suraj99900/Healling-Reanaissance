@@ -1,20 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:intl/intl.dart';
 import 'package:wellness_app/controller/VideoController.dart';
 import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
 import 'package:wellness_app/screen/videoPlayerScreen.dart';
 
 class VideoListScreen extends StatelessWidget {
-  final int categoryId;
+  final int? categoryId;
   final VideoController _videoController = Get.put(VideoController());
   final TextEditingController _searchController = TextEditingController();
 
-  VideoListScreen({super.key, required this.categoryId}) {
-    _videoController.fetchVideosByCategoryId(categoryId);
+  VideoListScreen({super.key, this.categoryId}) {
+    if (categoryId == null || categoryId == '') {
+      _videoController.searchVideos("", 0);
+    } else {
+      _videoController.fetchVideosByCategoryId(categoryId!);
+    }
   }
 
   @override
@@ -23,43 +25,39 @@ class VideoListScreen extends StatelessWidget {
     var dHeight = Get.height;
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 239, 240, 241),
       appBar: AppBar(
-        elevation: 0.6,
-        shadowColor: Colors.black,
-        backgroundColor: const Color.fromARGB(255, 254, 254, 255),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              cursorColor: const Color.fromARGB(255, 255, 250, 250),
               controller: _searchController,
               onSubmitted: (text) {
-                _videoController.searchVideos(text, categoryId);
+                _videoController.searchVideos(text, categoryId ?? 0);
               },
-              style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               decoration: InputDecoration(
                 hintText: 'Search Videos',
-                hintStyle: TextStyle(
-                  fontFamily: 'Playwrite NL',
-                  fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.04,
-                  color: const Color.fromARGB(255, 255, 250, 250),
-                ),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
                   onPressed: () {
                     _videoController.searchVideos(
-                        _searchController.text, categoryId);
+                        _searchController.text, categoryId ?? 0);
                   },
                 ),
                 filled: true,
-                fillColor: const Color.fromARGB(240, 50, 50, 51),
+                fillColor: Colors.black.withOpacity(0.3),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
                 ),
@@ -68,126 +66,91 @@ class VideoListScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(() {
-        if (_videoController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          if (_videoController.videos.isEmpty) {
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/website_maintenance.gif'),
-                  Text(
-                    'No videos found for this category',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      fontSize: dWidth > 900 ? dWidth * 0.02 : dWidth * 0.06,
-                    ),
-                  ),
-                ],
-              ),
-            );
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Obx(() {
+          if (_videoController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (_videoController.videos.isEmpty) {
+            return const Center(child: Text('No videos found'));
           } else {
             return ListView.builder(
               itemCount: _videoController.videos.length,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               itemBuilder: (context, index) {
                 var video = _videoController.videos[index];
                 return GestureDetector(
-                  onTap: () async {
-                    Get.to(() => VideoPlayerScreen(videoId: video.id));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: GlassmorphicContainer(
-                      width: double.infinity,
-                      height: dHeight * 0.5,
-                      borderRadius: 15,
-                      blur: 20,
-                      alignment: Alignment.bottomCenter,
-                      border: 2,
-                      linearGradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                              Color.fromARGB(6, 243, 239, 244),
-                              Color.fromARGB(8, 0, 0, 0),
-                            ],
-                        stops: [0.1, 1],
-                      ),
-                      borderGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.black.withOpacity(0.9),
-                          const Color.fromARGB(255, 98, 172, 210)
-                              .withOpacity(0.5),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                              ),
+                  onTap: () => Get.to(() => VideoPlayerScreen(videoId: video.id)),
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 6,
+                    shadowColor: Colors.black54,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 2), // Border color and width
+                              borderRadius: BorderRadius.circular(10), // Match border radius with ClipRRect
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
                               child: Image.network(
-                                (kIsWeb) ? (new ConfigController()).getCorssURL() +video.thumbnail :video.thumbnail,
-                                width: dWidth * 0.9,
-                                height: dHeight * 0.3,
-                                fit: BoxFit.cover,
+                                (kIsWeb)
+                                    ? (ConfigController()).getCorssURL() + video.thumbnail
+                                    : video.thumbnail,
+                                width: dWidth * 0.40,
+                                height: 130,
+                                fit: BoxFit.fill,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     video.title,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: const Color.fromARGB(255, 0, 0, 0),
-                                      fontFamily: 'Playwrite NL',
-                                      fontSize: dWidth > 900
-                                          ? dWidth * 0.015
-                                          : dWidth * 0.06,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    limitWords(video.description, 10),
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(255, 0, 0, 0),
-                                      fontFamily: 'Playwrite NL',
-                                      fontSize: dWidth > 900
-                                          ? dWidth * 0.015
-                                          : dWidth * 0.04,
+                                      fontSize: 18,
                                     ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    video.description,
+                                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
                                   Text(
                                     'Uploaded on: ${DateFormat.yMMMd().format(video.addedOn)}',
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(179, 0, 0, 0),
-                                      fontFamily: 'Playwrite NL',
-                                      fontSize: dWidth > 900
-                                          ? dWidth * 0.015
-                                          : dWidth * 0.025,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black54,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -195,8 +158,8 @@ class VideoListScreen extends StatelessWidget {
               },
             );
           }
-        }
-      }),
+        }),
+      ),
     );
   }
 }

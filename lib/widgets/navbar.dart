@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/route/route.dart';
+import 'package:wellness_app/screen/CustomWebView.dart';
+import 'package:wellness_app/screen/VideoListScreen.dart';
 import 'package:wellness_app/utils/responsiveLayout.dart';
 
 import '../screen/commonfunction.dart';
@@ -74,7 +77,7 @@ class _NavBarState extends State<NavBar> {
                     width: dWidth > 850 ? dWidth * 0.009 : dWidth * 0.01,
                   ),
                   Text(
-                    "Healing Renaissance",
+                    "Healling  Reanaissance",
                     style: GoogleFonts.cairo(
                       textStyle: TextStyle(
                         fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.04,
@@ -114,8 +117,8 @@ class _NavBarState extends State<NavBar> {
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                          color:
-                                              const Color(0xFF6078ea).withOpacity(.3),
+                                          color: const Color(0xFF6078ea)
+                                              .withOpacity(.3),
                                           offset: const Offset(0, 8),
                                           blurRadius: 8)
                                     ]),
@@ -161,8 +164,8 @@ class _NavBarState extends State<NavBar> {
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                        color:
-                                            const Color(0xFF6078ea).withOpacity(.3),
+                                        color: const Color(0xFF6078ea)
+                                            .withOpacity(.3),
                                         offset: const Offset(0, 8),
                                         blurRadius: 8)
                                   ],
@@ -194,7 +197,7 @@ class _NavBarState extends State<NavBar> {
                           children: [
                             InkWell(
                               onTap: () => {
-                                Get.toNamed(AppRoutes.zoom),
+                                Get.to(VideoListScreen()),
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
@@ -213,8 +216,8 @@ class _NavBarState extends State<NavBar> {
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                        color:
-                                            const Color(0xFF6078ea).withOpacity(.3),
+                                        color: const Color(0xFF6078ea)
+                                            .withOpacity(.3),
                                         offset: const Offset(0, 8),
                                         blurRadius: 8)
                                   ],
@@ -223,7 +226,7 @@ class _NavBarState extends State<NavBar> {
                                   color: Colors.transparent,
                                   child: Center(
                                     child: Text(
-                                      "Dashboard",
+                                      "Videos",
                                       style: GoogleFonts.cairo(
                                         color: Colors.white,
                                         fontSize: dWidth >= 850
@@ -238,7 +241,8 @@ class _NavBarState extends State<NavBar> {
                             ),
                             InkWell(
                               onTap: () => {
-                                buildButton("Log Out", AppRoutes.initial, Colors.red),
+                                buildButton(
+                                    "Log Out", AppRoutes.initial, Colors.red),
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
@@ -257,8 +261,8 @@ class _NavBarState extends State<NavBar> {
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                        color:
-                                            const Color(0xFF6078ea).withOpacity(.3),
+                                        color: const Color(0xFF6078ea)
+                                            .withOpacity(.3),
                                         offset: const Offset(0, 8),
                                         blurRadius: 8)
                                   ],
@@ -298,70 +302,49 @@ class _NavBarState extends State<NavBar> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                InkWell(
-                  onTap: () => {
-                    Get.toNamed(AppRoutes.userHomeScreen),
-                  },
-                  child: Text(
-                    "Home",
-                    style: GoogleFonts.cairo(
-                      textStyle: TextStyle(
-                        fontSize:
-                            dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.035,
-                        color: const Color.fromARGB(173, 34, 13, 2),
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: dWidth > 850 ? dWidth * 0.009 : dWidth * 0.01,
-                ),
-                InkWell(
-                  onTap: () => {
-                    Get.toNamed(AppRoutes.zoom),
-                  },
-                  child: Text(
-                    "Category",
-                    style: GoogleFonts.cairo(
-                      textStyle: TextStyle(
-                        fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.03,
-                        color: const Color.fromARGB(173, 34, 13, 2),
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: dWidth > 850 ? dWidth * 0.009 : dWidth * 0.01,
-                ),
-                InkWell(
-                  onTap: () => {
-                    // Get.toNamed(AppRoutes.zoom),
-                    LaunchURL("http://lifehealerkavita.com/"),
-                  },
-                  child: Text(
-                    "About",
-                    style: GoogleFonts.cairo(
-                      textStyle: TextStyle(
-                        fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.03,
-                        color: const Color.fromARGB(173, 34, 13, 2),
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: dWidth > 850 ? dWidth * 0.02 : dWidth * 0.01,
-                ),
+                _buildNavItem(
+                    "Home", () => Get.toNamed(AppRoutes.userHomeScreen)),
+                _buildSpacer(),
+                _buildNavItem("Category", () => Get.toNamed(AppRoutes.zoom)),
+                _buildSpacer(),
+                _buildNavItem("About", () => kIsWeb ? LaunchURL("https://lifehealerkavita.com/") : Get.to(() => CustomWebViewScreen(
+                  url: "https://lifehealerkavita.com/",
+                  title: "About",
+                  ))),
+                _buildSpacer(widthFactor: 2.0),
+                if (id != null && id != '0')
+                  _buildNavItem("Admin Dashboard",
+                      () => Get.toNamed(AppRoutes.dashBoard)),
               ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildNavItem(String text, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Text(
+        text,
+        style: GoogleFonts.cairo(
+          textStyle: TextStyle(
+            fontSize: Get.width >= 850 ? Get.width * 0.01 : Get.width * 0.03,
+            color: const Color.fromARGB(173, 34, 13, 2),
+            decoration: TextDecoration.underline,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSpacer({double widthFactor = 1.0}) {
+    return SizedBox(
+      width: Get.width > 850
+          ? Get.width * 0.009 * widthFactor
+          : Get.width * 0.01 * widthFactor,
     );
   }
 }

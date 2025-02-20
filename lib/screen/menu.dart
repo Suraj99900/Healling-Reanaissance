@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/controller/configController.dart';
+import 'package:wellness_app/screen/CustomWebView.dart';
 import '../SharedPreferencesHelper.dart';
 import '../route/route.dart';
 
@@ -109,6 +110,7 @@ class _ZoomMenuState extends State<ZoomMenu> {
               const SizedBox(height: 20.0),
               buildMenuItem("Home", Icons.home, AppRoutes.userHomeScreen),
               buildMenuItem("Category", Icons.home, AppRoutes.zoom),
+              buildMenuItem("About", Icons.person, "https://lifehealerkavita.com/"),
               Obx(() => controller.sUserType.value == 1
                   ? buildMenuItem("Dashboard",
                       Icons.dashboard_customize_rounded, AppRoutes.dashBoard)
@@ -130,12 +132,12 @@ class _ZoomMenuState extends State<ZoomMenu> {
     return TextButton.icon(
       onPressed: () {
         // Handle navigation and logic based on the label
-        // if (label == "Home") {
-        //   configController.setDashBoard(false);
-        // }else{
-        //    configController.setDashBoard(true);
-        // }
-        Get.toNamed(routeName);
+        if (label == "About") {
+          Get.to(CustomWebViewScreen(url: routeName, title: label));
+        }else{
+          Get.toNamed(routeName);
+        }
+        
       },
       icon: Icon(icon, color: const Color.fromARGB(255, 0, 0, 0)),
       label: Text(

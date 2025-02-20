@@ -22,8 +22,11 @@ class HttpService {
     sToken = jwtToken.generateJWT();
     if (kIsWeb) {
       sBaseUrlCross = 'https://cors-anywhere.herokuapp.com/$sBaseUrl';
+      _dio.options.baseUrl = sBaseUrlCross;
+    }else{
+      _dio.options.baseUrl = sBaseUrl;
     }
-    _dio.options.baseUrl = sBaseUrlCross;
+
     headers = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",

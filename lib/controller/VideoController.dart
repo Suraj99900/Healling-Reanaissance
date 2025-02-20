@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/http/http_service.dart';
 import 'package:wellness_app/modal/videoModal.dart';
 import 'package:dio/dio.dart' as dio; // Import dio with prefix
@@ -72,7 +73,7 @@ class VideoController extends GetxController {
 
       HttpService httpService = HttpService();
       dio.Response response = await dioInstance.post(
-        '${httpService.sBaseUrl}/video',
+        kIsWeb?( ConfigController().getCorssURL()+'${httpService.sBaseUrl}/video') : '${httpService.sBaseUrl}/video',
         data: formData,
         options: dio.Options(
           headers: {

@@ -17,7 +17,7 @@ class SplashController extends GetxController {
   fadeOut() async {
     fontSize.value = sWidet * 0.15;
     Future.delayed(const Duration(seconds: 2), () {
-      Get.offNamed(AppRoutes.zoom);
+      Get.offNamed(AppRoutes.userHomeScreen);
     });
   }
 }

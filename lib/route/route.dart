@@ -1,6 +1,7 @@
 import 'package:wellness_app/screen/AddVideoScreen.dart';
 import 'package:wellness_app/screen/AdminDashboardScreen.dart';
 import 'package:wellness_app/screen/UserScreen.dart';
+import 'package:wellness_app/screen/VideoListScreen.dart';
 import 'package:wellness_app/screen/VideoTableScreen.dart';
 import 'package:wellness_app/screen/addCategoryScreen.dart';
 import 'package:wellness_app/screen/adminScreen.dart';

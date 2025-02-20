@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:wellness_app/controller/userHomeController.dart';
 import 'package:wellness_app/route/route.dart';
+import 'package:wellness_app/screen/CustomWebView.dart';
 import 'package:wellness_app/screen/commonfunction.dart';
 import 'package:wellness_app/widgets/CountdownTimerWidget.dart';
 import 'package:wellness_app/widgets/Search.dart';
@@ -83,7 +85,7 @@ class _UserScreenState extends State<UserScreen> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: "Healing Renaissance",
+                                        text: "Healling  Reanaissance",
                                         style: GoogleFonts.cairo(
                                           textStyle: TextStyle(
                                             fontSize: dWidth >= 850
@@ -141,7 +143,7 @@ class _UserScreenState extends State<UserScreen> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: "Healing Renaissance",
+                                        text: "Healling  Reanaissance",
                                         style: GoogleFonts.cairo(
                                           textStyle: TextStyle(
                                             fontSize: dWidth >= 850
@@ -167,26 +169,21 @@ class _UserScreenState extends State<UserScreen> {
                         ],
                       ),
 
-                Padding(
-                  padding: EdgeInsets.only(left: dWidth * 0.02, top: 20),
-                  child: Text(
-                    "LET’S EXPLORE THE WORLD",
-                    style: GoogleFonts.cairo(
-                      textStyle: TextStyle(
-                        fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.03,
-                        color: const Color.fromARGB(173, 34, 13, 2),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                // const SizedBox(height: 10),
-                // SizedBox(
-                //   width: dWidth > 850 ?dWidth * 0.5: dWidth * 0.8,
-                //   child: Search(),
+                // Padding(
+                //   padding: EdgeInsets.only(left: dWidth * 0.02, top: 20),
+                //   child: Text(
+                //     "LET’S EXPLORE THE WORLD",
+                //     style: GoogleFonts.cairo(
+                //       textStyle: TextStyle(
+                //         fontSize: dWidth >= 850 ? dWidth * 0.01 : dWidth * 0.03,
+                //         color: const Color.fromARGB(173, 34, 13, 2),
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
                 // ),
                 SizedBox(
-                  height: dWidth > 850 ? dHeight * 0.1:dHeight * 0.05,
+                  height: dWidth > 850 ? dHeight * 0.1 : dHeight * 0.05,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -194,7 +191,7 @@ class _UserScreenState extends State<UserScreen> {
                     Column(
                       children: [
                         Container(
-                          width: dWidth > 850 ?dWidth * 0.5:dWidth * 0.9,
+                          width: dWidth > 850 ? dWidth * 0.5 : dWidth * 0.9,
                           alignment: Alignment.center,
                           child: Card(
                             margin: const EdgeInsets.all(10.0),
@@ -272,30 +269,29 @@ class _UserScreenState extends State<UserScreen> {
                                 ),
                               ),
                             ),
-
-                            SizedBox(
-                                width:
-                                    dWidth >= 850
-                                        ? 40
-                                        : dWidth * 0.02),
+                            SizedBox(width: dWidth >= 850 ? 40 : dWidth * 0.02),
                             Card(
                               elevation: 5, // Add elevation for shadow effect
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Container(
-                                width:dWidth >= 950? 400 :dWidth * 0.3,
-                                height: dWidth >= 950? 400 :dWidth * 0.3,
+                                width: dWidth >= 950 ? 400 : dWidth * 0.3,
+                                height: dWidth >= 950 ? 400 : dWidth * 0.3,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                child: Image.asset("assets/images/web1.jpg",fit: BoxFit.fill,),
+                                child: Image.asset(
+                                  "assets/images/web1.jpg",
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.01,
+                          height:
+                              dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.01,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -313,7 +309,8 @@ class _UserScreenState extends State<UserScreen> {
                                       fontSize: dWidth >= 850
                                           ? dWidth * 0.011
                                           : dWidth * 0.02,
-                                      color: const Color.fromARGB(164, 34, 13, 2),
+                                      color:
+                                          const Color.fromARGB(164, 34, 13, 2),
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -327,7 +324,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.01,
+                  height: dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.01,
                 ),
                 Column(
                   children: [
@@ -345,8 +342,12 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                             child: GestureDetector(
                               onTap: () async {
-                                LaunchURL(
-                                    "https://rzp.io/i/KNhuciEeUM");
+                                kIsWeb
+                                    ? LaunchURL("https://rzp.io/i/KNhuciEeUM")
+                                    : Get.to(() => CustomWebViewScreen(
+                                          url: "https://rzp.io/i/KNhuciEeUM",
+                                          title: "Payment",
+                                        ));
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10.0),
@@ -366,7 +367,7 @@ class _UserScreenState extends State<UserScreen> {
                               ),
                             ),
                           ),
-                          CountdownTimerCard(),
+                          // CountdownTimerCard(),
                           Card(
                             elevation: 0, // Add elevation for shadow effect
                             color: Colors.transparent,
@@ -374,7 +375,8 @@ class _UserScreenState extends State<UserScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Container(
-                              padding: EdgeInsets.all((dWidth >= 850 ?20.0: 5)),
+                              padding:
+                                  EdgeInsets.all((dWidth >= 850 ? 20.0 : 5)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -384,7 +386,7 @@ class _UserScreenState extends State<UserScreen> {
                                       textStyle: TextStyle(
                                         fontSize: dWidth >= 850
                                             ? dWidth * 0.015
-                                            :  dWidth * 0.02,
+                                            : dWidth * 0.02,
                                         color: const Color.fromARGB(
                                             173, 34, 13, 2),
                                         fontWeight: FontWeight.bold,
@@ -415,11 +417,11 @@ class _UserScreenState extends State<UserScreen> {
                   ],
                 ),
                 SizedBox(
-                 height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.0,
+                  height: dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.0,
                 ),
                 const ImageSlider(),
                 SizedBox(
-                 height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.0,
+                  height: dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.0,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 0.0),
@@ -435,7 +437,7 @@ class _UserScreenState extends State<UserScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SizedBox(
-                            width: dWidth > 850 ? dWidth * 0.3 :dWidth * 0.5,
+                            width: dWidth > 850 ? dWidth * 0.3 : dWidth * 0.5,
                             child: Column(
                               children: [
                                 Text(
@@ -485,12 +487,17 @@ class _UserScreenState extends State<UserScreen> {
                           // ),
                           InkWell(
                             onTap: () => {
-                              LaunchURL('https://rzp.io/i/KNhuciEeUM'),
+                              kIsWeb
+                                  ? LaunchURL("https://rzp.io/i/KNhuciEeUM")
+                                  : Get.to(() => CustomWebViewScreen(
+                                        url: "https://rzp.io/i/KNhuciEeUM",
+                                        title: "Payment",
+                                      )),
                             },
                             child: Container(
                               margin: const EdgeInsets.only(left: 20),
-                              width:  dWidth >= 850 ?280 : dWidth * 0.3,
-                              height: dWidth >= 850?70 : dHeight * 0.04,
+                              width: dWidth >= 850 ? 280 : dWidth * 0.3,
+                              height: dWidth >= 850 ? 70 : dHeight * 0.04,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                     colors: [
@@ -502,7 +509,8 @@ class _UserScreenState extends State<UserScreen> {
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                      color: const Color(0xFF6078ea).withOpacity(.3),
+                                      color: const Color(0xFF6078ea)
+                                          .withOpacity(.3),
                                       offset: const Offset(0, 8),
                                       blurRadius: 8)
                                 ],
@@ -514,9 +522,8 @@ class _UserScreenState extends State<UserScreen> {
                                     "Click Here to Get Access",
                                     style: GoogleFonts.cairo(
                                       color: Colors.white,
-                                      fontSize:  dWidth> 850
-                                          ? 18
-                                          : dWidth * 0.02,
+                                      fontSize:
+                                          dWidth > 850 ? 18 : dWidth * 0.02,
                                       letterSpacing: 1,
                                     ),
                                   ),
@@ -530,7 +537,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                 ),
                 SizedBox(
-                 height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.01,
+                  height: dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.01,
                 ),
                 Container(
                   decoration: const BoxDecoration(
@@ -592,7 +599,8 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.blue),
+                                    borderSide:
+                                        const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -628,7 +636,8 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.blue),
+                                    borderSide:
+                                        const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -665,7 +674,8 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.blue),
+                                    borderSide:
+                                        const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -702,7 +712,8 @@ class _UserScreenState extends State<UserScreen> {
                                         : dWidth * 0.03,
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.blue),
+                                    borderSide:
+                                        const BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -719,7 +730,9 @@ class _UserScreenState extends State<UserScreen> {
                                 },
                               ),
                               SizedBox(
-                               height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.01,
+                                height: dWidth >= 850
+                                    ? dHeight * 0.1
+                                    : dHeight * 0.01,
                               ),
                               Obx(
                                 () {
@@ -767,9 +780,12 @@ class _UserScreenState extends State<UserScreen> {
                                             }
                                           },
                                           child: Container(
-                                            margin: const EdgeInsets.only(left: 20),
-                                            width: dWidth >850 ? 100: dWidth * 0.15,
-                                            height: dWidth >850 ? 50: 30,
+                                            margin:
+                                                const EdgeInsets.only(left: 20),
+                                            width: dWidth > 850
+                                                ? 100
+                                                : dWidth * 0.15,
+                                            height: dWidth > 850 ? 50 : 30,
                                             decoration: BoxDecoration(
                                               gradient: const LinearGradient(
                                                   colors: [
@@ -782,8 +798,9 @@ class _UserScreenState extends State<UserScreen> {
                                                   BorderRadius.circular(20),
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: const Color(0xFF6078ea)
-                                                        .withOpacity(.3),
+                                                    color:
+                                                        const Color(0xFF6078ea)
+                                                            .withOpacity(.3),
                                                     offset: const Offset(0, 8),
                                                     blurRadius: 8)
                                               ],
@@ -812,18 +829,22 @@ class _UserScreenState extends State<UserScreen> {
                         ),
                       ),
                       SizedBox(
-                       height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.01,
+                        height: dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.01,
                       ),
                       Container(
                         alignment: Alignment.centerRight,
                         child: Image.asset("assets/images/image_01.png",
-                            scale: dWidth >= 950 ? .8:dWidth >= 550? 3:5),
+                            scale: dWidth >= 950
+                                ? .8
+                                : dWidth >= 550
+                                    ? 3
+                                    : 5),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                 height: dWidth >= 850 ?dHeight * 0.1 : dHeight * 0.01,
+                  height: dWidth >= 850 ? dHeight * 0.1 : dHeight * 0.01,
                 ),
                 // footer
                 Container(
@@ -855,11 +876,19 @@ class _UserScreenState extends State<UserScreen> {
                                     width: dWidth * 0.01,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      kIsWeb? LaunchURL("https://www.instagram.com/kavitas_healling_reanaissance/?hl=en"):Get.to(() => CustomWebViewScreen(
+                                        url: "https://www.instagram.com/kavitas_healling_reanaissance/?hl=en",
+                                        title: "Instagram",
+                                      ));
+                                    },
                                     icon: Icon(
                                       FontAwesome.instagram,
-                                      size: dWidth > 850 ? dWidth * 0.02: dWidth * 0.05,
-                                      color: const Color.fromARGB(255, 255, 110, 207),
+                                      size: dWidth > 850
+                                          ? dWidth * 0.02
+                                          : dWidth * 0.05,
+                                      color: const Color.fromARGB(
+                                          255, 255, 110, 207),
                                     ),
                                   ),
                                   SizedBox(
@@ -869,7 +898,9 @@ class _UserScreenState extends State<UserScreen> {
                                     onPressed: () {},
                                     icon: Icon(
                                       FontAwesome.facebook,
-                                      size: dWidth > 850 ? dWidth * 0.02: dWidth * 0.05,
+                                      size: dWidth > 850
+                                          ? dWidth * 0.02
+                                          : dWidth * 0.05,
                                       color: Colors.blue[600],
                                     ),
                                   ),
@@ -877,10 +908,15 @@ class _UserScreenState extends State<UserScreen> {
                                     width: dWidth * 0.01,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      LaunchURL("https://chat.whatsapp.com/IHDIgcv23J7L4IcVE1TZeE?fbclid=PAZXh0bgNhZW0CMTEAAaaJSkq0CrEBVZYMdehT88b64NNH3EBXdrNcdaUM8Du8SOOgLZG5v3644e0_aem_Pz6rsX9tJyQH_8xgcoTtaw");
+                                   
+                                    },
                                     icon: Icon(
                                       FontAwesome.whatsapp,
-                                      size: dWidth > 850 ? dWidth * 0.02: dWidth * 0.05,
+                                      size: dWidth > 850
+                                          ? dWidth * 0.02
+                                          : dWidth * 0.05,
                                       color: Colors.green[600],
                                     ),
                                   ),
@@ -891,7 +927,7 @@ class _UserScreenState extends State<UserScreen> {
                               ),
                             ),
                             SizedBox(
-                             width: dWidth > 850 ? dWidth * 0.5 : dWidth * 0.1,
+                              width: dWidth > 850 ? dWidth * 0.5 : dWidth * 0.1,
                             ),
                             Row(
                               children: <Widget>[
@@ -905,7 +941,8 @@ class _UserScreenState extends State<UserScreen> {
                                       fontSize: dWidth >= 850
                                           ? dWidth * 0.01
                                           : dWidth * 0.03,
-                                      color: const Color.fromARGB(253, 255, 254, 253),
+                                      color: const Color.fromARGB(
+                                          253, 255, 254, 253),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
