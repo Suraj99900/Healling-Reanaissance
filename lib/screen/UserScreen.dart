@@ -105,9 +105,23 @@ class _UserScreenState extends State<UserScreen> {
                           ),
                           Container(
                             alignment: Alignment.centerRight,
-                            child: Image.asset("assets/images/userHome_2.gif",
-                                scale: 1),
-                          ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black, // Border color
+                                width: 2.0, // Border width
+                              ),
+                              borderRadius:
+                                  BorderRadius.circular(8.0), // Border radius
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Clip image to match border radius
+                              child: Image.asset(
+                                'assets/images/PersonLogo.jpg',
+                                scale: 1,
+                              ),
+                            ),
+                          )
                         ],
                       )
                     : Wrap(
@@ -163,9 +177,23 @@ class _UserScreenState extends State<UserScreen> {
                           ),
                           Container(
                             alignment: Alignment.centerRight,
-                            child: Image.asset("assets/images/userHome_2.gif",
-                                scale: 1),
-                          ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black, // Border color
+                                width: 2.0, // Border width
+                              ),
+                              borderRadius:
+                                  BorderRadius.circular(8.0), // Border radius
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Clip image to match border radius
+                              child: Image.asset(
+                                'assets/images/PersonLogo.jpg',
+                                scale: 1,
+                              ),
+                            ),
+                          )
                         ],
                       ),
 
@@ -877,10 +905,14 @@ class _UserScreenState extends State<UserScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      kIsWeb? LaunchURL("https://www.instagram.com/kavitas_healling_reanaissance/?hl=en"):Get.to(() => CustomWebViewScreen(
-                                        url: "https://www.instagram.com/kavitas_healling_reanaissance/?hl=en",
-                                        title: "Instagram",
-                                      ));
+                                      kIsWeb
+                                          ? LaunchURL(
+                                              "https://www.instagram.com/kavitas_healling_reanaissance/?hl=en")
+                                          : Get.to(() => CustomWebViewScreen(
+                                                url:
+                                                    "https://www.instagram.com/kavitas_healling_reanaissance/?hl=en",
+                                                title: "Instagram",
+                                              ));
                                     },
                                     icon: Icon(
                                       FontAwesome.instagram,
@@ -909,8 +941,8 @@ class _UserScreenState extends State<UserScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      LaunchURL("https://chat.whatsapp.com/IHDIgcv23J7L4IcVE1TZeE?fbclid=PAZXh0bgNhZW0CMTEAAaaJSkq0CrEBVZYMdehT88b64NNH3EBXdrNcdaUM8Du8SOOgLZG5v3644e0_aem_Pz6rsX9tJyQH_8xgcoTtaw");
-                                   
+                                      LaunchURL(
+                                          "https://chat.whatsapp.com/IHDIgcv23J7L4IcVE1TZeE?fbclid=PAZXh0bgNhZW0CMTEAAaaJSkq0CrEBVZYMdehT88b64NNH3EBXdrNcdaUM8Du8SOOgLZG5v3644e0_aem_Pz6rsX9tJyQH_8xgcoTtaw");
                                     },
                                     icon: Icon(
                                       FontAwesome.whatsapp,

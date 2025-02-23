@@ -44,7 +44,9 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
       _descriptionController =
           TextEditingController(text: videoData['description']);
       _categoryIdController = videoData['category_id'];
-      _videoController.categoryId.value = videoData['id'];  
+      print("call");
+      print(videoData['category_id']);
+      _videoController.categoryId.value = videoData['category_id'];  
       attachments = await _videoController
           .fetchAttachmentData(widget.videoId); // Fetch attachments
 

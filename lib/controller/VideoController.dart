@@ -33,7 +33,7 @@ class VideoController extends GetxController {
   Future<List<dynamic>> fetchVideoById(int videoId) async {
     HttpService httpService = HttpService();
     var oResult = await httpService.getRequest("/video/$videoId");
-    print(oResult);
+    
     if (oResult['iTrue']) {
       return oResult['data']['body'];
     } else {
@@ -192,6 +192,8 @@ Future<dio.MultipartFile> _getThumbnailMultipartFile(XFile thumbnailFile) async 
           'description': sDescription,
           'category_id': categoryId.value,
         };
+
+        print(data);
 
         final response = await httpService.putRequest("/video/$id", data);
 
