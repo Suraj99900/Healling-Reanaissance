@@ -37,8 +37,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void dispose() {
-    _playerController.dispose();
+    _playerController.pause();
     _chewieController.dispose();
+    _playerController.dispose();
     super.dispose();
   }
 
@@ -256,9 +257,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             backgroundColor: const Color.fromARGB(255, 251, 246, 246)),
         onPressed: () async {
           downloadFile(kIsWeb
-              ?
-                  attachment['attachment_url']
-              :  attachment['attachment_url']);
+              ? attachment['attachment_url']
+              : attachment['attachment_url']);
         },
         icon: const Icon(Icons.download, color: Color.fromARGB(255, 0, 0, 0)),
         label: Text(attachment['attachment_name'],

@@ -2,21 +2,39 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/controller/VideoController.dart';
 import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/screen/videoPlayerScreen.dart';
 
-class VideoListScreen extends StatelessWidget {
+class VideoListScreen extends StatefulWidget {
   final int? categoryId;
+  
+  const VideoListScreen({super.key, this.categoryId});
+
+  @override
+  _VideoListScreenState createState() => _VideoListScreenState();
+}
+
+class _VideoListScreenState extends State<VideoListScreen> {
   final VideoController _videoController = Get.put(VideoController());
   final TextEditingController _searchController = TextEditingController();
+  String? userType;
 
-  VideoListScreen({super.key, this.categoryId}) {
-    if (categoryId == null || categoryId == '') {
-      _videoController.searchVideos("", 0);
-    } else {
-      _videoController.fetchVideosByCategoryId(categoryId!);
+  @override
+  void initState() {
+    super.initState();
+    loadStoredPreference();
+    if (widget.categoryId != null) {
+      _videoController.fetchVideosByCategoryId(widget.categoryId!);
     }
+  }
+
+  Future<void> loadStoredPreference() async {
+    String? storedUserType = await SharedPreferencesHelper.getUserType("sUserType");
+    setState(() {
+      userType = storedUserType;
+    });
   }
 
   @override
@@ -37,34 +55,35 @@ class VideoListScreen extends StatelessWidget {
             ),
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (text) {
-                _videoController.searchVideos(text, categoryId ?? 0);
-              },
-              decoration: InputDecoration(
-                hintText: 'Search Videos',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white),
-                  onPressed: () {
-                    _videoController.searchVideos(
-                        _searchController.text, categoryId ?? 0);
-                  },
+        bottom: userType == "1"
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _searchController,
+                    onSubmitted: (text) {
+                      _videoController.searchVideos(text);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search Videos',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search, color: Colors.white),
+                        onPressed: () {
+                          _videoController.searchVideos(_searchController.text);
+                        },
+                      ),
+                      filled: true,
+                      fillColor: Colors.black.withOpacity(0.3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
                 ),
-                filled: true,
-                fillColor: Colors.black.withOpacity(0.3),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : null,
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -101,8 +120,10 @@ class VideoListScreen extends StatelessWidget {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 2), // Border color and width
-                              borderRadius: BorderRadius.circular(10), // Match border radius with ClipRRect
+                              border: Border.all(
+                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                  width: 2),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -134,7 +155,8 @@ class VideoListScreen extends StatelessWidget {
                                   const SizedBox(height: 6),
                                   Text(
                                     video.description,
-                                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontSize: 14),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),

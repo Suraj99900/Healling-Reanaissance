@@ -1,5 +1,6 @@
 import 'package:wellness_app/screen/AddVideoScreen.dart';
 import 'package:wellness_app/screen/AdminDashboardScreen.dart';
+import 'package:wellness_app/screen/UserManagementScreen.dart';
 import 'package:wellness_app/screen/UserScreen.dart';
 import 'package:wellness_app/screen/VideoListScreen.dart';
 import 'package:wellness_app/screen/VideoTableScreen.dart';
@@ -12,6 +13,7 @@ import 'package:wellness_app/screen/homeScreen.dart';
 import 'package:wellness_app/screen/splashScreen.dart';
 import 'package:wellness_app/screen/updateCategoryScreen.dart';
 import 'package:wellness_app/screen/updateVideoScreen.dart';
+import 'package:wellness_app/screen/userAccessAddScreen.dart';
 import 'package:wellness_app/screen/zoomScreen.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +33,8 @@ class AppRoutes {
   static const addVideo = '/add-video';
   static const categoryManage = '/categoryManage';
   static const userHomeScreen = '/userHomeScreen';
+  static const addUserAccessScreen = '/addUserAccessScreen';
+  static const userManagement = '/userManagement';
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const SplashScreen()),
@@ -54,5 +58,7 @@ class AppRoutes {
     GetPage(name: categoryManage, page: () => CategoryTable()),
     GetPage(name: dashBoard, page: () => const AdminDashboardScreen()),
     GetPage(name: userHomeScreen, page: () => const UserScreen()),
+    GetPage(name: addUserAccessScreen, page: ()=> AddUserAccessScreen()),
+     GetPage(name: userManagement, page: ()=> UserManagementScreen()),
   ];
 }

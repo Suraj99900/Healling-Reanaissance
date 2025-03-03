@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/SharedPreferencesHelper.dart';
 import 'package:wellness_app/controller/configController.dart';
 import 'package:wellness_app/route/route.dart';
+import 'package:wellness_app/screen/commonfunction.dart';
 import 'package:wellness_app/screen/menu.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:wellness_app/screen/CustomWebView.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -50,10 +53,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           IconButton(
-              icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 0, 0, 0)),
+            IconButton(
+              icon: const Icon(Icons.arrow_back,
+                  color: Color.fromARGB(255, 0, 0, 0)),
               onPressed: () {
-                 Get.offNamed(AppRoutes.zoom);
+                Get.offNamed(AppRoutes.zoom);
               },
             ),
             Image.asset(
@@ -67,7 +71,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         ),
       ),
       body: Container(
-        color: const Color.fromARGB(255, 255, 255, 255), // Dark background color
+        color:
+            const Color.fromARGB(255, 255, 255, 255), // Dark background color
         padding: EdgeInsets.symmetric(horizontal: dWidth > 1200 ? 80.0 : 20.0),
         child: GridView.count(
           crossAxisCount: dWidth > 1200
@@ -94,6 +99,26 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 Get.toNamed(AppRoutes.videoManage);
               },
             ),
+            buildAdminMenuItem(
+              "User Access Management",
+              Icons.access_time,
+              onTap: () {
+                kIsWeb
+                    ? Get.to(() => LaunchURL(
+                        "https://release-api.lifehealerkavita.com/user-access"))
+                    : Get.toNamed(AppRoutes.addUserAccessScreen);
+              },
+            ),
+            buildAdminMenuItem(
+              "User Management",
+              Icons.person,
+              onTap: () {
+                kIsWeb
+                    ? Get.to(() => LaunchURL(
+                        "https://release-api.lifehealerkavita.com/user-management"))
+                    : Get.toNamed(AppRoutes.userManagement);
+              },
+            ),
           ],
         ),
       ),
@@ -108,7 +133,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 246, 246, 246), // Darker card background color
+          color: const Color.fromARGB(
+              255, 246, 246, 246), // Darker card background color
           borderRadius: BorderRadius.circular(12.0), // Rounded corners
           boxShadow: [
             BoxShadow(

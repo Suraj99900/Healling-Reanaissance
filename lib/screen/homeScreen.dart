@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var dWidth = Get.width;
     var dHeight = Get.height;
-    homeController.fetchCategory();
+    homeController.fetchCategoryByUserId();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 239, 240, 241),
       appBar: AppBar(

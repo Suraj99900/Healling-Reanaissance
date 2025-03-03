@@ -195,50 +195,50 @@ class _NavBarState extends State<NavBar> {
                         )
                       : Row(
                           children: [
-                            InkWell(
-                              onTap: () => {
-                                Get.to(VideoListScreen()),
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                  left: dWidth > 850 ? 10 : dWidth * 0.01,
-                                ),
-                                width: dWidth > 850 ? 160 : dWidth * 0.18,
-                                height: dWidth > 850 ? 40 : dWidth * 0.06,
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                      colors: [
-                                        Color(0xFFC86DD7),
-                                        Color(0xFF3023AE)
-                                      ],
-                                      begin: Alignment.bottomRight,
-                                      end: Alignment.topLeft),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: const Color(0xFF6078ea)
-                                            .withOpacity(.3),
-                                        offset: const Offset(0, 8),
-                                        blurRadius: 8)
-                                  ],
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Text(
-                                      "Videos",
-                                      style: GoogleFonts.cairo(
-                                        color: Colors.white,
-                                        fontSize: dWidth >= 850
-                                            ? dWidth * 0.01
-                                            : dWidth * 0.02,
-                                        letterSpacing: 1,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // InkWell(
+                            //   onTap: () => {
+                            //     Get.toNamed(AppRoutes.zoom),
+                            //   },
+                            //   child: Container(
+                            //     margin: EdgeInsets.only(
+                            //       left: dWidth > 850 ? 10 : dWidth * 0.01,
+                            //     ),
+                            //     width: dWidth > 850 ? 160 : dWidth * 0.18,
+                            //     height: dWidth > 850 ? 40 : dWidth * 0.06,
+                            //     decoration: BoxDecoration(
+                            //       gradient: const LinearGradient(
+                            //           colors: [
+                            //             Color(0xFFC86DD7),
+                            //             Color(0xFF3023AE)
+                            //           ],
+                            //           begin: Alignment.bottomRight,
+                            //           end: Alignment.topLeft),
+                            //       borderRadius: BorderRadius.circular(20),
+                            //       boxShadow: [
+                            //         BoxShadow(
+                            //             color: const Color(0xFF6078ea)
+                            //                 .withOpacity(.3),
+                            //             offset: const Offset(0, 8),
+                            //             blurRadius: 8)
+                            //       ],
+                            //     ),
+                            //     child: Material(
+                            //       color: Colors.transparent,
+                            //       child: Center(
+                            //         child: Text(
+                            //           "Videos",
+                            //           style: GoogleFonts.cairo(
+                            //             color: Colors.white,
+                            //             fontSize: dWidth >= 850
+                            //                 ? dWidth * 0.01
+                            //                 : dWidth * 0.02,
+                            //             letterSpacing: 1,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             InkWell(
                               onTap: () => {
                                 buildButton(
@@ -312,7 +312,7 @@ class _NavBarState extends State<NavBar> {
                   title: "About",
                   ))),
                 _buildSpacer(widthFactor: 2.0),
-                if (id != null && id != '0')
+                if (id != null && id != '0' && id == 1)
                   _buildNavItem("Admin Dashboard",
                       () => Get.toNamed(AppRoutes.dashBoard)),
               ],
