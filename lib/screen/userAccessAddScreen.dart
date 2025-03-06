@@ -23,7 +23,7 @@ class _AddUserAccessScreenState extends State<AddUserAccessScreen> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse("https://release-api.lifehealerkavita.com/user-access"));
+      ..loadRequest(Uri.parse("https://web.lifehealerkavita.com/user-access"));
   }
 
   @override

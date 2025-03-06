@@ -105,7 +105,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               onTap: () {
                 kIsWeb
                     ? Get.to(() => LaunchURL(
-                        "https://release-api.lifehealerkavita.com/user-access"))
+                        "https://web.lifehealerkavita.com/user-access"))
                     : Get.toNamed(AppRoutes.addUserAccessScreen);
               },
             ),
@@ -115,7 +115,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               onTap: () {
                 kIsWeb
                     ? Get.to(() => LaunchURL(
-                        "https://release-api.lifehealerkavita.com/user-management"))
+                        "https://web.lifehealerkavita.com/user-management"))
                     : Get.toNamed(AppRoutes.userManagement);
               },
             ),

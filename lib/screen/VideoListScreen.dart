@@ -147,7 +147,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
                                     video.title,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                      fontSize: 14,
                                     ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,

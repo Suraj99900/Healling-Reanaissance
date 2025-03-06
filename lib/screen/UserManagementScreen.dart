@@ -24,7 +24,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse("https://release-api.lifehealerkavita.com/user-management"));
+      ..loadRequest(Uri.parse("https://web.lifehealerkavita.com/user-management"));
   }
 
   @override

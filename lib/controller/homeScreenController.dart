@@ -29,7 +29,7 @@ class HomeScreenController extends GetxController {
 
     if (oResult['iTrue'] == true) {
       var aData = oResult['data']['body'];
-      print(id);
+      print(oResult);
       oResultData.value = oResult['data']['message'];
       // set user shred-prefrence is login and email
       userCategory.value = aData;
