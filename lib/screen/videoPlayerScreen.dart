@@ -34,13 +34,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     fetchData();
   }
 
-  @override
-  void dispose() {
-    _playerController.pause();
-    _chewieController.dispose();
-    _playerController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _playerController.pause();
+  //   _chewieController.dispose();
+  //   _playerController.dispose();
+  //   super.dispose();
+  // }
 
   fetchData() async {
     _videoController.fetchVideoDataById(widget.videoId);
@@ -50,7 +50,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initializeVideo(String videoUrl) {
-    _playerController = VideoPlayerController.network(videoUrl)
+    _playerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
       ..initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
@@ -58,9 +58,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         _chewieController = ChewieController(
           videoPlayerController: _playerController,
           autoPlay: true,
-          looping: false,
+          looping: true,
           allowFullScreen: true,
-          aspectRatio: _playerController.value.aspectRatio,
         );
       });
   }

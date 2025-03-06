@@ -21,7 +21,7 @@ class VideoCustomPlayerController extends GetxController {
 
   var videosPlayerData = <Video>[].obs;
 
-  void fetchVideoDataById(int videoId) async {
+  Future fetchVideoDataById(int videoId) async {
     isLoading(true);
     try {
       HttpService httpService = HttpService();
