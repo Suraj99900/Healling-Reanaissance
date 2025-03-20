@@ -86,11 +86,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         var video = _videoController.videosPlayerData.isNotEmpty
             ? _videoController.videosPlayerData[0]
             : null;
+        var videoJsonData = _videoController.videoJsonData.isNotEmpty
+            ? _videoController.videoJsonData
+            : null;
         if (video == null) {
           return const Center(
               child: Text('No video available', style: TextStyle(color: Colors.white)));
         }
-        if (!_isVideoInitialized) _initializeVideo(video.video_url);
+        if (!_isVideoInitialized) _initializeVideo(videoJsonData?['playback']?['hls']);
 
         return SingleChildScrollView(
           child: Column(

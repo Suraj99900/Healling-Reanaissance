@@ -510,12 +510,12 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                                               text: _videoController
                                                   .oResultData.value,
                                               autoCloseDuration:
-                                                  const Duration(seconds: 2),
+                                                  const Duration(seconds: 5),
                                               showConfirmBtn: false,
                                             );
 
                                             Future.delayed(
-                                                const Duration(seconds: 2), () {
+                                                const Duration(seconds: 5), () {
                                               Get.offNamed(
                                                   AppRoutes.videoManage);
                                             });

@@ -18,7 +18,8 @@ class Video {
     required this.deleted,
     required this.createdAt,
     required this.updatedAt,
-    required this.video_url,
+    required this.video_url, 
+    required this.video_json_data
     // required this.category,
   });
 
@@ -35,6 +36,7 @@ class Video {
   int deleted;
   DateTime createdAt;
   DateTime updatedAt;
+  String video_json_data;
   // Category category;
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
@@ -50,6 +52,7 @@ class Video {
     deleted: json["deleted"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
+    video_json_data: json["video_json_data"],
     video_url:json["video_url"],
     // category: Category.fromJson(json["category"]),
   );
