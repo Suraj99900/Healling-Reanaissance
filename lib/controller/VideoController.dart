@@ -76,7 +76,9 @@ class VideoController extends GetxController {
     uploadProgress.value = 0.0;
 
     // Validate form & file presence
-    if (videoFormKey.currentState!.validate() && videoFile != null && thumbnailFile != null) {
+    if (videoFormKey.currentState!.validate() &&
+        videoFile != null &&
+        thumbnailFile != null) {
       videoFormKey.currentState!.save();
 
       try {
@@ -84,9 +86,10 @@ class VideoController extends GetxController {
         final String accountId = 'fb7a71755b954e7437ebc8bec3d4207f';
         final String apiToken = 'iIzh4OK41VoQu0KyQOzf2tTxpzsDK_OnfYNn_IXi';
 
-        // Prepare local TUS store
+        // Prepare a local directory to use as the TUS store
         final tempDir = await getTemporaryDirectory();
-        final tempDirectory = Directory('${tempDir.path}/${videoFile.name}_uploads');
+        final tempDirectory =
+            Directory('${tempDir.path}/${videoFile.name}_uploads');
         if (!tempDirectory.existsSync()) {
           tempDirectory.createSync(recursive: true);
         }
@@ -95,24 +98,25 @@ class VideoController extends GetxController {
         final tusClient = TusClient(
           videoFile,
           store: TusFileStore(tempDirectory),
-          maxChunkSize: 512 * 1024 * 10, // ~5MB chunk
+          maxChunkSize: 5 * 1024 * 1024, // 5MB chunk (as in your JS code)
         );
 
         await tusClient.upload(
           onStart: (TusClient client, Duration? estimation) {
-            // Optional: log or do something with `estimation`
+            // Log upload start and estimated time if available
             print("TUS upload starting. Estimated time: $estimation");
           },
           onProgress: (progress, estimate) {
-            // progress is between 0.0 and 1.0
+            // progress is a value between 0.0 and 1.0
             print("Progress: $progress");
             uploadProgress.value = progress;
           },
           onComplete: () async {
             print("TUS upload completed!");
+            // Delete the temporary upload folder
             tempDirectory.deleteSync(recursive: true);
 
-            // Extract video ID from TUS upload URL
+            // Extract video ID from the upload URL
             final cloudflareVideoId = tusClient.uploadUrl!.pathSegments.last;
 
             // Fetch stream details from Cloudflare
@@ -129,7 +133,7 @@ class VideoController extends GetxController {
               final streamDetails = streamResponse.data['result'];
               final streamDetailsJson = jsonEncode(streamDetails);
 
-              // Build FormData for your backend
+              // Build FormData to send to your backend
               dio.FormData formData = dio.FormData.fromMap({
                 'title': title.value,
                 'description': description.value,
@@ -142,7 +146,8 @@ class VideoController extends GetxController {
               HttpService httpService = HttpService();
               dio.Response response = await dioInstance.post(
                 kIsWeb
-                    ? (ConfigController().getCorssURL() + '${httpService.sBaseUrl}/video')
+                    ? (ConfigController().getCorssURL() +
+                        '${httpService.sBaseUrl}/video')
                     : '${httpService.sBaseUrl}/video',
                 data: formData,
                 options: dio.Options(
@@ -152,7 +157,7 @@ class VideoController extends GetxController {
                   },
                 ),
                 onSendProgress: (int sent, int total) {
-                  // If your server is large, you can track the final formData upload
+                  // Optionally, track upload progress of the form data
                   print('Sent: $sent, Total: $total');
                 },
               );
@@ -161,42 +166,45 @@ class VideoController extends GetxController {
                 oResultData.value = 'Video uploaded successfully!';
                 iAddedId = response.data['body']['id'];
 
-                // Attachments
+                // Handle attachments if necessary
                 var bAttachment = await addAttachment(iAddedId);
                 if (bAttachment) {
-                  // Optionally set progress to 1.0 on final success
+                  // Optionally update progress to complete
                   uploadProgress.value = 1.0;
                   return true;
                 } else {
                   oResultData.value = 'Error uploading attachments';
-                  // Reset progress or keep it at the last known
                   return false;
                 }
               } else {
-                oResultData.value = 'Error uploading video: ${response.statusCode}';
+                oResultData.value =
+                    'Error uploading video: ${response.statusCode}';
                 uploadProgress.value = 0.0;
                 return false;
               }
             } else {
-              oResultData.value = 'Error fetching stream details: ${streamResponse.statusCode}';
+              oResultData.value =
+                  'Error fetching stream details: ${streamResponse.statusCode}';
               uploadProgress.value = 0.0;
               return false;
             }
           },
-          uri: Uri.parse('https://api.cloudflare.com/client/v4/accounts/$accountId/stream/tus'),
+          // Use the Cloudflare endpoint without the "/tus" suffix as in your JS example
+          uri: Uri.parse(
+              'https://api.cloudflare.com/client/v4/accounts/$accountId/stream'),
           metadata: {
             'name': videoFile.name,
             'filetype': videoFile.mimeType ?? 'application/octet-stream',
           },
           headers: {
             'Authorization': 'Bearer $apiToken',
-            // Required by Cloudflare TUS
-            'Tus-Resumable': '1.0.0',
           },
           measureUploadSpeed: true,
         );
-        // If no exception, we should have returned inside onComplete
-        return false;
+
+        // If the upload completes successfully, the onComplete callback returns
+        // an answer; if execution reaches here, it means the callback did not return.
+        return true;
       } catch (e) {
         print('Error uploading video: $e');
         oResultData.value = 'Error uploading video: $e';
@@ -206,7 +214,8 @@ class VideoController extends GetxController {
     } else {
       // Invalid form or missing file
       uploadProgress.value = 0.0;
-      oResultData.value = 'Please fill all fields and select a video + thumbnail';
+      oResultData.value =
+          'Please fill all fields and select a video + thumbnail';
       return false;
     }
   }
@@ -283,10 +292,12 @@ class VideoController extends GetxController {
     try {
       isLoading(true);
       HttpService httpService = HttpService();
-      var oResult = await httpService.getRequest("/videos-category/$categoryId");
+      var oResult =
+          await httpService.getRequest("/videos-category/$categoryId");
       if (oResult['iTrue']) {
         List<dynamic> body = oResult['data']['body'];
-        List<Video> videoList = body.map((video) => Video.fromJson(video)).toList();
+        List<Video> videoList =
+            body.map((video) => Video.fromJson(video)).toList();
         videos.assignAll(videoList);
       }
     } finally {
@@ -301,7 +312,8 @@ class VideoController extends GetxController {
       var oResult = await httpService.getRequest("/video/$videoId");
       if (oResult['iTrue']) {
         List<dynamic> body = oResult['data']['body'];
-        List<Video> videoList = body.map((video) => Video.fromJson(video)).toList();
+        List<Video> videoList =
+            body.map((video) => Video.fromJson(video)).toList();
         videosPlayerData.assignAll(videoList);
       }
     } catch (e) {
@@ -316,10 +328,12 @@ class VideoController extends GetxController {
       try {
         isLoading(true);
         HttpService httpService = HttpService();
-        var oResult = await httpService.getRequest("/videos/search?title=$query");
+        var oResult =
+            await httpService.getRequest("/videos/search?title=$query");
         if (oResult['iTrue']) {
           List<dynamic> body = oResult['data']['body'];
-          List<Video> videoList = body.map((video) => Video.fromJson(video)).toList();
+          List<Video> videoList =
+              body.map((video) => Video.fromJson(video)).toList();
           videos.assignAll(videoList);
         }
       } finally {
@@ -352,7 +366,8 @@ class VideoController extends GetxController {
   }
 
   // Helper for building a thumbnail form field
-  Future<dio.MultipartFile> _getThumbnailMultipartFile(XFile thumbnailFile) async {
+  Future<dio.MultipartFile> _getThumbnailMultipartFile(
+      XFile thumbnailFile) async {
     if (kIsWeb) {
       // For Flutter web, read file as bytes
       List<int> thumbnailBytes = await thumbnailFile.readAsBytes();
@@ -369,7 +384,7 @@ class VideoController extends GetxController {
     }
   }
 
-    Future<List<dynamic>> fetchAttachmentData(iVideoId) async {
+  Future<List<dynamic>> fetchAttachmentData(iVideoId) async {
     HttpService httpService = HttpService();
     var oResult =
         await httpService.getRequest("/video/app-attachment/$iVideoId");
