@@ -1,7 +1,7 @@
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/screen/dashBoard.dart';
-import 'package:wellness_app/screen/homeScreen.dart';
-import 'package:wellness_app/screen/menu.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/screen/dashBoard.dart';
+import 'package:healing_renaissance/screen/homeScreen.dart';
+import 'package:healing_renaissance/screen/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';

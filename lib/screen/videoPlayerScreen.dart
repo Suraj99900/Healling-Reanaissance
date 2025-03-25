@@ -4,13 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/VideoCustomPlayerController.dart';
+import 'package:healing_renaissance/controller/VideoCustomPlayerController.dart';
 import 'package:video_player/video_player.dart';
 import 'package:dio/dio.dart';
-import 'package:wellness_app/http/JwtToken.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/http/JwtToken.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final int videoId;
@@ -34,13 +35,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     fetchData();
   }
 
-  // @override
-  // void dispose() {
-  //   _playerController.pause();
-  //   _chewieController.dispose();
-  //   _playerController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    if (_isVideoInitialized) {
+      _playerController.pause();
+      _chewieController.dispose();
+      _playerController.dispose();
+    }
+    super.dispose();
+  }
 
   fetchData() async {
     _videoController.fetchVideoDataById(widget.videoId);
@@ -50,16 +53,44 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initializeVideo(String videoUrl) {
+    print(videoUrl);
     _playerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
       ..initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
         });
         _chewieController = ChewieController(
+          aspectRatio: _playerController.value.aspectRatio,
+          autoInitialize: true,
+          allowedScreenSleep: true,
+          draggableProgressBar: true,
+          materialProgressColors: ChewieProgressColors(
+            playedColor: Colors.red,
+            handleColor: Colors.red,
+            backgroundColor: Colors.grey,
+            bufferedColor: Colors.grey,
+          ),
+          bufferingBuilder: (context) => const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
+          showControls: true,
+          allowMuting: true,
+          allowFullScreen: true,
+          allowPlaybackSpeedChanging: true,
           videoPlayerController: _playerController,
           autoPlay: true,
           looping: true,
-          allowFullScreen: true,
+        );
+      }).catchError((error) {
+        print("Error initializing video: $error");
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: "Error loading video. Please try again later.",
+          title: 'Oops...',
+          backgroundColor: Colors.black,
+          titleColor: Colors.white,
+          textColor: Colors.white,
         );
       });
   }
@@ -73,6 +104,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: true,
+        title: const Text('Video Player', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
@@ -86,35 +119,40 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         var video = _videoController.videosPlayerData.isNotEmpty
             ? _videoController.videosPlayerData[0]
             : null;
-        var videoJsonData = _videoController.videoJsonData.isNotEmpty
-            ? _videoController.videoJsonData
-            : null;
+
         if (video == null) {
-          return const Center(
-              child: Text('No video available', style: TextStyle(color: Colors.white)));
+          return const Center(child: Text('No video available', style: TextStyle(color: Colors.white)));
         }
-        if (!_isVideoInitialized) _initializeVideo(videoJsonData?['playback']?['hls']);
+        print(video);
+        print(video.hlsUrl);
+        var videoUrl = kIsWeb
+            ? (ConfigController()).getCorssURL() + video.hlsUrl
+            : video.hlsUrl;
+        if (!_isVideoInitialized) _initializeVideo(videoUrl);
 
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Video Player Section (full width)
+              // Video Player Section with black background
               _isVideoInitialized
-                  ? AspectRatio(
-                      aspectRatio: _playerController.value.aspectRatio,
-                      child: Chewie(controller: _chewieController),
+                  ? Container(
+                      color: Colors.black,
+                      child: AspectRatio(
+                        aspectRatio: _playerController.value.aspectRatio,
+                        child: Chewie(controller: _chewieController),
+                      ),
                     )
                   : SizedBox(
                       height: 200,
                       child: const Center(child: CircularProgressIndicator(color: Colors.white)),
                     ),
-              // Video Details and Comments Section
+              // Details & Comments Section with gradient background and rounded top corners
               Container(
                 width: dWidth,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+                    colors: [Color(0xFF89CFF0), Color(0xFFB19CD9)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -142,26 +180,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     // Video Description
                     Text(
                       video.description,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black54,
-                      ),
+                      style: const TextStyle(fontSize: 16, color: Colors.black54),
                     ),
                     const SizedBox(height: 16),
                     // Attachments Section
                     _buildAttachments(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
                     // Comments Section Header
                     const Text(
                       'Comments',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
                     ),
                     const SizedBox(height: 10),
-                    // Comment Input Section
+                    // Comment Input Row
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -215,14 +246,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               }
                             }
                           },
-                          child: const Text(
-                            'Post',
-                            style: TextStyle(color: Colors.black87),
-                          ),
+                          child: const Text('Post', style: TextStyle(color: Colors.black87)),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 60),
                     // Comments List
                     _buildCommentsSection(),
                   ],
@@ -258,6 +286,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       (attachment) => ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 251, 246, 246),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                         onPressed: () async {
                           downloadFile(attachment['attachment_url']);
@@ -278,15 +310,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Future<void> downloadFile(String url) async {
     try {
       Dio dio = Dio();
-
       // Extract filename from URL
       Uri uri = Uri.parse(url);
-      String filename = uri.pathSegments.last; // Keeps original filename & extension
+      String filename = uri.pathSegments.last;
 
       if (kIsWeb) {
         await LaunchURL(url);
       } else {
-        // Request storage permission (Android)
+        // Request storage permission for Android
         if (Platform.isAndroid) {
           var status = await Permission.storage.request();
           if (!status.isGranted) {
@@ -354,8 +385,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 var comment = _videoController.comments[index];
                 return Card(
                   margin: const EdgeInsets.only(bottom: 8),
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Column(
@@ -371,7 +404,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 fontSize: 16,
                               ),
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 6),
                             Text(
                               comment['user_type'] == 1 ? 'Super-Admin' : 'User',
                               style: const TextStyle(
@@ -381,7 +414,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 6),
                         Text(
                           comment['comment'],
                           style: const TextStyle(

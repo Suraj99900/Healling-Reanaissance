@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/CategoryModal.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/http/http_service.dart';
+import 'package:healing_renaissance/modal/CategoryModal.dart';
+import 'package:healing_renaissance/route/route.dart';
 
 String limitWords(String text, int wordLimit) {
   List<String> words = text.split(' ');
@@ -63,4 +63,20 @@ Future<void> LaunchURL(sURL) async {
   )) {
     throw Exception('Could not launch $sURL');
   }
+}
+
+
+String formatDuration(double seconds) {
+  int totalSeconds = seconds.toInt();
+  int hours = totalSeconds ~/ 3600;
+  int minutes = (totalSeconds % 3600) ~/ 60;
+  int secs = totalSeconds % 60;
+
+  List<String> parts = [];
+
+  if (hours > 0) parts.add("$hours hr");
+  if (minutes > 0) parts.add("$minutes m");
+  if (secs > 0 || parts.isEmpty) parts.add("$secs s");
+
+  return parts.join(" ");
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
 import 'package:intl/intl.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/controller/VideoController.dart';
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/screen/videoPlayerScreen.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/controller/VideoController.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/screen/videoPlayerScreen.dart';
 
 class VideoListScreen extends StatefulWidget {
   final int? categoryId;
@@ -40,7 +41,6 @@ class _VideoListScreenState extends State<VideoListScreen> {
   @override
   Widget build(BuildContext context) {
     var dWidth = Get.width;
-    var dHeight = Get.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -49,35 +49,49 @@ class _VideoListScreenState extends State<VideoListScreen> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+              colors: [Color(0xFF89CFF0), Color(0xFFB19CD9)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
+        title: const Text(
+          'Videos',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        centerTitle: true,
         bottom: userType == "1"
             ? PreferredSize(
-                preferredSize: const Size.fromHeight(50),
+                preferredSize: const Size.fromHeight(60),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _searchController,
-                    onSubmitted: (text) {
-                      _videoController.searchVideos(text);
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search Videos',
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.search, color: Colors.white),
-                        onPressed: () {
-                          _videoController.searchVideos(_searchController.text);
-                        },
-                      ),
-                      filled: true,
-                      fillColor: Colors.black.withOpacity(0.3),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        )
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      onSubmitted: (text) {
+                        _videoController.searchVideos(text);
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search Videos',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        border: InputBorder.none,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.search, color: Colors.black54),
+                          onPressed: () {
+                            _videoController.searchVideos(_searchController.text);
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -88,7 +102,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+            colors: [Color(0xFFB3E5FC), Color(0xFFE1BEE7)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -97,7 +111,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
           if (_videoController.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           } else if (_videoController.videos.isEmpty) {
-            return const Center(child: Text('No videos found'));
+            return const Center(child: Text('No videos found', style: TextStyle(fontSize: 16)));
           } else {
             return ListView.builder(
               itemCount: _videoController.videos.length,
@@ -111,29 +125,47 @@ class _VideoListScreenState extends State<VideoListScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    elevation: 6,
-                    shadowColor: Colors.black54,
+                    elevation: 8,
+                    shadowColor: Colors.black26,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
+                            width: dWidth * 0.40,
+                            height: 130,
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: const Color.fromARGB(255, 0, 0, 0),
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                )
+                              ],
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                (kIsWeb)
-                                    ? (ConfigController()).getCorssURL() + video.thumbnail
-                                    : video.thumbnail,
-                                width: dWidth * 0.40,
-                                height: 130,
-                                fit: BoxFit.fill,
+                              borderRadius: BorderRadius.circular(15),
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  Image.network(
+                                    kIsWeb
+                                        ? (ConfigController()).getCorssURL() + video.thumbnailUrl
+                                        : video.thumbnailUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.black.withOpacity(0.0), Colors.black.withOpacity(0.6)],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -147,7 +179,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
                                     video.title,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 14,
+                                      fontSize: 16,
                                     ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
@@ -156,8 +188,18 @@ class _VideoListScreenState extends State<VideoListScreen> {
                                   Text(
                                     video.description,
                                     style: const TextStyle(
-                                        color: Colors.grey, fontSize: 14),
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
                                     maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    formatDuration(double.tryParse(video.duration) ?? 0.0),
+                                    style: const TextStyle(
+                                        color: Colors.black87, fontSize: 13, fontWeight: FontWeight.w500),
+                                    maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 6),
@@ -165,7 +207,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
                                     'Uploaded on: ${DateFormat.yMMMd().format(video.addedOn)}',
                                     style: const TextStyle(
                                       fontSize: 13,
-                                      color: Colors.black54,
+                                      color: Colors.black54, fontWeight: FontWeight.w500
                                     ),
                                   ),
                                 ],

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/http/http_service.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/http/http_service.dart';
 
 class HomeScreenController extends GetxController {
   RxBool isBlogLoad = false.obs;

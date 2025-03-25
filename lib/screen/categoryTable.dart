@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/controller/CategoryController.dart';
-import 'package:wellness_app/controller/CategoryTableController.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
-import 'package:wellness_app/screen/updateCategoryScreen.dart';
+import 'package:healing_renaissance/controller/CategoryController.dart';
+import 'package:healing_renaissance/controller/CategoryTableController.dart';
+import 'package:healing_renaissance/route/route.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:healing_renaissance/screen/updateCategoryScreen.dart';
 
 import '../modal/CategoryModal.dart';
 

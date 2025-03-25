@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/VideoController.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:healing_renaissance/controller/VideoController.dart';
+import 'package:healing_renaissance/route/route.dart';
 
 class AddVideoScreen extends StatefulWidget {
   const AddVideoScreen({super.key});

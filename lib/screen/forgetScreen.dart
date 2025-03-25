@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/forgetController.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:healing_renaissance/controller/forgetController.dart';
+import 'package:healing_renaissance/route/route.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});

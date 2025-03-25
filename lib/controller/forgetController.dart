@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wellness_app/http/http_service.dart';
+import 'package:healing_renaissance/http/http_service.dart';
 
 class ForgetPasswordController extends GetxController {
   final forgetFormKey = GlobalKey<FormState>();

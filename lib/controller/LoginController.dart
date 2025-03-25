@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:io';
 
-import 'package:wellness_app/http/http_service.dart';
+import 'package:healing_renaissance/http/http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

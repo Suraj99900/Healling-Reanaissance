@@ -1,20 +1,20 @@
-import 'package:wellness_app/screen/AddVideoScreen.dart';
-import 'package:wellness_app/screen/AdminDashboardScreen.dart';
-import 'package:wellness_app/screen/UserManagementScreen.dart';
-import 'package:wellness_app/screen/UserScreen.dart';
-import 'package:wellness_app/screen/VideoListScreen.dart';
-import 'package:wellness_app/screen/VideoTableScreen.dart';
-import 'package:wellness_app/screen/addCategoryScreen.dart';
-import 'package:wellness_app/screen/adminScreen.dart';
-import 'package:wellness_app/screen/loginScreen.dart';
-import 'package:wellness_app/screen/categoryTable.dart';
-import 'package:wellness_app/screen/forgetScreen.dart';
-import 'package:wellness_app/screen/homeScreen.dart';
-import 'package:wellness_app/screen/splashScreen.dart';
-import 'package:wellness_app/screen/updateCategoryScreen.dart';
-import 'package:wellness_app/screen/updateVideoScreen.dart';
-import 'package:wellness_app/screen/userAccessAddScreen.dart';
-import 'package:wellness_app/screen/zoomScreen.dart';
+import 'package:healing_renaissance/screen/AddVideoScreen.dart';
+import 'package:healing_renaissance/screen/AdminDashboardScreen.dart';
+import 'package:healing_renaissance/screen/UserManagementScreen.dart';
+import 'package:healing_renaissance/screen/UserScreen.dart';
+import 'package:healing_renaissance/screen/VideoListScreen.dart';
+import 'package:healing_renaissance/screen/VideoTableScreen.dart';
+import 'package:healing_renaissance/screen/addCategoryScreen.dart';
+import 'package:healing_renaissance/screen/adminScreen.dart';
+import 'package:healing_renaissance/screen/loginScreen.dart';
+import 'package:healing_renaissance/screen/categoryTable.dart';
+import 'package:healing_renaissance/screen/forgetScreen.dart';
+import 'package:healing_renaissance/screen/homeScreen.dart';
+import 'package:healing_renaissance/screen/splashScreen.dart';
+import 'package:healing_renaissance/screen/updateCategoryScreen.dart';
+import 'package:healing_renaissance/screen/updateVideoScreen.dart';
+import 'package:healing_renaissance/screen/userAccessAddScreen.dart';
+import 'package:healing_renaissance/screen/zoomScreen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {

@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
-import 'package:wellness_app/screen/menu.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/route/route.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:healing_renaissance/screen/menu.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:wellness_app/screen/CustomWebView.dart';
+import 'package:healing_renaissance/screen/CustomWebView.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -105,7 +105,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               onTap: () {
                 kIsWeb
                     ? Get.to(() => LaunchURL(
-                        "https://web.lifehealerkavita.com/user-access"))
+                        "https://lifehealerkavita.com/user-access"))
                     : Get.toNamed(AppRoutes.addUserAccessScreen);
               },
             ),
@@ -115,7 +115,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               onTap: () {
                 kIsWeb
                     ? Get.to(() => LaunchURL(
-                        "https://web.lifehealerkavita.com/user-management"))
+                        "https://lifehealerkavita.com/user-management"))
                     : Get.toNamed(AppRoutes.userManagement);
               },
             ),

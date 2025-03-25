@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/CustomWebView.dart';
-import 'package:wellness_app/screen/VideoListScreen.dart';
-import 'package:wellness_app/utils/responsiveLayout.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/route/route.dart';
+import 'package:healing_renaissance/screen/CustomWebView.dart';
+import 'package:healing_renaissance/screen/VideoListScreen.dart';
+import 'package:healing_renaissance/utils/responsiveLayout.dart';
 
 import '../screen/commonfunction.dart';
 

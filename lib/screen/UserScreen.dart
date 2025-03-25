@@ -6,14 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:new_flutter_icons/new_flutter_icons.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:wellness_app/controller/userHomeController.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/CustomWebView.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
-import 'package:wellness_app/widgets/CountdownTimerWidget.dart';
-import 'package:wellness_app/widgets/Search.dart';
-import 'package:wellness_app/widgets/navbar.dart';
-import 'package:wellness_app/widgets/slider.dart';
+import 'package:healing_renaissance/controller/userHomeController.dart';
+import 'package:healing_renaissance/route/route.dart';
+import 'package:healing_renaissance/screen/CustomWebView.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:healing_renaissance/widgets/CountdownTimerWidget.dart';
+import 'package:healing_renaissance/widgets/Search.dart';
+import 'package:healing_renaissance/widgets/navbar.dart';
+import 'package:healing_renaissance/widgets/slider.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -35,10 +35,9 @@ class _UserScreenState extends State<UserScreen> {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xFFF8FBFF),
-                Color.fromARGB(255, 234, 201, 244),
-              ],
+              colors: [Color(0xFF89CFF0), Color(0xFFB19CD9)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
           child: Padding(
@@ -79,7 +78,7 @@ class _UserScreenState extends State<UserScreen> {
                                         fontSize: dWidth >= 850
                                             ? dWidth * 0.03
                                             : dWidth * 0.05,
-                                        color: const Color(0xFF8591B0),
+                                        color: const Color.fromARGB(255, 4, 4, 4),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -138,7 +137,8 @@ class _UserScreenState extends State<UserScreen> {
                                       fontSize: dWidth >= 850
                                           ? dWidth * 0.03
                                           : dWidth * 0.05,
-                                      color: const Color(0xFF8591B0),
+                                      color: const Color.fromARGB(
+                                                173, 34, 13, 2),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -151,7 +151,8 @@ class _UserScreenState extends State<UserScreen> {
                                         fontSize: dWidth >= 850
                                             ? dWidth * 0.03
                                             : dWidth * 0.05,
-                                        color: const Color(0xFF8591B0),
+                                        color: const Color.fromARGB(
+                                                173, 34, 13, 2),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -516,9 +517,9 @@ class _UserScreenState extends State<UserScreen> {
                           InkWell(
                             onTap: () => {
                               kIsWeb
-                                  ? LaunchURL("https://rzp.io/i/KNhuciEeUM")
+                                  ? LaunchURL("https://lifehealerkavita.com")
                                   : Get.to(() => CustomWebViewScreen(
-                                        url: "https://rzp.io/i/KNhuciEeUM",
+                                        url: "https://lifehealerkavita.com",
                                         title: "Payment",
                                       )),
                             },

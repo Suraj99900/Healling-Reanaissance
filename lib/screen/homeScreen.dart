@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:wellness_app/AppColors%20.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/controller/homeScreenController.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/VideoListScreen.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
-import 'package:wellness_app/screen/menu.dart';
+import 'package:healing_renaissance/AppColors%20.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/controller/homeScreenController.dart';
+import 'package:healing_renaissance/route/route.dart';
+import 'package:healing_renaissance/screen/VideoListScreen.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:healing_renaissance/screen/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
@@ -20,10 +20,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeScreenController homeController = Get.put(HomeScreenController());
+  bool isDrawerOpen = false;
+  final double drawerWidth = 200.0; // Width of the drawer when open
+  List<List<Color>> gradients = AppColors().gradients;
+
   @override
   void initState() {
     super.initState();
     _checkLoginStatus();
+    // Fetch categories when the screen loads
+    homeController.fetchCategoryByUserId();
   }
 
   void _checkLoginStatus() async {
@@ -35,56 +42,50 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  HomeScreenController homeController = Get.put(HomeScreenController());
-  bool isDrawerOpen = false;
-  final double drawerWidth = 200.0; // Width of the drawer when open
-  List<List<Color>> gradients = AppColors().gradients;
   @override
   Widget build(BuildContext context) {
     var dWidth = Get.width;
     var dHeight = Get.height;
-    homeController.fetchCategoryByUserId();
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 239, 240, 241),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        automaticallyImplyLeading: false,
+        elevation: 0.6,
+        shadowColor: Colors.black,
+        backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+              colors: [Color(0xFF89CFF0), Color(0xFFB19CD9)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
-        scrolledUnderElevation: 0,
-        automaticallyImplyLeading: false,
-        elevation: 0.6,
-        shadowColor: Colors.black,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Image.asset(
-                  'assets/images/new_logo.png',
-                  width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                  height: dHeight * 0.1,
-                  fit: BoxFit.cover,
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                ),
-              ],
+            // Logo Section
+            Image.asset(
+              'assets/images/new_logo.png',
+              width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
+              height: dHeight * 0.1,
+              fit: BoxFit.cover,
+              color: Colors.black,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  ZoomMenuController().loadStoredPreference();
-                  ZoomDrawer.of(context)?.toggle();
-                },
+            // Profile Icon Button
+            GestureDetector(
+              onTap: () {
+                ZoomMenuController().loadStoredPreference();
+                ZoomDrawer.of(context)?.toggle();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  shape: BoxShape.circle,
+                ),
                 child: Icon(
                   Icons.person_4_rounded,
                   color: Colors.white,
@@ -98,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF8FBFF), Color.fromARGB(255, 234, 201, 244)],
+            colors: [Color(0xFFB3E5FC), Color(0xFFE1BEE7)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -106,24 +107,25 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Category Videos Label
+            // Header Label for Category Videos
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
               child: Text(
                 "Category Videos",
                 style: TextStyle(
                   fontSize: dWidth > 900 ? 28 : 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
+                  fontFamily: 'Playwrite NL',
                 ),
-                textAlign: TextAlign.start,
               ),
             ),
-
-            // Video Categories Grid
+            // Categories Grid
             Expanded(
               child: Obx(() {
+                if (homeController.userCategory.value.isEmpty) {
+                  return const Center(child: Text('No categories found'));
+                }
                 return GridView.builder(
                   padding: const EdgeInsets.all(10.0),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -134,12 +136,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             : 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 1, // Adjust as needed
+                    childAspectRatio: 1,
                   ),
                   itemCount: homeController.userCategory.value.length,
                   itemBuilder: (context, index) {
                     return buildVideoCategory(
-                        homeController.userCategory.value[index], dWidth);
+                      homeController.userCategory.value[index],
+                      dWidth,
+                    );
                   },
                 );
               }),
@@ -154,12 +158,13 @@ class _HomeScreenState extends State<HomeScreen> {
     var sName = aCategory['name'];
     var sDescription = aCategory['description'] ?? '';
 
-    List<Color> selectedGradient = gradients[Random().nextInt(71)];
+    // Select a random gradient from your list
+    List<Color> selectedGradient = gradients[Random().nextInt(gradients.length)];
 
     return GestureDetector(
-      onTap: () async {
-        // Navigate to a different screen or perform some action
-        Get.to(VideoListScreen(categoryId: aCategory['id']));
+      onTap: () {
+        // Navigate to VideoListScreen for the tapped category
+        Get.to(() => VideoListScreen(categoryId: aCategory['id']));
       },
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -169,47 +174,44 @@ class _HomeScreenState extends State<HomeScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          // Darker card background color
-          borderRadius: BorderRadius.circular(12), // Add rounded corners
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: const Color.fromARGB(137, 0, 0, 0)
-                  .withOpacity(0.2), // Dark shadow
+              color: Colors.black.withOpacity(0.2),
               spreadRadius: 0.7,
-              blurRadius: 2,
-              offset: const Offset(1, 2),
+              blurRadius: 5,
+              offset: const Offset(1, 3),
             ),
           ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AnimatedSwitcher(
-              duration: Duration(milliseconds: 1000),
+              duration: const Duration(milliseconds: 1000),
               child: Icon(
                 Icons.slow_motion_video_rounded,
+                key: ValueKey<int>(Random().nextInt(1000)),
                 size: dWidth > 900 ? dWidth * 0.04 : dWidth * 0.085,
-                color: const Color.fromARGB(255, 3, 0, 7), // White icon color
+                color: Colors.black87,
               ),
             ),
-            const SizedBox(height: 20), // Add space between icon and text
+            const SizedBox(height: 20),
             Text(
               sName,
               style: TextStyle(
-                color: const Color.fromARGB(255, 0, 0, 0), // White text color
+                color: Colors.black,
                 fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.03,
-                fontWeight: FontWeight.bold, // Make text bold
+                fontWeight: FontWeight.bold,
                 fontFamily: 'Playwrite NL',
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 5), // Add space between title and subtitle
+            const SizedBox(height: 5),
             Text(
-              limitWords(sDescription, 20), // Example subtitle text
+              limitWords(sDescription, 15),
               style: TextStyle(
-                color: const Color.fromARGB(
-                    255, 0, 0, 0), // Light grey subtitle text color
+                color: Colors.black87,
                 fontSize: dWidth > 900 ? dWidth * 0.01 : dWidth * 0.02,
                 fontFamily: 'Playwrite NL',
               ),

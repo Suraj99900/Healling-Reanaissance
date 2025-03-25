@@ -8,8 +8,8 @@ import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:healing_renaissance/http/http_service.dart';
+import 'package:healing_renaissance/route/route.dart';
 
 class AddUserAccessScreen extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _AddUserAccessScreenState extends State<AddUserAccessScreen> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse("https://web.lifehealerkavita.com/user-access"));
+      ..loadRequest(Uri.parse("https://lifehealerkavita.com/user-access"));
   }
 
   @override

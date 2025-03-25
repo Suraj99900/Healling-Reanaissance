@@ -1,4 +1,4 @@
-import 'package:wellness_app/controller/splashController.dart';
+import 'package:healing_renaissance/controller/splashController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

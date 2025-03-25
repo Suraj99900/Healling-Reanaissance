@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wellness_app/widgets/sendbtn.dart';
+import 'package:healing_renaissance/widgets/sendbtn.dart';
 
 import '../utils/responsiveLayout.dart';
 

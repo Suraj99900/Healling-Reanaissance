@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/screen/AdminDashboardScreen.dart';
-import 'package:wellness_app/screen/categoryTable.dart';
-import 'package:wellness_app/screen/VideoTableScreen.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
+import 'package:healing_renaissance/screen/AdminDashboardScreen.dart';
+import 'package:healing_renaissance/screen/categoryTable.dart';
+import 'package:healing_renaissance/screen/VideoTableScreen.dart';
+import 'package:healing_renaissance/screen/commonfunction.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});

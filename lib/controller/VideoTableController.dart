@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/UploadedVideoModal.dart';
+import 'package:healing_renaissance/http/http_service.dart';
+import 'package:healing_renaissance/modal/UploadedVideoModal.dart';
 
 class VideoTableController extends GetxController {
   var sWidth = Get.width;

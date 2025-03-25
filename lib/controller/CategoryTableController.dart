@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/CategoryModal.dart';
+import 'package:healing_renaissance/http/http_service.dart';
+import 'package:healing_renaissance/modal/CategoryModal.dart';
 
 class CategoryTableController extends GetxController {
   var sWidth = Get.width;

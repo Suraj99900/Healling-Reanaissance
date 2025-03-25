@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/http/JwtToken.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/http/JwtToken.dart';
 
 class HttpService {
   late final String sBaseUrl;

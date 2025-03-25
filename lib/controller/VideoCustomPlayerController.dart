@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/videoModal.dart';
+import 'package:healing_renaissance/SharedPreferencesHelper.dart';
+import 'package:healing_renaissance/http/http_service.dart';
+import 'package:healing_renaissance/modal/videoModal.dart';
 
 class VideoCustomPlayerController extends GetxController {
   var title = ''.obs;
@@ -32,16 +32,12 @@ class VideoCustomPlayerController extends GetxController {
       var oResult = await httpService.getRequest("/video/$videoId");
 
       if (oResult['iTrue']) {
-        List<dynamic> body = oResult['data']['body'];
-        List<Video> videoList =
-            body.map((video) => Video.fromJson(video)).toList();
-        videosPlayerData.assignAll(videoList);
-         // Fetch and store video_json_data
-        if (body.isNotEmpty && body[0]['video_json_data'] != null) {
-          videoJsonData.value = jsonDecode(body[0]['video_json_data']);
-          String? hlsUrl = videoJsonData['playback']?['hls'];
-          print('HLS URL: $hlsUrl');
-        }
+       List<dynamic> body = oResult['data']['body'];
+        print(body);
+        List<Video> videos = body.map((video) => Video.fromJson(video)).toList();
+        videosPlayerData.assignAll(videos);
+
+          print(videosPlayerData);
       }
     } finally {
       isLoading(false);

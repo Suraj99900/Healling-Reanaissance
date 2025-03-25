@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/screen/CustomWebView.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/screen/CustomWebView.dart';
 import '../SharedPreferencesHelper.dart';
 import '../route/route.dart';
 

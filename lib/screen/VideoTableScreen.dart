@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:wellness_app/controller/VideoTableController.dart';
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/modal/UploadedVideoModal.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/updateVideoScreen.dart';
+import 'package:healing_renaissance/controller/VideoTableController.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/modal/UploadedVideoModal.dart';
+import 'package:healing_renaissance/route/route.dart';
+import 'package:healing_renaissance/screen/updateVideoScreen.dart';
 
 class VideoTable extends StatelessWidget {
   VideoTable({super.key});

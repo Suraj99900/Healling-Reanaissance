@@ -1,4 +1,4 @@
-import 'package:wellness_app/route/route.dart';
+import 'package:healing_renaissance/route/route.dart';
 import 'package:get/get.dart';
 
 

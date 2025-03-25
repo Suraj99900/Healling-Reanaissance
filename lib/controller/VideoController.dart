@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/videoModal.dart';
+import 'package:healing_renaissance/controller/configController.dart';
+import 'package:healing_renaissance/http/http_service.dart';
+import 'package:healing_renaissance/modal/videoModal.dart';
 import 'package:dio/dio.dart' as dio; // Import dio with prefix
 import 'package:http/http.dart' as http; // Import http for HTTP requests
 import 'package:tus_client_dart/tus_client_dart.dart';
@@ -72,152 +72,75 @@ class VideoController extends GetxController {
   // ==========================================
 
   Future<bool> addVideo(XFile? videoFile, XFile? thumbnailFile) async {
-    // Reset progress
-    uploadProgress.value = 0.0;
-
-    // Validate form & file presence
-    if (videoFormKey.currentState!.validate() &&
-        videoFile != null &&
-        thumbnailFile != null) {
-      videoFormKey.currentState!.save();
-
-      try {
-        // Cloudflare account details
-        final String accountId = 'fb7a71755b954e7437ebc8bec3d4207f';
-        final String apiToken = 'iIzh4OK41VoQu0KyQOzf2tTxpzsDK_OnfYNn_IXi';
-
-        // Prepare a local directory to use as the TUS store
-        final tempDir = await getTemporaryDirectory();
-        final tempDirectory =
-            Directory('${tempDir.path}/${videoFile.name}_uploads');
-        if (!tempDirectory.existsSync()) {
-          tempDirectory.createSync(recursive: true);
-        }
-
-        // Initialize tus upload
-        final tusClient = TusClient(
-          videoFile,
-          store: TusFileStore(tempDirectory),
-          maxChunkSize: 5 * 1024 * 1024, // 5MB chunk (as in your JS code)
-        );
-
-        await tusClient.upload(
-          onStart: (TusClient client, Duration? estimation) {
-            // Log upload start and estimated time if available
-            print("TUS upload starting. Estimated time: $estimation");
-          },
-          onProgress: (progress, estimate) {
-            // progress is a value between 0.0 and 1.0
-            print("Progress: $progress");
-            uploadProgress.value = progress;
-          },
-          onComplete: () async {
-            print("TUS upload completed!");
-            // Delete the temporary upload folder
-            tempDirectory.deleteSync(recursive: true);
-
-            // Extract video ID from the upload URL
-            final cloudflareVideoId = tusClient.uploadUrl!.pathSegments.last;
-
-            // Fetch stream details from Cloudflare
-            final streamResponse = await dioInstance.get(
-              'https://api.cloudflare.com/client/v4/accounts/$accountId/stream/$cloudflareVideoId',
-              options: dio.Options(
-                headers: {
-                  'Authorization': 'Bearer $apiToken',
-                },
-              ),
-            );
-
-            if (streamResponse.statusCode == 200) {
-              final streamDetails = streamResponse.data['result'];
-              final streamDetailsJson = jsonEncode(streamDetails);
-
-              // Build FormData to send to your backend
-              dio.FormData formData = dio.FormData.fromMap({
-                'title': title.value,
-                'description': description.value,
-                'category_id': categoryId.value.toString(),
-                'cloudflare_video_id': cloudflareVideoId,
-                'video_json_data': streamDetailsJson,
-                'thumbnail': await _getThumbnailMultipartFile(thumbnailFile),
-              });
-
-              HttpService httpService = HttpService();
-              dio.Response response = await dioInstance.post(
-                kIsWeb
-                    ? (ConfigController().getCorssURL() +
-                        '${httpService.sBaseUrl}/video')
-                    : '${httpService.sBaseUrl}/video',
-                data: formData,
-                options: dio.Options(
-                  headers: {
-                    'Authorization': 'Bearer ${httpService.sToken}',
-                    'Content-Type': 'multipart/form-data'
-                  },
-                ),
-                onSendProgress: (int sent, int total) {
-                  // Optionally, track upload progress of the form data
-                  print('Sent: $sent, Total: $total');
-                },
-              );
-
-              if (response.statusCode == 200 || response.statusCode == 201) {
-                oResultData.value = 'Video uploaded successfully!';
-                iAddedId = response.data['body']['id'];
-
-                // Handle attachments if necessary
-                var bAttachment = await addAttachment(iAddedId);
-                if (bAttachment) {
-                  // Optionally update progress to complete
-                  uploadProgress.value = 1.0;
-                  return true;
-                } else {
-                  oResultData.value = 'Error uploading attachments';
-                  return false;
-                }
-              } else {
-                oResultData.value =
-                    'Error uploading video: ${response.statusCode}';
-                uploadProgress.value = 0.0;
-                return false;
-              }
-            } else {
-              oResultData.value =
-                  'Error fetching stream details: ${streamResponse.statusCode}';
-              uploadProgress.value = 0.0;
-              return false;
-            }
-          },
-          // Use the Cloudflare endpoint without the "/tus" suffix as in your JS example
-          uri: Uri.parse(
-              'https://api.cloudflare.com/client/v4/accounts/$accountId/stream'),
-          metadata: {
-            'name': videoFile.name,
-            'filetype': videoFile.mimeType ?? 'application/octet-stream',
-          },
-          headers: {
-            'Authorization': 'Bearer $apiToken',
-          },
-          measureUploadSpeed: true,
-        );
-
-        // If the upload completes successfully, the onComplete callback returns
-        // an answer; if execution reaches here, it means the callback did not return.
-        return true;
-      } catch (e) {
-        print('Error uploading video: $e');
-        oResultData.value = 'Error uploading video: $e';
-        uploadProgress.value = 0.0;
-        return false;
-      }
-    } else {
-      // Invalid form or missing file
-      uploadProgress.value = 0.0;
-      oResultData.value =
-          'Please fill all fields and select a video + thumbnail';
+    if (videoFile == null || thumbnailFile == null) {
+      print("Please select both video and thumbnail.");
       return false;
     }
+
+    final int chunkSize = 5 * 1024 * 1024; // 5MB
+    final int totalChunks = (await videoFile.length()) ~/ chunkSize + 1;
+    int chunkIndex = 0;
+
+    while (chunkIndex < totalChunks) {
+      final start = chunkIndex * chunkSize;
+      final end = start + chunkSize;
+      final bytes = await videoFile.readAsBytes();
+      final chunk = bytes.sublist(start, end.clamp(0, bytes.length));
+
+      final dio.FormData formData = dio.FormData.fromMap({
+        'video': dio.MultipartFile.fromBytes(chunk, filename: videoFile.name),
+        'chunk_index': chunkIndex,
+        'total_chunks': totalChunks,
+        'filename': videoFile.name,
+        'title': title.value,
+        'description': description.value,
+        'category_id': categoryId.value.toString(),
+        'thumbnail': await dio.MultipartFile.fromFile(thumbnailFile.path,
+            filename: thumbnailFile.name),
+      });
+
+      try {
+        var sBaseUrl = ConfigController().getBaseURL().value;
+        dioInstance.options.baseUrl = sBaseUrl;
+        final response = await dioInstance.post(
+          "/uploadChunk",
+          data: formData,
+          options:
+              dio.Options(headers: {'Content-Type': 'multipart/form-data'}),
+          onSendProgress: (sent, total) {
+            uploadProgress.value = (chunkIndex + 1) / totalChunks;
+            print(
+                "Chunk ${chunkIndex + 1}/$totalChunks uploaded (${uploadProgress.value * 100}%)");
+          },
+        );
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          chunkIndex++;
+          if (chunkIndex == totalChunks) {
+             iAddedId = response.data['video']['id'];
+            print("✅ All chunks uploaded successfully!");
+           var bAttachment = await addAttachment(iAddedId);
+            if (bAttachment) {
+              // Optionally update progress to complete
+              uploadProgress.value = 1.0;
+              return true;
+            } else {
+              oResultData.value = 'Error uploading attachments';
+              return false;
+            }
+          }
+        } else {
+          uploadProgress.value = 0.0;
+          print("Error uploading chunk: ${response.statusCode}");
+          return false;
+        }
+      } catch (e) {
+        uploadProgress.value = 0.0;
+        print("Error: $e");
+        return false;
+      }
+    }
+    return false;
   }
 
   Future<bool> updateVideo(int id, String sTitle, String sDescription) async {
