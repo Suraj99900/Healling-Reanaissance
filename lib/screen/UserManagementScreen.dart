@@ -8,8 +8,8 @@ import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:healing_renaissance/http/http_service.dart';
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 class UserManagementScreen extends StatefulWidget {
   @override

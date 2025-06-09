@@ -7,6 +7,7 @@ class ConfigController extends GetxController {
   final RxString _sClientkey = "58da58323c5fbb27fd49e5a1d478f3a4479fe0d5497c8b11cb206e954a6150c3".obs;
   final RxString _CorssURL = "https://cors-anywhere.herokuapp.com/".obs;
   final RxString _sBaseUrl = "https://lifehealerkavita.com/api".obs;
+  final RxString _webURL = "https://lifehealerkavita.com".obs;
 
   setDashBoard(bool value) {
     isDashBoard.value = value;
@@ -24,5 +25,9 @@ class ConfigController extends GetxController {
 
   RxString getCorssURL() {
     return _CorssURL;
+  }
+
+  RxString getWebURL() {
+    return _webURL;
   }
 }

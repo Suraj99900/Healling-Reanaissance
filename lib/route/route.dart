@@ -1,20 +1,20 @@
-import 'package:healing_renaissance/screen/AddVideoScreen.dart';
-import 'package:healing_renaissance/screen/AdminDashboardScreen.dart';
-import 'package:healing_renaissance/screen/UserManagementScreen.dart';
-import 'package:healing_renaissance/screen/UserScreen.dart';
-import 'package:healing_renaissance/screen/VideoListScreen.dart';
-import 'package:healing_renaissance/screen/VideoTableScreen.dart';
-import 'package:healing_renaissance/screen/addCategoryScreen.dart';
-import 'package:healing_renaissance/screen/adminScreen.dart';
-import 'package:healing_renaissance/screen/loginScreen.dart';
-import 'package:healing_renaissance/screen/categoryTable.dart';
-import 'package:healing_renaissance/screen/forgetScreen.dart';
-import 'package:healing_renaissance/screen/homeScreen.dart';
-import 'package:healing_renaissance/screen/splashScreen.dart';
-import 'package:healing_renaissance/screen/updateCategoryScreen.dart';
-import 'package:healing_renaissance/screen/updateVideoScreen.dart';
-import 'package:healing_renaissance/screen/userAccessAddScreen.dart';
-import 'package:healing_renaissance/screen/zoomScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/AddVideoScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/AdminDashboardScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/UserManagementScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/UserScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/VideoListScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/VideoTableScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/addCategoryScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/adminScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/loginScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/categoryTable.dart';
+import 'package:kavita_healling_reanaissance/screen/forgetScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/homeScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/splashScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/updateCategoryScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/updateVideoScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/userAccessAddScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/zoomScreen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {

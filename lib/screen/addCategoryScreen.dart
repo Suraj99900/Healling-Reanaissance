@@ -1,5 +1,5 @@
-import 'package:healing_renaissance/controller/CategoryController.dart';
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,11 +39,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
             Column(
               children: [
                 Image.asset(
-                  'assets/images/new_logo.png',
-                  width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                  height: dHeight * 0.1,
-                  fit: BoxFit.cover,
-                  color: Colors.white,
+                  'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 255, 255, 255)
                 ),
               ],
             ),

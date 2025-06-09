@@ -1,4 +1,4 @@
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Healling Reanaissance',
+      title: "Kvita's Healling Reanaissance",
       initialRoute:
           AppRoutes.initial,
       getPages: AppRoutes

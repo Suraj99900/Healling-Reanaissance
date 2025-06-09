@@ -2,7 +2,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'dart:math';
 
 
-import 'package:healing_renaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
 
 class JwtToken {
   late String _sClientId;

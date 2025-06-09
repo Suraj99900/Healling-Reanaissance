@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
 import 'package:intl/intl.dart';
-import 'package:healing_renaissance/SharedPreferencesHelper.dart';
-import 'package:healing_renaissance/controller/VideoController.dart';
-import 'package:healing_renaissance/controller/configController.dart';
-import 'package:healing_renaissance/screen/videoPlayerScreen.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoController.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/screen/videoPlayerScreen.dart';
 
 class VideoListScreen extends StatefulWidget {
   final int? categoryId;
@@ -55,9 +56,29 @@ class _VideoListScreenState extends State<VideoListScreen> {
             ),
           ),
         ),
-        title: const Text(
-          'Videos',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        title: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Video List',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 0, 0, 0),
+              ),
+            ),
+            Column(
+              children: [
+                Image.asset(
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: Get.height * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 0, 0, 0)
+                ),
+              ],
+            ),
+          ],
         ),
         centerTitle: true,
         bottom: userType == "1"

@@ -1,5 +1,5 @@
 
-import 'package:healing_renaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

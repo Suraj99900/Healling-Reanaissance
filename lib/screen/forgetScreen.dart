@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:healing_renaissance/controller/forgetController.dart';
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/forgetController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -33,11 +33,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth >= 850? dWidth * 0.4: dWidth * 2,
-                    height: dHeight * 0.20,
-                    color: Colors.white,
+                    'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.4,
+                    height: dHeight * 0.10,
                     fit: BoxFit.cover,
+                    color: Colors.white
                   ),
                 ],
               ),

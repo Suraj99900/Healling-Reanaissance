@@ -5,12 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:healing_renaissance/controller/configController.dart';
-import 'package:healing_renaissance/http/JwtToken.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/http/JwtToken.dart';
 
 class HttpService {
   late final String sBaseUrl;
   late String sBaseUrlCross;
+  late final String sWebURL;
   late final String sToken;
   late final Map<String, String> headers;
   final ConfigController configController = ConfigController();
@@ -20,6 +21,7 @@ class HttpService {
   HttpService() : _dio = dio.Dio() {
     sBaseUrl = configController.getBaseURL().value;
     sToken = jwtToken.generateJWT();
+    sWebURL = configController.getWebURL().value;
     if (kIsWeb) {
       sBaseUrlCross = 'https://cors-anywhere.herokuapp.com/$sBaseUrl';
       _dio.options.baseUrl = sBaseUrlCross;

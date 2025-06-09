@@ -1,5 +1,5 @@
-import 'package:healing_renaissance/controller/adminController.dart';
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/adminController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,13 +40,11 @@ class _AdminScreenState extends State<AdminScreen> {
               top: dHeight * 0.04,
               child: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth >= 850? dWidth * 0.4: dWidth * 2,
-                    height: dHeight * 0.20,
-                    color: Colors.white,
-                    fit: BoxFit.cover,
-                  ),
+                  Image.asset('assets/images/internal_icon.png',
+                      width: dWidth >= 850 ? dWidth * 0.4 : dWidth * 0.4,
+                      height: dHeight * 0.10,
+                      fit: BoxFit.cover,
+                      color: Colors.white),
                 ],
               ),
             ),
@@ -80,7 +78,9 @@ class _AdminScreenState extends State<AdminScreen> {
                               "Registration User",
                               style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
-                                  fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
+                                  fontSize: dWidth >= 850
+                                      ? dWidth * 0.02
+                                      : dWidth * 0.05,
                                   color: const Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -112,13 +112,14 @@ class _AdminScreenState extends State<AdminScreen> {
                                       : ElevatedButton(
                                           onPressed: () async {
                                             bool oResult =
-                                                await _adminController.generateOTP();
+                                                await _adminController
+                                                    .generateOTP();
                                             if (oResult == true) {
                                               QuickAlert.show(
                                                 context: context,
                                                 type: QuickAlertType.success,
-                                                text:
-                                                    _adminController.oResultData.value,
+                                                text: _adminController
+                                                    .oResultData.value,
                                                 autoCloseDuration:
                                                     const Duration(seconds: 2),
                                                 showConfirmBtn: false,
@@ -249,39 +250,40 @@ class _AdminScreenState extends State<AdminScreen> {
                                       onPressed: () async {
                                         _adminController
                                             .setLoginProgressBar(true);
-                                        var oResult = await _adminController.adminLogin();
+                                        var oResult =
+                                            await _adminController.adminLogin();
                                         _adminController
                                             .setLoginProgressBar(false);
 
-                                             if (oResult == true) {
-                                              QuickAlert.show(
-                                                context: context,
-                                                type: QuickAlertType.success,
-                                                text:
-                                                    _adminController.oResultData.value,
-                                                autoCloseDuration:
-                                                    const Duration(seconds: 2),
-                                                showConfirmBtn: false,
-                                              );
+                                        if (oResult == true) {
+                                          QuickAlert.show(
+                                            context: context,
+                                            type: QuickAlertType.success,
+                                            text: _adminController
+                                                .oResultData.value,
+                                            autoCloseDuration:
+                                                const Duration(seconds: 2),
+                                            showConfirmBtn: false,
+                                          );
 
-                                              Get.offNamed(AppRoutes.login);
-                                            } else {
-                                              QuickAlert.show(
-                                                context: context,
-                                                type: QuickAlertType.error,
-                                                title: 'Oops...',
-                                                text: _adminController
-                                                    .oResultData.value,
-                                                backgroundColor: Colors.black,
-                                                titleColor: Colors.white,
-                                                textColor: Colors.white,
-                                              );
-                                            }
+                                          Get.offNamed(AppRoutes.login);
+                                        } else {
+                                          QuickAlert.show(
+                                            context: context,
+                                            type: QuickAlertType.error,
+                                            title: 'Oops...',
+                                            text: _adminController
+                                                .oResultData.value,
+                                            backgroundColor: Colors.black,
+                                            titleColor: Colors.white,
+                                            textColor: Colors.white,
+                                          );
+                                        }
                                       },
                                       icon: const Icon(Icons.person),
                                       label: Text(
                                         "submit",
-                                        style:  GoogleFonts.cairo(
+                                        style: GoogleFonts.cairo(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
@@ -316,7 +318,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   icon: const Icon(Icons.password_rounded),
                                   label: Text(
                                     "Forget password",
-                                    style:  GoogleFonts.cairo(
+                                    style: GoogleFonts.cairo(
                                       color: Colors.blue,
                                       fontSize: dWidth >= 550 ? 16 : 8,
                                     ),

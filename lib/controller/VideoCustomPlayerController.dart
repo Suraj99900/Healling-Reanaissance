@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import 'package:healing_renaissance/SharedPreferencesHelper.dart';
-import 'package:healing_renaissance/http/http_service.dart';
-import 'package:healing_renaissance/modal/videoModal.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/modal/videoModal.dart';
 
 class VideoCustomPlayerController extends GetxController {
   var title = ''.obs;

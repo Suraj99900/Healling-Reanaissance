@@ -38,9 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth >= 850? dWidth * 0.4: dWidth * 2,
-                    height: dHeight * 0.20,
+                    'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.4,
+                    height: dHeight * 0.10,
                     fit: BoxFit.cover,
                     color: Colors.white
                   )

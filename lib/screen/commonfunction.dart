@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:healing_renaissance/SharedPreferencesHelper.dart';
-import 'package:healing_renaissance/http/http_service.dart';
-import 'package:healing_renaissance/modal/CategoryModal.dart';
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/modal/CategoryModal.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 String limitWords(String text, int wordLimit) {
   List<String> words = text.split(' ');

@@ -3,15 +3,16 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:healing_renaissance/controller/VideoCustomPlayerController.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoCustomPlayerController.dart';
 import 'package:video_player/video_player.dart';
 import 'package:dio/dio.dart';
-import 'package:healing_renaissance/controller/configController.dart';
-import 'package:healing_renaissance/http/JwtToken.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/http/JwtToken.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final int videoId;
@@ -105,7 +106,30 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text('Video Player', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title:  Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Video Player',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 255, 253, 253),
+              ),
+            ),
+            Column(
+              children: [
+                Image.asset(
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: Get.height * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 255, 255, 255)
+                ),
+              ],
+            ),
+          ],
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healing_renaissance/screen/AdminDashboardScreen.dart';
-import 'package:healing_renaissance/screen/categoryTable.dart';
-import 'package:healing_renaissance/screen/VideoTableScreen.dart';
-import 'package:healing_renaissance/screen/commonfunction.dart';
+import 'package:kavita_healling_reanaissance/screen/AdminDashboardScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/categoryTable.dart';
+import 'package:kavita_healling_reanaissance/screen/VideoTableScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -34,7 +34,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-            'assets/images/new_logo.png',
+            'assets/images/icon.png',
               width: sWidth > 900 ? sWidth * 0.1 : sWidth * 0.3,
               height: sHeight * 0.1,
               fit: BoxFit.cover,

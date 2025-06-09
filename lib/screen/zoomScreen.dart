@@ -1,7 +1,7 @@
-import 'package:healing_renaissance/controller/configController.dart';
-import 'package:healing_renaissance/screen/dashBoard.dart';
-import 'package:healing_renaissance/screen/homeScreen.dart';
-import 'package:healing_renaissance/screen/menu.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/screen/dashBoard.dart';
+import 'package:kavita_healling_reanaissance/screen/homeScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';

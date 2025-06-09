@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:healing_renaissance/controller/VideoController.dart';
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 class AddVideoScreen extends StatefulWidget {
   const AddVideoScreen({super.key});
@@ -75,11 +75,11 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
             Column(
               children: [
                 Image.asset(
-                  'assets/images/new_logo.png',
-                  width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                  height: dHeight * 0.1,
-                  fit: BoxFit.cover,
-                  color: Colors.black,
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 0, 0, 0)
                 ),
               ],
             ),

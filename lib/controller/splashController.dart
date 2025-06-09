@@ -1,4 +1,4 @@
-import 'package:healing_renaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 import 'package:get/get.dart';
 
 
@@ -9,7 +9,7 @@ class SplashController extends GetxController {
   late RxDouble sHight = Get.height.obs;
   fadeIn() async {
     fontSize.value = sWidet * 0.05;
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       fadeOut();
     });
   }

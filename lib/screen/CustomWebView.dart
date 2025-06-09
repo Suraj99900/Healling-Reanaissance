@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healing_renaissance/widgets/navbar.dart';
+import 'package:kavita_healling_reanaissance/widgets/navbar.dart';
 
 class CustomWebViewScreen extends StatefulWidget {
   final String url;
@@ -40,6 +40,14 @@ class _CustomWebViewScreenState extends State<CustomWebViewScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
+          ),
+        ),
+        title: Text(
+          widget.title,
+          style: GoogleFonts.poppins(
+            fontSize: dWidth * 0.05,
+            color: const Color.fromARGB(255, 0, 0, 0),
+            fontWeight: FontWeight.w600,
           ),
         ),
         leading: IconButton(

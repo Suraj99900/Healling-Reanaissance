@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:healing_renaissance/controller/configController.dart';
-import 'package:healing_renaissance/http/http_service.dart';
-import 'package:healing_renaissance/modal/videoModal.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/modal/videoModal.dart';
 import 'package:dio/dio.dart' as dio; // Import dio with prefix
 import 'package:http/http.dart' as http; // Import http for HTTP requests
 import 'package:tus_client_dart/tus_client_dart.dart';

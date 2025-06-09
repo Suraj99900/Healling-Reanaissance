@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healing_renaissance/controller/CategoryController.dart';
-import 'package:healing_renaissance/controller/CategoryTableController.dart';
-import 'package:healing_renaissance/route/route.dart';
-import 'package:healing_renaissance/screen/commonfunction.dart';
-import 'package:healing_renaissance/screen/updateCategoryScreen.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryController.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryTableController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
+import 'package:kavita_healling_reanaissance/screen/updateCategoryScreen.dart';
 
 import '../modal/CategoryModal.dart';
 
@@ -43,11 +43,11 @@ class CategoryTable extends StatelessWidget {
                     },
                   ),
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                    height: dHeight * 0.1,
+                   'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
                     fit: BoxFit.cover,
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 255, 255, 255)
                   ),
                 ],
               ),
