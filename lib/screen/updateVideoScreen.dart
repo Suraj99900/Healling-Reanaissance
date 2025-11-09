@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/VideoController.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 class UpdateVideoScreen extends StatefulWidget {
   final int videoId;
 
-  const UpdateVideoScreen({Key? key, required this.videoId}) : super(key: key);
+  const UpdateVideoScreen({super.key, required this.videoId});
 
   @override
   _UpdateVideoScreenState createState() => _UpdateVideoScreenState();
@@ -25,12 +25,16 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
   XFile? _thumbnailFile;
   var videoData;
   List attachments = [];
+  late Future<void> _categoriesFuture;
 
   @override
   void initState() {
     super.initState();
     _fetchVideoData();
+      _categoriesFuture = _videoController.fetchCategories();
+      print(_categoriesFuture);
   }
+  
 
   Future<void> _fetchVideoData() async {
     try {
@@ -40,6 +44,9 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
       _descriptionController =
           TextEditingController(text: videoData['description']);
       _categoryIdController = videoData['category_id'];
+      print("call");
+      print(videoData['category_id']);
+      _videoController.categoryId.value = videoData['category_id'];  
       attachments = await _videoController
           .fetchAttachmentData(widget.videoId); // Fetch attachments
 
@@ -93,21 +100,22 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
     });
     _videoController.deleteAttachment(id); // Delete on server
   }
+  
 
   @override
   Widget build(BuildContext context) {
     var dWidth = Get.width;
     var dHeight = Get.height;
     return Scaffold(
-      backgroundColor: const Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 239, 240, 241),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF1B263B),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 0, 0, 0)),
               onPressed: () {
                 Get.back();
               },
@@ -115,11 +123,11 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
             Column(
               children: [
                 Image.asset(
-                  'assets/images/new_logo.png',
-                  width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                  height: dHeight * 0.1,
-                  fit: BoxFit.cover,
-                  color: Colors.white,
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 0, 0, 0)
                 ),
               ],
             ),
@@ -129,7 +137,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
         automaticallyImplyLeading: false,
       ),
       body: videoData == null
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Stack(
                 children: [
@@ -151,7 +159,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                               ),
                             ],
                             borderRadius: BorderRadius.circular(10),
-                            color: const Color(0xFF1B263B),
+                            color: const Color.fromARGB(255, 255, 255, 255),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(30.0),
@@ -166,7 +174,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.02
                                             : dWidth * 0.05,
-                                        color: Colors.white,
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -176,7 +184,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                   ),
                                   TextFormField(
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03),
@@ -185,25 +193,25 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                       labelText: 'Video Title',
                                       hintText: 'Enter Video Title',
                                       labelStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03,
                                       ),
                                       hintStyle: TextStyle(
-                                        color: Colors.white70,
+                                        color: const Color.fromARGB(179, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03,
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Color.fromARGB(179, 0, 0, 0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Color.fromARGB(255, 245, 249, 252)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -219,7 +227,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                   ),
                                   TextFormField(
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03),
@@ -228,25 +236,25 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                       labelText: 'Description',
                                       hintText: 'Enter Description',
                                       labelStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03,
                                       ),
                                       hintStyle: TextStyle(
-                                        color: Colors.white70,
+                                        color: const Color.fromARGB(179, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03,
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Color.fromARGB(179, 0, 0, 0)),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Colors.blue),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -263,36 +271,36 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                     height: 20.0,
                                   ),
                                   FutureBuilder(
-                                    future: _videoController.fetchCategories(),
+                                    future: _categoriesFuture,
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
-                                        return CircularProgressIndicator();
+                                        return const CircularProgressIndicator();
                                       } else {
                                         return DropdownButtonFormField<int>(
                                           decoration: InputDecoration(
                                             labelText: 'Category',
                                             labelStyle: TextStyle(
-                                              color: Colors.white,
+                                              color: const Color.fromARGB(255, 0, 0, 0),
                                               fontSize: dWidth > 900
                                                   ? dWidth * 0.015
                                                   : dWidth * 0.03,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.white70),
+                                              borderSide: const BorderSide(
+                                                  color: Color.fromARGB(179, 0, 0, 0)),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Colors.blue),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
                                           ),
                                           dropdownColor:
-                                              const Color(0xFF1B263B),
+                                              const Color.fromARGB(255, 250, 250, 250),
                                           value: _categoryIdController,
                                           items: _videoController.categories
                                               .map((category) {
@@ -301,7 +309,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                               child: Text(
                                                 category['name'],
                                                 style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: const Color.fromARGB(255, 0, 0, 0),
                                                   fontSize: dWidth > 900
                                                       ? dWidth * 0.015
                                                       : dWidth * 0.03,
@@ -335,12 +343,12 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                       int index = entry.key;
                                       var attachment = entry.value;
                                       return Card(
-                                        color: const Color(0xFF1B263B),
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         child: ListTile(
                                           title: Text(
                                             'Attachment: ${attachment['attachment_name']}',
                                             style: TextStyle(
-                                                color: Colors.white,
+                                                color: const Color.fromARGB(255, 255, 255, 255),
                                                 fontSize: dWidth > 900
                                                     ? dWidth * 0.015
                                                     : dWidth * 0.03),
@@ -348,7 +356,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                           subtitle: Text(
                                             'URL: ${attachment['attachment_url']}',
                                             style: TextStyle(
-                                                color: Colors.white,
+                                                color: const Color.fromARGB(255, 255, 254, 254),
                                                 fontSize: dWidth > 900
                                                     ? dWidth * 0.015
                                                     : dWidth * 0.03),
@@ -378,7 +386,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                       return Column(
                                         children: [
                                           Card(
-                                            color: const Color(0xFF1B263B),
+                                            color: const Color.fromARGB(255, 255, 255, 255),
                                             child: Column(
                                               children: [
                                                 TextFormField(
@@ -388,7 +396,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                     hintText:
                                                         'Enter Attachment Name',
                                                     labelStyle: TextStyle(
-                                                      color: Colors.white,
+                                                      color: const Color.fromARGB(255, 0, 0, 0),
                                                       fontSize: dWidth > 900
                                                           ? dWidth * 0.015
                                                           : dWidth * 0.03,
@@ -439,8 +447,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                       ? Text(
                                                           'Attachment: ${file.name}',
                                                           style: TextStyle(
-                                                              color: Colors
-                                                                  .white,
+                                                              color: const Color.fromARGB(255, 0, 0, 0),
                                                               fontSize:
                                                                   dWidth > 900
                                                                       ? dWidth *
@@ -451,8 +458,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                       : Text(
                                                           'No file selected',
                                                           style: TextStyle(
-                                                              color: Colors
-                                                                  .white,
+                                                              color: const Color.fromARGB(255, 0, 0, 0),
                                                               fontSize:
                                                                   dWidth > 900
                                                                       ? dWidth *
@@ -463,7 +469,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                   trailing: IconButton(
                                                     icon: Icon(
                                                       Icons.attach_file,
-                                                      color: Colors.white,
+                                                      color: const Color.fromARGB(255, 0, 0, 0),
                                                       size: dWidth > 900
                                                           ? dWidth * 0.015
                                                           : dWidth * 0.05,
@@ -487,7 +493,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                     onPressed: _addAttachmentField,
                                     icon: Icon(
                                       Icons.add,
-                                      color: Colors.white,
+                                      color: const Color.fromARGB(255, 0, 0, 0),
                                       size: dWidth > 900
                                           ? dWidth * 0.015
                                           : dWidth * 0.05,
@@ -495,7 +501,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                     label: Text(
                                       'Add Attachment',
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: const Color.fromARGB(255, 0, 0, 0),
                                         fontSize: dWidth > 900
                                             ? dWidth * 0.015
                                             : dWidth * 0.03,
@@ -512,7 +518,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                         : ElevatedButton.icon(
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
-                                                  const Color(0xFF506D8B),
+                                                  const Color.fromARGB(255, 255, 255, 255),
                                               padding: EdgeInsets.symmetric(
                                                   vertical: 5.0,
                                                   horizontal: dWidth > 900
@@ -559,9 +565,9 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                   title: 'Oops...',
                                                   text: _videoController
                                                       .oResultData.value,
-                                                  backgroundColor: Colors.black,
-                                                  titleColor: Colors.white,
-                                                  textColor: Colors.white,
+                                                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                                                  titleColor: const Color.fromARGB(255, 0, 0, 0),
+                                                  textColor: const Color.fromARGB(255, 0, 0, 0),
                                                 );
                                               }
                                             },
@@ -575,7 +581,7 @@ class _UpdateVideoScreenState extends State<UpdateVideoScreen> {
                                                     ? dWidth * 0.015
                                                     : dWidth * 0.03,
                                                 fontWeight: FontWeight.w500,
-                                                color: Colors.white,
+                                                color: const Color.fromARGB(255, 0, 0, 0),
                                               ),
                                             ),
                                           );

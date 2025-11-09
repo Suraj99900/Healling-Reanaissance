@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
 
 class HomeScreenController extends GetxController {
   RxBool isBlogLoad = false.obs;
@@ -17,6 +14,22 @@ class HomeScreenController extends GetxController {
 
     if (oResult['iTrue'] == true) {
       var aData = oResult['data']['body'];
+      oResultData.value = oResult['data']['message'];
+      // set user shred-prefrence is login and email
+      userCategory.value = aData;
+    } else {
+      oResultData.value = oResult['data']['message'];
+    }
+  }
+
+   Future<void> fetchCategoryByUserId() async {
+    HttpService httpService = HttpService();
+    String? id = await SharedPreferencesHelper.getUserId("sUserId");
+    final oResult = await httpService.getRequest("/video-categories/${id}/user");
+
+    if (oResult['iTrue'] == true) {
+      var aData = oResult['data']['body'];
+      print(oResult);
       oResultData.value = oResult['data']['message'];
       // set user shred-prefrence is login and email
       userCategory.value = aData;

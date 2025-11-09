@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/screen/CustomWebView.dart';
 import '../SharedPreferencesHelper.dart';
 import '../route/route.dart';
 
@@ -42,7 +43,7 @@ class ZoomMenuController extends GetxController {
 }
 
 class ZoomMenu extends StatefulWidget {
-  const ZoomMenu({Key? key}) : super(key: key);
+  const ZoomMenu({super.key});
 
   @override
   _ZoomMenuState createState() => _ZoomMenuState();
@@ -63,7 +64,7 @@ class _ZoomMenuState extends State<ZoomMenu> {
     var dWidth = Get.width;
     var dHeight = Get.width;
     return Scaffold(
-      backgroundColor: const Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0),
         child: Obx(() {
@@ -99,7 +100,7 @@ class _ZoomMenuState extends State<ZoomMenu> {
                                   ? controller.sWidth.value * 0.01
                                   : controller.sWidth.value * 0.05,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
                         )),
@@ -107,7 +108,9 @@ class _ZoomMenuState extends State<ZoomMenu> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              buildMenuItem("Home", Icons.home, AppRoutes.zoom),
+              buildMenuItem("Home", Icons.home, AppRoutes.userHomeScreen),
+              buildMenuItem("Category", Icons.home, AppRoutes.zoom),
+              buildMenuItem("About", Icons.person, "https://lifehealerkavita.com/"),
               Obx(() => controller.sUserType.value == 1
                   ? buildMenuItem("Dashboard",
                       Icons.dashboard_customize_rounded, AppRoutes.dashBoard)
@@ -129,19 +132,19 @@ class _ZoomMenuState extends State<ZoomMenu> {
     return TextButton.icon(
       onPressed: () {
         // Handle navigation and logic based on the label
-        // if (label == "Home") {
-        //   configController.setDashBoard(false);
-        // }else{
-        //    configController.setDashBoard(true);
-        // }
-        Get.toNamed(routeName);
+        if (label == "About") {
+          Get.to(CustomWebViewScreen(url: routeName, title: label));
+        }else{
+          Get.toNamed(routeName);
+        }
+        
       },
-      icon: Icon(icon, color: Colors.white),
+      icon: Icon(icon, color: const Color.fromARGB(255, 0, 0, 0)),
       label: Text(
         label,
         style: GoogleFonts.arsenal(
           textStyle: TextStyle(
-            color: Colors.white,
+            color: const Color.fromARGB(255, 0, 0, 0),
             fontSize: controller.sWidth.value > 900
                 ? controller.sWidth.value * 0.008
                 : controller.sWidth.value * 0.05,
@@ -161,12 +164,12 @@ class _ZoomMenuState extends State<ZoomMenu> {
                 Get.toNamed(AppRoutes.zoom);
               },
               icon: const Icon(Icons.dashboard_customize_rounded,
-                  color: Colors.white),
+                  color: Color.fromARGB(255, 0, 0, 0)),
               label: Text(
                 "Dashboard",
                 style: GoogleFonts.arsenal(
                   textStyle: TextStyle(
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                     fontSize: controller.sWidth.value > 900
                         ? controller.sWidth.value * 0.008
                         : controller.sWidth.value * 0.05,
@@ -193,10 +196,10 @@ class _ZoomMenuState extends State<ZoomMenu> {
   Widget buildButton(String label, String route, [Color? color]) {
     return TextButton(
       style: ButtonStyle(
-        side: MaterialStateProperty.resolveWith<BorderSide>((states) {
+        side: WidgetStateProperty.resolveWith<BorderSide>((states) {
           return BorderSide(
             style: BorderStyle.solid,
-            color: color ?? Colors.white,
+            color: color ?? const Color.fromARGB(255, 0, 0, 0),
           );
         }),
       ),
@@ -218,7 +221,7 @@ class _ZoomMenuState extends State<ZoomMenu> {
         label,
         style: GoogleFonts.arsenal(
           textStyle: TextStyle(
-            color: color ?? Colors.white,
+            color: color ?? const Color.fromARGB(255, 0, 0, 0),
             fontSize: controller.sWidth.value > 900
                 ? controller.sWidth.value * 0.008
                 : controller.sWidth.value * 0.05,

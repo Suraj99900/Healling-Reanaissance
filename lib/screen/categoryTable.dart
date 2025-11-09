@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/controller/CategoryController.dart';
-import 'package:wellness_app/controller/CategoryTableController.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
-import 'package:wellness_app/screen/updateCategoryScreen.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryController.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryTableController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
+import 'package:kavita_healling_reanaissance/screen/updateCategoryScreen.dart';
 
 import '../modal/CategoryModal.dart';
 
@@ -22,14 +22,14 @@ class CategoryTable extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<VideoCategory>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
           return Scaffold(
-            backgroundColor: Color(0xFF0D1B2A),
+            backgroundColor: const Color(0xFF0D1B2A),
             appBar: AppBar(
-              backgroundColor: Color(0xFF0D1B2A),
+              backgroundColor: const Color(0xFF0D1B2A),
               scrolledUnderElevation: 0,
               automaticallyImplyLeading: false,
               elevation: 0.6,
@@ -43,11 +43,11 @@ class CategoryTable extends StatelessWidget {
                     },
                   ),
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                    height: dHeight * 0.1,
+                   'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
                     fit: BoxFit.cover,
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 255, 255, 255)
                   ),
                 ],
               ),

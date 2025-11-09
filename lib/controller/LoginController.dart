@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:io';
 
-import 'package:wellness_app/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +32,7 @@ class LoginController extends GetxController {
 
     HttpService httpService = HttpService();
     final oResult = await httpService
-        .getRequest("/login?email=${sEmail}&password=${sPassword}");
+        .getRequest("/login?email=$sEmail&password=$sPassword");
 
     if (oResult['iTrue'] == true) {
       var aData = oResult['data']['body'];

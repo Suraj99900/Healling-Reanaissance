@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/CategoryController.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 class UpdateCategoryScreen extends StatefulWidget {
   final int? iRowId;
-  const UpdateCategoryScreen({Key? key, required this.iRowId})
-      : super(key: key);
+  const UpdateCategoryScreen({super.key, required this.iRowId});
 
   @override
   State<UpdateCategoryScreen> createState() => _UpdateCategoryScreenState();
@@ -51,11 +50,11 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
             Column(
               children: [
                 Image.asset(
-                  'assets/images/new_logo.png',
-                  width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                  height: dHeight * 0.1,
-                  fit: BoxFit.cover,
-                  color: Colors.white,
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 255, 252, 252)
                 ),
               ],
             ),
@@ -85,7 +84,7 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromARGB(41, 255, 255, 255)
+                                color: const Color.fromARGB(41, 255, 255, 255)
                                     .withOpacity(0.1), // Dark shadow
                                 spreadRadius: 0.5,
                                 blurRadius: 1,
@@ -135,12 +134,12 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Colors.white70),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Colors.blue),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -178,12 +177,12 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white70),
+                                            const BorderSide(color: Colors.white70),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.blue),
+                                            const BorderSide(color: Colors.blue),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),

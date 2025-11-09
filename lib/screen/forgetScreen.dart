@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/forgetController.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/forgetController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -33,11 +33,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth >= 850? dWidth * 1: dWidth * 2,
-                    height: dHeight * 0.20,
-                    color: Colors.white,
+                    'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.4,
+                    height: dHeight * 0.10,
                     fit: BoxFit.cover,
+                    color: Colors.white
                   ),
                 ],
               ),
@@ -70,10 +70,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           children: [
                             Text(
                               "Forget Password",
-                              style: GoogleFonts.arsenal(
+                              style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
-                                  fontSize: dWidth * 0.05,
-                                  color: Colors.black,
+                                  fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -171,6 +171,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 _forgetPasswordController.sNewPassword.value = value!;
                               },
                             ),
+                            const SizedBox(height: 20.0,),
                             Obx(() {
                               return _forgetPasswordController.bSetForget.value
                                   ? const CircularProgressIndicator()
@@ -199,10 +200,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                         }
                                       },
                                       icon: const Icon(Icons.person),
-                                      label: const Text(
+                                      label: Text(
                                         "submit",
-                                        style: TextStyle(
-                                          fontFamily: 'Manrope',
+                                        style:  GoogleFonts.cairo(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
@@ -224,9 +224,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   icon: const Icon(Icons.person),
                                   label: Text(
                                     "User Login",
-                                    style: TextStyle(
+                                    style:  GoogleFonts.cairo(
                                       color: Colors.blue,
-                                      fontFamily: "Manrope",
                                       fontSize: dWidth >= 550 ? 16 : 8,
                                     ),
                                   ),
@@ -236,9 +235,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   icon: const Icon(Icons.password_rounded),
                                   label: Text(
                                     "Forget password",
-                                    style: TextStyle(
+                                    style:  GoogleFonts.cairo(
                                       color: Colors.blue,
-                                      fontFamily: "Manrope",
                                       fontSize: dWidth >= 550 ? 16 : 8,
                                     ),
                                   ),

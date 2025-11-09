@@ -1,191 +1,241 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glassmorphism/glassmorphism.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
 import 'package:intl/intl.dart';
-import 'package:wellness_app/controller/VideoController.dart';
-import 'package:wellness_app/screen/commonfunction.dart';
-import 'package:wellness_app/screen/videoPlayerScreen.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoController.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/screen/videoPlayerScreen.dart';
 
-class VideoListScreen extends StatelessWidget {
-  final int categoryId;
+class VideoListScreen extends StatefulWidget {
+  final int? categoryId;
+  
+  const VideoListScreen({super.key, this.categoryId});
+
+  @override
+  _VideoListScreenState createState() => _VideoListScreenState();
+}
+
+class _VideoListScreenState extends State<VideoListScreen> {
   final VideoController _videoController = Get.put(VideoController());
   final TextEditingController _searchController = TextEditingController();
+  String? userType;
 
-  VideoListScreen({required this.categoryId}) {
-    _videoController.fetchVideosByCategoryId(categoryId);
+  @override
+  void initState() {
+    super.initState();
+    loadStoredPreference();
+    if (widget.categoryId != null) {
+      _videoController.fetchVideosByCategoryId(widget.categoryId!);
+    }
+  }
+
+  Future<void> loadStoredPreference() async {
+    String? storedUserType = await SharedPreferencesHelper.getUserType("sUserType");
+    setState(() {
+      userType = storedUserType;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var dWidth = Get.width;
-    var dHeight = Get.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A),
       appBar: AppBar(
-        elevation: 0.6,
-        shadowColor: Colors.black,
-        backgroundColor: Color(0xFF0D1B2A),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              cursorColor: Colors.white,
-              controller: _searchController,
-              onSubmitted: (text) {
-                _videoController.searchVideos(text, categoryId);
-              },
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search Videos',
-                hintStyle: TextStyle(
-                  fontFamily: 'Playwrite NL',
-                  fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.04,
-                  color: Colors.white,
-                ),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white),
-                  onPressed: () {
-                    _videoController.searchVideos(
-                        _searchController.text, categoryId);
-                  },
-                ),
-                filled: true,
-                fillColor: const Color(0xFF2E2E3A),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-              ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF89CFF0), Color(0xFFB19CD9)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
         ),
-      ),
-      body: Obx(() {
-        if (_videoController.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          if (_videoController.videos.isEmpty) {
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/website_maintenance.gif'),
-                  Text(
-                    'No videos found for this category',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: dWidth > 900 ? dWidth * 0.02 : dWidth * 0.06,
+        title: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Video List',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 0, 0, 0),
+              ),
+            ),
+            Column(
+              children: [
+                Image.asset(
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: Get.height * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 0, 0, 0)
+                ),
+              ],
+            ),
+          ],
+        ),
+        centerTitle: true,
+        bottom: userType == "1"
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        )
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      onSubmitted: (text) {
+                        _videoController.searchVideos(text);
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search Videos',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        border: InputBorder.none,
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.search, color: Colors.black54),
+                          onPressed: () {
+                            _videoController.searchVideos(_searchController.text);
+                          },
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
-            );
+                ),
+              )
+            : null,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFB3E5FC), Color(0xFFE1BEE7)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Obx(() {
+          if (_videoController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (_videoController.videos.isEmpty) {
+            return const Center(child: Text('No videos found', style: TextStyle(fontSize: 16)));
           } else {
             return ListView.builder(
               itemCount: _videoController.videos.length,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               itemBuilder: (context, index) {
                 var video = _videoController.videos[index];
                 return GestureDetector(
-                  onTap: () async {
-                    Get.to(() => VideoPlayerScreen(videoId: video.id));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: GlassmorphicContainer(
-                      width: double.infinity,
-                      height: dHeight * 0.5,
-                      borderRadius: 15,
-                      blur: 20,
-                      alignment: Alignment.bottomCenter,
-                      border: 2,
-                      linearGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.black.withOpacity(0.9),
-                          Color.fromARGB(255, 4, 1, 47).withOpacity(0.9),
-                        ],
-                        stops: [0.1, 1],
-                      ),
-                      borderGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.black.withOpacity(0.9),
-                          const Color.fromARGB(255, 98, 172, 210)
-                              .withOpacity(0.5),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                              ),
-                              child: Image.network(
-                                video.thumbnail,
-                                width: dWidth * 0.9,
-                                height: dHeight * 0.3,
-                                fit: BoxFit.cover,
-                              ),
+                  onTap: () => Get.to(() => VideoPlayerScreen(videoId: video.id)),
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 8,
+                    shadowColor: Colors.black26,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: dWidth * 0.40,
+                            height: 130,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Stack(
+                                fit: StackFit.expand,
                                 children: [
-                                  Text(
-                                    video.title,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontFamily: 'Playwrite NL',
-                                      fontSize: dWidth > 900
-                                          ? dWidth * 0.015
-                                          : dWidth * 0.06,
-                                    ),
+                                  Image.network(
+                                    kIsWeb
+                                        ? (ConfigController()).getCorssURL() + video.thumbnailUrl
+                                        : video.thumbnailUrl,
+                                    fit: BoxFit.cover,
                                   ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    limitWords(video.description, 10),
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontFamily: 'Playwrite NL',
-                                      fontSize: dWidth > 900
-                                          ? dWidth * 0.015
-                                          : dWidth * 0.04,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    'Uploaded on: ${DateFormat.yMMMd().format(video.addedOn)}',
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontFamily: 'Playwrite NL',
-                                      fontSize: dWidth > 900
-                                          ? dWidth * 0.015
-                                          : dWidth * 0.025,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.black.withOpacity(0.0), Colors.black.withOpacity(0.6)],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    video.title,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    video.description,
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    formatDuration(double.tryParse(video.duration) ?? 0.0),
+                                    style: const TextStyle(
+                                        color: Colors.black87, fontSize: 13, fontWeight: FontWeight.w500),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    'Uploaded on: ${DateFormat.yMMMd().format(video.addedOn)}',
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black54, fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -193,8 +243,8 @@ class VideoListScreen extends StatelessWidget {
               },
             );
           }
-        }
-      }),
+        }),
+      ),
     );
   }
 }

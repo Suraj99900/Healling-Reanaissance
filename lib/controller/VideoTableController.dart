@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/UploadedVideoModal.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/modal/UploadedVideoModal.dart';
 
 class VideoTableController extends GetxController {
   var sWidth = Get.width;
@@ -46,7 +46,7 @@ class VideoTableController extends GetxController {
 
   fetchThumbnail(id) async {
     HttpService httpService = HttpService();
-    final oResult = await httpService.getRequest("/thumbnail/${id}");
+    final oResult = await httpService.getRequest("/thumbnail/$id");
 
     if (oResult['iTrue'] == true) {
       var aData = oResult['data']['thumbnail_url'];

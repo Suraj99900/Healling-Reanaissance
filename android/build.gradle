@@ -1,3 +1,16 @@
+buildscript {
+    ext.kotlin_version = '1.8.22'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Updated to use Android Gradle Plugin 8.1.0
+        classpath 'com.android.tools.build:gradle:8.4.0'  // Ensure this is inside buildscript
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"  // Kotlin plugin
+    }
+}
+
 allprojects {
     repositories {
         google()

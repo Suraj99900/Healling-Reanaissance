@@ -38,11 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth >= 850? dWidth * 1: dWidth * 2,
-                    height: dHeight * 0.20,
+                    'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.4,
+                    height: dHeight * 0.10,
                     fit: BoxFit.cover,
-                    color: Colors.white,
+                    color: Colors.white
                   )
                 ],
               ),
@@ -76,18 +76,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               "User Login",
-                              style: GoogleFonts.arsenal(
+                              style: GoogleFonts.cairo(
                                 textStyle: TextStyle(
-                                  fontSize: dWidth * 0.05,
-                                  color: Colors.black,
+                                  fontSize: dWidth >= 850? dWidth * 0.02: dWidth * 0.05,
+                                  color: const Color.fromARGB(173, 34, 13, 2),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             TextFormField(
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                 labelText: 'Email',
                                 hintText: 'Enter your email',
+                                hintStyle: GoogleFonts.cairo(
+                                  color: const Color.fromARGB(173, 34, 13, 2),
+                                ),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -104,9 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20.0,
                             ),
                             TextFormField(
-                              decoration: const InputDecoration(
+                              decoration:  InputDecoration(
                                 labelText: 'Password',
                                 hintText: 'Enter your password',
+                                hintStyle: GoogleFonts.cairo(
+                                  color: const Color.fromARGB(173, 34, 13, 2),
+                                ),
                               ),
                               obscureText: true, // Hide the password
                               validator: (value) {
@@ -142,9 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               text: _loginController
                                                   .oResultData.value,
                                               autoCloseDuration:
-                                                  Duration(seconds: 2),
+                                                  const Duration(seconds: 2),
                                               showConfirmBtn: false);
-                                              Future.delayed(Duration(seconds: 2),(){
+                                              Future.delayed(const Duration(seconds: 2),(){
                                                 Get.offAllNamed(AppRoutes.zoom);
                                               });
                                         } else {
@@ -160,10 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         }
                                       },
                                       icon: const Icon(Icons.login),
-                                      label: const Text(
+                                      label: Text(
                                         "Log in",
-                                        style: TextStyle(
-                                            fontFamily: 'Manrope',
+                                        style: GoogleFonts.cairo(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black),
@@ -184,9 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   icon: const Icon(Icons.person_4_sharp),
                                   label: Text(
                                     "Register User",
-                                    style: TextStyle(
+                                    style: GoogleFonts.cairo(
                                         color: Colors.blue,
-                                        fontFamily: "Manrope",
                                         fontSize: dWidth >= 550 ? 16 : 8),
                                   ),
                                 ),
@@ -197,9 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   icon: const Icon(Icons.password_rounded),
                                   label: Text(
                                     "Forget password",
-                                    style: TextStyle(
+                                    style: GoogleFonts.cairo(
                                         color: Colors.blue,
-                                        fontFamily: "Manrope",
                                         fontSize: dWidth >= 550 ? 16 : 8),
                                   ),
                                 ),

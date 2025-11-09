@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/menu.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
+import 'package:kavita_healling_reanaissance/screen/menu.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:kavita_healling_reanaissance/screen/CustomWebView.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -40,9 +43,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     var dHeight = Get.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A),
+      backgroundColor: const Color.fromARGB(255, 249, 249, 249),
       appBar: AppBar(
-        backgroundColor: Color(0xFF0D1B2A),
+        backgroundColor: const Color.fromARGB(255, 246, 246, 246),
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         elevation: 0.6,
@@ -50,24 +53,26 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+            IconButton(
+              icon: const Icon(Icons.arrow_back,
+                  color: Color.fromARGB(255, 0, 0, 0)),
               onPressed: () {
-                 Get.offNamed(AppRoutes.zoom);
+                Get.offNamed(AppRoutes.zoom);
               },
             ),
             Image.asset(
-              'assets/images/new_logo.png',
-              width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-              height: dHeight * 0.1,
-              fit: BoxFit.cover,
-              color: Colors.white,
+              'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 0, 0, 0)
             ),
           ],
         ),
       ),
       body: Container(
-        color: Color(0xFF1B1B2F), // Dark background color
+        color:
+            const Color.fromARGB(255, 255, 255, 255), // Dark background color
         padding: EdgeInsets.symmetric(horizontal: dWidth > 1200 ? 80.0 : 20.0),
         child: GridView.count(
           crossAxisCount: dWidth > 1200
@@ -94,6 +99,26 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 Get.toNamed(AppRoutes.videoManage);
               },
             ),
+            buildAdminMenuItem(
+              "User Access Management",
+              Icons.access_time,
+              onTap: () {
+                kIsWeb
+                    ? Get.to(() => LaunchURL(
+                        "https://lifehealerkavita.com/user-access"))
+                    : Get.toNamed(AppRoutes.addUserAccessScreen);
+              },
+            ),
+            buildAdminMenuItem(
+              "User Management",
+              Icons.person,
+              onTap: () {
+                kIsWeb
+                    ? Get.to(() => LaunchURL(
+                        "https://lifehealerkavita.com/user-management"))
+                    : Get.toNamed(AppRoutes.userManagement);
+              },
+            ),
           ],
         ),
       ),
@@ -108,13 +133,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF162447), // Darker card background color
+          color: const Color.fromARGB(
+              255, 246, 246, 246), // Darker card background color
           borderRadius: BorderRadius.circular(12.0), // Rounded corners
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2), // Shadow color
               blurRadius: 6.0,
-              offset: Offset(0, 3), // Shadow offset
+              offset: const Offset(0, 3), // Shadow offset
             ),
           ],
         ),
@@ -123,17 +149,16 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           children: [
             Icon(
               icon,
-              size: dWidth > 900 ? dWidth * 0.08 : dWidth * 0.1,
-              color: Colors.white, // White icon color
+              size: dWidth > 900 ? dWidth * 0.05 : dWidth * 0.1,
+              color: const Color.fromARGB(255, 0, 0, 0), // White icon color
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               label,
-              style: GoogleFonts.arsenal(
-                textStyle: TextStyle(
-                  color: Colors.white, // White text color
-                  fontFamily: 'Playwrite NL',
-                  fontSize: dWidth > 900 ? dWidth * 0.02 : dWidth * 0.025,
+              style: GoogleFonts.cairo(
+                textStyle: GoogleFonts.cairo(
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                  fontSize: dWidth > 900 ? dWidth * 0.007 : dWidth * 0.025,
                   fontWeight: FontWeight.bold,
                 ),
               ),

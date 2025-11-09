@@ -1,5 +1,5 @@
-import 'package:wellness_app/controller/CategoryController.dart';
-import 'package:wellness_app/route/route.dart';
+import 'package:kavita_healling_reanaissance/controller/CategoryController.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,11 +39,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
             Column(
               children: [
                 Image.asset(
-                  'assets/images/new_logo.png',
-                  width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                  height: dHeight * 0.1,
-                  fit: BoxFit.cover,
-                  color: Colors.white,
+                  'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 255, 255, 255)
                 ),
               ],
             ),
@@ -64,7 +64,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromARGB(41, 255, 255, 255)
+                          color: const Color.fromARGB(41, 255, 255, 255)
                               .withOpacity(0.1), // Dark shadow
                           spreadRadius: 0.5,
                           blurRadius: 1,
@@ -115,11 +115,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.white70),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderSide: const BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
@@ -156,11 +156,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                       : dWidth * 0.03,
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: const BorderSide(color: Colors.white70),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderSide: const BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),

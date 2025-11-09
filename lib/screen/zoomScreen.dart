@@ -1,7 +1,7 @@
-import 'package:wellness_app/controller/configController.dart';
-import 'package:wellness_app/screen/dashBoard.dart';
-import 'package:wellness_app/screen/homeScreen.dart';
-import 'package:wellness_app/screen/menu.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/screen/dashBoard.dart';
+import 'package:kavita_healling_reanaissance/screen/homeScreen.dart';
+import 'package:kavita_healling_reanaissance/screen/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
@@ -19,15 +19,15 @@ class _ZoomScreenState extends State<ZoomScreen> {
   Widget build(BuildContext context) {
     return Obx(() {
       return ZoomDrawer(
-        menuScreen: ZoomMenu(),
+        menuScreen: const ZoomMenu(),
         mainScreen: configController.isDashBoard.value
-            ? DashBoardScreen()
-            : HomeScreen(),
+            ? const DashBoardScreen()
+            : const HomeScreen(),
         angle: 0.0,
-        menuBackgroundColor: Color(0xFF0D1B2A),
+        menuBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
         mainScreenScale: 0.2,
-        shadowLayer1Color: Color(0xFF0D1B2A),
-        shadowLayer2Color: Color(0xFF0D1B2A),
+        shadowLayer1Color: const Color.fromARGB(255, 255, 255, 255),
+        shadowLayer2Color: const Color.fromARGB(255, 255, 255, 255),
         duration: const Duration(microseconds: 600),
       );
     });

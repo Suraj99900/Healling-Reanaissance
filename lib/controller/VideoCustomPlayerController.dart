@@ -1,15 +1,12 @@
-import 'dart:io';
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wellness_app/SharedPreferencesHelper.dart';
-import 'package:wellness_app/http/http_service.dart';
-import 'package:wellness_app/modal/videoModal.dart';
+import 'package:kavita_healling_reanaissance/SharedPreferencesHelper.dart';
+import 'package:kavita_healling_reanaissance/http/http_service.dart';
+import 'package:kavita_healling_reanaissance/modal/videoModal.dart';
 
 class VideoCustomPlayerController extends GetxController {
   var title = ''.obs;
@@ -25,18 +22,22 @@ class VideoCustomPlayerController extends GetxController {
   var isLoading = true.obs;
 
   var videosPlayerData = <Video>[].obs;
+    var videoJsonData = <String, dynamic>{}.obs; // New variable to store video_json_data
 
-  void fetchVideoDataById(int videoId) async {
+
+  Future fetchVideoDataById(int videoId) async {
     isLoading(true);
     try {
       HttpService httpService = HttpService();
       var oResult = await httpService.getRequest("/video/$videoId");
 
       if (oResult['iTrue']) {
-        List<dynamic> body = oResult['data']['body'];
-        List<Video> videoList =
-            body.map((video) => Video.fromJson(video)).toList();
-        videosPlayerData.assignAll(videoList);
+       List<dynamic> body = oResult['data']['body'];
+        print(body);
+        List<Video> videos = body.map((video) => Video.fromJson(video)).toList();
+        videosPlayerData.assignAll(videos);
+
+          print(videosPlayerData);
       }
     } finally {
       isLoading(false);

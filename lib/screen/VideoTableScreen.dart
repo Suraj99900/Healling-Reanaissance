@@ -1,12 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:wellness_app/controller/VideoTableController.dart';
-import 'package:wellness_app/modal/UploadedVideoModal.dart';
-import 'package:wellness_app/route/route.dart';
-import 'package:wellness_app/screen/updateVideoScreen.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoTableController.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/modal/UploadedVideoModal.dart';
+import 'package:kavita_healling_reanaissance/route/route.dart';
+import 'package:kavita_healling_reanaissance/screen/updateVideoScreen.dart';
 
 class VideoTable extends StatelessWidget {
   VideoTable({super.key});
@@ -28,9 +30,9 @@ class VideoTable extends StatelessWidget {
         } else {
           controller.uploadedVideos.value = snapshot.data!;
           return Scaffold(
-            backgroundColor: Color(0xFF0D1B2A),
+            backgroundColor: const Color(0xFF0D1B2A),
             appBar: AppBar(
-              backgroundColor: Color(0xFF0D1B2A),
+              backgroundColor: const Color(0xFF0D1B2A),
               scrolledUnderElevation: 0,
               automaticallyImplyLeading: false,
               elevation: 0.6,
@@ -44,11 +46,11 @@ class VideoTable extends StatelessWidget {
                     },
                   ),
                   Image.asset(
-                    'assets/images/new_logo.png',
-                    width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-                    height: dHeight * 0.1,
+                    'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: dHeight * 0.06,
                     fit: BoxFit.cover,
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 255, 255, 255)
                   ),
                 ],
               ),
@@ -244,7 +246,8 @@ class VideoDataTableSource extends DataTableSource {
       DataCell(
         Center(
           child: Image.network(
-            video.thumbnail,
+            kIsWeb?
+            (new ConfigController()).getCorssURL()+video.thumbnail :video.thumbnail,
             width: 50,
             height: 50,
           ),

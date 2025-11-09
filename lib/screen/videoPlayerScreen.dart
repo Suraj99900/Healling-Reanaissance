@@ -1,28 +1,34 @@
+import 'dart:io';
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:wellness_app/controller/VideoCustomPlayerController.dart';
+import 'package:kavita_healling_reanaissance/controller/VideoCustomPlayerController.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:wellness_app/http/JwtToken.dart';
+import 'package:dio/dio.dart';
+import 'package:kavita_healling_reanaissance/controller/configController.dart';
+import 'package:kavita_healling_reanaissance/http/JwtToken.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:kavita_healling_reanaissance/screen/commonfunction.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final int videoId;
-
-  VideoPlayerScreen({required this.videoId});
+  const VideoPlayerScreen({super.key, required this.videoId});
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  final VideoCustomPlayerController _videoCustomPlayerController =
+  final VideoCustomPlayerController _videoController =
       Get.put(VideoCustomPlayerController());
-  late VideoPlayerController _videoController;
+  late VideoPlayerController _playerController;
   bool _isVideoInitialized = false;
   late ChewieController _chewieController;
-  var aVideoAttachmentData;
+  var videoData;
 
   @override
   void initState() {
@@ -32,29 +38,60 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void dispose() {
-    _videoController.dispose();
-    _chewieController.dispose();
+    if (_isVideoInitialized) {
+      _playerController.pause();
+      _chewieController.dispose();
+      _playerController.dispose();
+    }
     super.dispose();
   }
 
   fetchData() async {
-    _videoCustomPlayerController.fetchVideoDataById(widget.videoId);
-    aVideoAttachmentData = await _videoCustomPlayerController
-        .fetchVideoAttachmentByVideoId(widget.videoId);
-    await _videoCustomPlayerController.fetchCommentsByVideoId(widget.videoId);
+    _videoController.fetchVideoDataById(widget.videoId);
+    videoData = await _videoController.fetchVideoAttachmentByVideoId(widget.videoId);
+    await _videoController.fetchCommentsByVideoId(widget.videoId);
     setState(() {});
   }
 
   void _initializeVideo(String videoUrl) {
-    _videoController = VideoPlayerController.network(videoUrl)
+    print(videoUrl);
+    _playerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
       ..initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
         });
         _chewieController = ChewieController(
-          videoPlayerController: _videoController,
+          aspectRatio: _playerController.value.aspectRatio,
+          autoInitialize: true,
+          allowedScreenSleep: true,
+          draggableProgressBar: true,
+          materialProgressColors: ChewieProgressColors(
+            playedColor: Colors.red,
+            handleColor: Colors.red,
+            backgroundColor: Colors.grey,
+            bufferedColor: Colors.grey,
+          ),
+          bufferingBuilder: (context) => const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
+          showControls: true,
+          allowMuting: true,
+          allowFullScreen: true,
+          allowPlaybackSpeedChanging: true,
+          videoPlayerController: _playerController,
           autoPlay: true,
-          looping: false,
+          looping: true,
+        );
+      }).catchError((error) {
+        print("Error initializing video: $error");
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: "Error loading video. Please try again later.",
+          title: 'Oops...',
+          backgroundColor: Colors.black,
+          titleColor: Colors.white,
+          textColor: Colors.white,
         );
       });
   }
@@ -62,322 +99,359 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     var dWidth = Get.width;
-    var dHeight = Get.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A), // Dark blue background color
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        elevation: 0.6,
-        shadowColor: Colors.black,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title:  Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () {
-                Get.back();
-              },
+            Text(
+              'Video Player',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 255, 253, 253),
+              ),
             ),
-            Image.asset(
-              'assets/images/new_logo.png',
-              width: dWidth > 900 ? dWidth * 0.1 : dWidth * 0.3,
-              height: dHeight * 0.1,
-              fit: BoxFit.cover,
-              color: Colors.white,
+            Column(
+              children: [
+                Image.asset(
+                 'assets/images/internal_icon.png',
+                    width: dWidth >= 850? dWidth * 0.4: dWidth * 0.2,
+                    height: Get.height * 0.06,
+                    fit: BoxFit.cover,
+                    color: const Color.fromARGB(255, 255, 255, 255)
+                ),
+              ],
             ),
           ],
         ),
-        backgroundColor: Color(0xFF0D1B2A),
-        scrolledUnderElevation: 0,
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Get.back(),
+        ),
       ),
       body: Obx(() {
-        if (_videoCustomPlayerController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          var video = _videoCustomPlayerController.videosPlayerData.isNotEmpty
-              ? _videoCustomPlayerController.videosPlayerData[0]
-              : null;
+        if (_videoController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator(color: Colors.white));
+        }
 
-          if (video == null) {
-            return const Center(child: Text('No video data available'));
-          }
-          if (!_isVideoInitialized) {
-            _initializeVideo(video.video_url);
-          }
+        var video = _videoController.videosPlayerData.isNotEmpty
+            ? _videoController.videosPlayerData[0]
+            : null;
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Card(
-                    // shadowColor: const Color.fromARGB(255, 0, 0, 0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+        if (video == null) {
+          return const Center(child: Text('No video available', style: TextStyle(color: Colors.white)));
+        }
+        print(video);
+        print(video.hlsUrl);
+        var videoUrl = kIsWeb
+            ? (ConfigController()).getCorssURL() + video.hlsUrl
+            : video.hlsUrl;
+        if (!_isVideoInitialized) _initializeVideo(videoUrl);
+
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Video Player Section with black background
+              _isVideoInitialized
+                  ? Container(
+                      color: Colors.black,
+                      child: AspectRatio(
+                        aspectRatio: _playerController.value.aspectRatio,
+                        child: Chewie(controller: _chewieController),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 200,
+                      child: const Center(child: CircularProgressIndicator(color: Colors.white)),
                     ),
-                    elevation: 5,
-                    color: Color(0xFF1B263B), // Darker card color
+              // Details & Comments Section with gradient background and rounded top corners
+              Container(
+                width: dWidth,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF89CFF0), Color(0xFFB19CD9)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Video Title
+                    Text(
+                      video.title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Divider(thickness: 1, color: Colors.grey),
+                    const SizedBox(height: 8),
+                    // Video Description
+                    Text(
+                      video.description,
+                      style: const TextStyle(fontSize: 16, color: Colors.black54),
+                    ),
+                    const SizedBox(height: 16),
+                    // Attachments Section
+                    _buildAttachments(),
+                    const SizedBox(height: 40),
+                    // Comments Section Header
+                    const Text(
+                      'Comments',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+                    ),
+                    const SizedBox(height: 10),
+                    // Comment Input Row
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _videoController.commentController,
+                            style: const TextStyle(color: Colors.black87),
+                            decoration: InputDecoration(
+                              hintText: 'Add a comment...',
+                              hintStyle: TextStyle(color: Colors.grey[700]),
+                              filled: true,
+                              fillColor: const Color.fromARGB(255, 250, 249, 249),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(255, 226, 228, 229),
+                            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                          ),
+                          onPressed: () async {
+                            final comment = _videoController.commentController.text;
+                            if (comment.isNotEmpty) {
+                              var success = await _videoController.addComment(comment, widget.videoId);
+                              if (success) {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: "Comment Added.",
+                                  autoCloseDuration: const Duration(seconds: 2),
+                                  showConfirmBtn: false,
+                                );
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  _videoController.fetchCommentsByVideoId(widget.videoId);
+                                });
+                              } else {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.error,
+                                  text: "Error while Posting.",
+                                  title: 'Oops...',
+                                  backgroundColor: Colors.black,
+                                  titleColor: Colors.white,
+                                  textColor: Colors.white,
+                                );
+                              }
+                            }
+                          },
+                          child: const Text('Post', style: TextStyle(color: Colors.black87)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 60),
+                    // Comments List
+                    _buildCommentsSection(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildAttachments() {
+    return videoData == null
+        ? const SizedBox.shrink()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Attachments:',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: videoData
+                    .map<Widget>(
+                      (attachment) => ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 251, 246, 246),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () async {
+                          downloadFile(attachment['attachment_url']);
+                        },
+                        icon: const Icon(Icons.download, color: Colors.black87),
+                        label: Text(
+                          attachment['attachment_name'],
+                          style: const TextStyle(color: Colors.black87),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          );
+  }
+
+  Future<void> downloadFile(String url) async {
+    try {
+      Dio dio = Dio();
+      // Extract filename from URL
+      Uri uri = Uri.parse(url);
+      String filename = uri.pathSegments.last;
+
+      if (kIsWeb) {
+        await LaunchURL(url);
+      } else {
+        // Request storage permission for Android
+        if (Platform.isAndroid) {
+          var status = await Permission.storage.request();
+          if (!status.isGranted) {
+            print("Storage permission denied");
+            return;
+          }
+        }
+
+        Directory? dir;
+        if (Platform.isAndroid) {
+          dir = Directory("/storage/emulated/0/Download");
+        } else if (Platform.isIOS) {
+          dir = await getApplicationDocumentsDirectory();
+        }
+
+        if (dir == null) throw Exception("Could not find storage directory");
+
+        String filePath = "${dir.path}/$filename";
+        print("Saving to: $filePath");
+
+        await dio.download(
+          url,
+          filePath,
+          options: Options(
+            headers: {'Authorization': JwtToken().generateJWT()},
+          ),
+        );
+
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: "File Downloaded Successfully!\nSaved to: $filePath",
+          autoCloseDuration: const Duration(seconds: 2),
+          showConfirmBtn: false,
+        );
+      }
+    } catch (e) {
+      print("Download error: $e");
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: "Error while downloading.",
+        title: 'Oops...',
+        backgroundColor: Colors.black,
+        titleColor: Colors.white,
+        textColor: Colors.white,
+      );
+    }
+  }
+
+  Widget _buildCommentsSection() {
+    return Obx(() {
+      return _videoController.comments.isEmpty
+          ? Center(
+              child: Text(
+                "No comments yet. Be the first!",
+                style: TextStyle(color: Colors.black87),
+              ),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _videoController.comments.length,
+              itemBuilder: (context, index) {
+                var comment = _videoController.comments[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (_isVideoInitialized)
-                          AspectRatio(
-                            aspectRatio: _videoController.value.aspectRatio,
-                            child: Chewie(controller: _chewieController),
-                          )
-                        else
-                          Container(
-                            height: 200,
-                            child: const Center(
-                                child: CircularProgressIndicator()),
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                video.title,
-                                style: TextStyle(
-                                  fontFamily: 'Playwrite NL',
-                                  fontSize: dWidth > 900
-                                      ? dWidth * 0.015
-                                      : dWidth * 0.04,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
+                        Row(
+                          children: [
+                            Text(
+                              comment['user_name'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                                fontSize: 16,
                               ),
-                              SizedBox(height: 8),
-                              Text(
-                                video.description,
-                                style: TextStyle(
-                                  fontFamily: 'Playwrite NL',
-                                  fontSize: dWidth > 900
-                                      ? dWidth * 0.015
-                                      : dWidth * 0.025,
-                                  color: Colors.grey[300],
-                                ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              comment['user_type'] == 1 ? 'Super-Admin' : 'User',
+                              style: const TextStyle(
+                                color: Colors.black54,
+                                fontSize: 12,
                               ),
-                              SizedBox(height: dWidth * 0.09),
-                              Obx(
-                                () => _videoCustomPlayerController
-                                        .isVideoAttachment.value
-                                    ? SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          children: aVideoAttachmentData
-                                              .map<Widget>((attachment) =>
-                                                  buildAttachment(attachment))
-                                              .toList(),
-                                        ),
-                                      )
-                                    : SizedBox(height: 1),
-                              ),
-                            ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          comment['comment'],
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 14,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Divider(color: Colors.grey),
-                  Text(
-                    'Comments',
-                    style: TextStyle(
-                      fontFamily: 'Playwrite NL',
-                      fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.04,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  TextField(
-                    controller: _videoCustomPlayerController.commentController,
-                    decoration: InputDecoration(
-                      hintText: 'Add a comment...',
-                      filled: true,
-                      fillColor: Color(0xFF1B263B),
-                      hintStyle: TextStyle(color: Colors.grey[300]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Playwrite NL',
-                      fontSize: dWidth > 900 ? dWidth * 0.015 : dWidth * 0.03,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF2E86AB), // Button color
-                      ),
-                      onPressed: () async {
-                        final comment =
-                            _videoCustomPlayerController.commentController.text;
-                        if (comment.isNotEmpty) {
-                          var oResult = await _videoCustomPlayerController
-                              .addComment(comment, widget.videoId);
-                          if (oResult) {
-                            QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.success,
-                                text: "Comment Added.",
-                                autoCloseDuration: Duration(seconds: 2),
-                                showConfirmBtn: false);
-                            Future.delayed(Duration(seconds: 2), () {
-                              _videoCustomPlayerController
-                                  .fetchCommentsByVideoId(widget.videoId);
-                            });
-                          } else {
-                            QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.error,
-                                text: "Error while Posting.",
-                                title: 'Oops...',
-                                backgroundColor: Colors.black,
-                                titleColor: Colors.white,
-                                textColor: Colors.white);
-                          }
-                        }
-                      },
-                      child: Text(
-                        'Post',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Playwrite NL',
-                          fontSize:
-                              dWidth > 900 ? dWidth * 0.015 : dWidth * 0.03,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    height: 200, // Adjust height as needed
-                    child: Obx(() {
-                      return ListView.builder(
-                        itemCount:
-                            _videoCustomPlayerController.comments.value.length,
-                        itemBuilder: (context, index) {
-                          var comment = _videoCustomPlayerController
-                              .comments.value[index];
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 8),
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF1B263B), // Darker card color
-                              borderRadius: BorderRadius.circular(10),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //     color: Colors.black.withOpacity(0.5),
-                              //     spreadRadius: 1,
-                              //     blurRadius: 5,
-                              //     offset: Offset(0, 3), // changes position of shadow
-                              //   ),
-                              // ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  comment['user_name'],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontFamily: 'Playwrite NL',
-                                    fontSize: dWidth > 900
-                                        ? dWidth * 0.015
-                                        : dWidth * 0.03,
-                                  ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  comment['comment'],
-                                  style: TextStyle(
-                                    color: Colors.grey[300],
-                                    fontFamily: 'Playwrite NL',
-                                    fontSize: dWidth > 900
-                                        ? dWidth * 0.015
-                                        : dWidth * 0.026,
-                                  ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  comment['user_type'] == 1
-                                      ? 'Super-Admin'
-                                      : 'User',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontFamily: 'Playwrite NL',
-                                    fontSize: dWidth > 900
-                                        ? dWidth * 0.015
-                                        : dWidth * 0.02,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-      }),
-    );
-  }
-
-  Widget buildAttachment(Map<String, dynamic> attachment) {
-    return GestureDetector(
-      onTap: () async {},
-      child: Row(
-        children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF2E86AB), // Button color
-              ),
-              onPressed: () async {
-                final url = attachment['attachment_url'];
-                print(Uri.parse(url));
-                FileDownloader.downloadFile(
-                  url: url,
-                  headers: {'Authorization': (JwtToken().generateJWT())},
-                  name: attachment['attachment_name'],
-                  notificationType: NotificationType.all,
                 );
               },
-              icon: Icon(
-                Icons.download,
-                color: Colors.white,
-                size: Get.width > 900 ? Get.width * 0.015 : Get.width * 0.035,
-              ),
-              label: Text(
-                attachment['attachment_name'],
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Playwrite NL',
-                  fontSize:
-                      Get.width > 900 ? Get.width * 0.015 : Get.width * 0.025,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 8), // Add space between each attachment button
-        ],
-      ),
-    );
+            );
+    });
   }
 }
